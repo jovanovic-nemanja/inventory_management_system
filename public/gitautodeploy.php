@@ -1,5 +1,5 @@
 <?php
-const API_KEY = "Gzi4mgELNWdiz3UMWxAjv8gCgDm815";
+const API_KEY = "UZFNVZGZWIhlV96VZz00rDHhOiZxn6";
 const API_URL = "https://api.cloudways.com/api/v1";
 const EMAIL = "nebiyu@solarisdubai.com";
 
