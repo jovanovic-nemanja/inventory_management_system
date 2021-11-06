@@ -1,5 +1,6 @@
 # inventory_management_system
 
+https://greenflag.projexcost.com/inventoryboard
 
 # create .env
 # composer install
