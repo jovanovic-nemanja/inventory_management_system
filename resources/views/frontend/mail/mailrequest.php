@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+    <div style="padding-left: 10%; padding-right: 10%;">
+        <a class="ps-logo" href="https://beta.mambodubai.com">
+            <img src="https://mambodubai.com/images/logo.png" alt="" style="width: 130px;">
+        </a>
+        <hr/>
+        <h1 style="color: #476B91;">Hi <?= $name ?></h1><br>
+        <h4>Your request for the <a href="<?= $product_link ?>">product</a> has been submitted successfully and it is pending for approval. You will be notified by email again once approved. <br> The details are as follows - </h4>
+
+        <h4>Company Name - <?= $company_name ?></h4>
+        <h4>Product Name - <?= $rfq->product_name ?></h4>
+        <h4>Quantity - <?= $rfq->req_quantity ?></h4>
+        <h4>Additional Information - <?= $rfq->additional_information ?></h4>
+		<?php 
+            if (@$file_link) { ?>
+                <h4>File - <a href="<?= $file_link ?>">Check the attachment</a></h4>
+        <?php } ?>
+        
+        <h4>Date of request - <?= $rfq->sign_date ?></h4><br>
+    </div>
+</body>
+
+</html>

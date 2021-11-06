@@ -1,0 +1,299 @@
+@extends('layouts.inventory')
+
+@section('content')
+<style>
+	table {
+		border: 1px solid #999;
+		border-collapse: collapse;
+		width: 100%
+	}
+
+	td {
+		border: 1px solid #999
+	}
+</style>
+<div class="main-panel">
+	<div class="content">
+		<div class="page-inner">
+			<?php echo displayAlert(); ?>
+			<div class="page-header">
+				<h4 class="page-title">Create Container</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+
+					<li class="nav-item">
+						<a href="">Container List</a>
+					</li>
+				</ul>
+
+
+
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<!--<form action="{{ route('container.store') }}" method="POST">-->
+					<form>
+						@csrf
+						<div class="card card-space">
+							<div class="card-header">
+								<div class="d-flex align-items-center">
+									<h4 class="card-title">Container Information</h4>
+
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-12 col-md-6">
+										<div class="form-group">
+											<label>Container ID</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Container ID" />
+										</div>
+										<div class="form-group">
+											<label>Shipper information</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Shipper information" />
+										</div>
+										<div class="form-group">
+											<label>Notify information</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Notify information" />
+										</div>
+										<div class="form-group">
+											<label>Port of Loading</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Port of Loading" />
+										</div>
+									</div>
+									<div class="col-12 col-md-6">
+										<div class="form-group">
+											<label>Bill of Loading:</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Bill of Lading:" />
+										</div>
+										<div class="form-group">
+											<label>Consignee information</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Consignee information" />
+										</div>
+										<div class="form-group">
+											<label>Vessel and Voage Number</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Vessel and Voage Number" />
+										</div>
+										<div class="form-group">
+											<label>Port of Discharge</label>
+											<input required="" type="text" name="name" class="form-control"
+												placeholder="Port of Discharge" />
+										</div>
+									</div>
+
+
+
+									<!--<div class="form-group">
+                                    <label>Customer</label>
+                                    <select name="customer_id" class="form-control myselect2">
+                                        <option value="">Please Select</option>
+                                        @foreach($customers as $category1)
+                                            <option value="{{ $category1->id }}">
+                                                {{ $category1->name }}
+                                            </option>
+
+                                        @endforeach
+                                    </select>
+                                </div>-->
+									<!--<div class="form-group">
+                                    
+                                    <table id="myTable" class="display table table-striped table-hover dataTable no-footer"></table>
+                                    <br>
+                                    <p>
+                                        <button type="button" class="btn btn-primary" onclick="addRows()">Add Mark</button>
+                                    </p>
+                                </div>-->
+								</div>
+
+
+							</div>
+					</form>
+				</div>
+			</div>
+
+
+
+
+			<div class="col-md-12">
+				<div class="card card-space">
+					<div class="card-header">
+						<div class="d-flex align-items-center">
+							<h4 class="card-title">Goods Information</h4>
+							<a type="button" href="#" class="btn btn-primary btn-round ml-auto">
+								<i class="fa fa-plus"></i>
+								Add Customer
+
+							</a>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row">
+
+							<div class="col-12 col-md-12">
+								<div class="tab-content" id="v-pills-tabContent">
+									<div class="tab-pane fade active show" id="v-pills-home-icons" role="tabpanel"
+										aria-labelledby="v-pills-home-tab-icons">
+										<div class="accordion accordion-secondary">
+											<div class="card">
+												<div class="card-header" id="headingOne" data-toggle="collapse"
+													data-target="#collapseOne" aria-expanded="true"
+													aria-controls="collapseOne" role="button">
+													<div class="span-icon">
+														<div class="flaticon-user-4"></div>
+													</div>
+													<div class="span-title" style="margin-right:30px;">
+														Kibrom & JE
+													</div>
+
+													<h4 class="ml-auto">Total Price - AED 258000</h4>
+													<div class="span-mode"></div>
+												</div>
+
+												<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+													data-parent="#accordion">
+													<div class="card-body">
+
+
+														<button type="button" class="btn btn-primary"
+															style="margin-bottom:20px;" onclick="addRowss()">Add Marks
+															+</button>
+														<div class="tab-content" id="v-pills-tabContentt">
+															<div class="tab-pane fade active show"
+																id="v-pills-home-iconss" role="tabpanel"
+																aria-labelledby="v-pills-home-tab-iconss">
+																<div class="accordion accordion-secondary">
+																	<div class="card">
+																		<div class="card-header bg-white"
+																			id="headingOnee" data-toggle="collapse"
+																			data-target="#collapseOnee"
+																			aria-expanded="true"
+																			aria-controls="collapseOnee" role="button">
+																			<div class="span-icon">
+																				<div class="flaticon-box-1"></div>
+																			</div>
+																			<div class="span-title">
+																				<input type="text" class="form-control"
+																					value="AB" />
+																			</div>
+
+
+																			<div class="span-mode"></div>
+																		</div>
+
+																		<div id="collapseOnee"
+																			class="bg-white collapse show"
+																			aria-labelledby="headingOne"
+																			data-parent="#accordion">
+																			<div class="card-body">
+
+
+																				<button style="margin-bottom:20px;"
+																					type="button"
+																					class="btn btn-warning"
+																					onclick="addRowss()">Add
+																					Products</button>
+
+																				<table
+																					class="table table-head-bg-success">
+																					<thead>
+																						<tr>
+																							<th scope="col">#</th>
+																							<th scope="col">Product Name
+																							</th>
+																							<th scope="col">Item</th>
+																							<th scope="col">Cost</th>
+																							<th scope="col">Selling
+																								Price</th>
+																							<th scope="col">Option</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<tr>
+																							<td>1</td>
+																							<td>
+
+																								<select
+																									class="form-control">
+																									<option>Please
+																										Select</option>
+																									<option>Fridge
+																									</option>
+																									<option>Computer
+																									</option>
+																									<option>Washning
+																										Machine</option>
+																								</select>
+																							</td>
+																							<td><input type="text"
+																									class="form-control"
+																									value="20" /></td>
+																							<td><input type="text"
+																									class="form-control"
+																									value="AED 200" />
+																							</td>
+																							<td><input type="text"
+																									class="form-control"
+																									value="AED 4000" />
+																							</td>
+																							<td><button type="button"
+																									class="btn btn-danger">Delete</button>
+																							</td>
+																						</tr>
+
+
+																					</tbody>
+																				</table>
+
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="card-action">
+							<button class="btn btn-success">Update</button>
+							<button class="btn btn-danger pull-right">Lock Container</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+
+@endsection
