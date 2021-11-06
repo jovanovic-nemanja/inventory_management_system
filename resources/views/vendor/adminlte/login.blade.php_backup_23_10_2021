@@ -1,0 +1,197 @@
+@extends('layouts.appsecond')
+
+@section('content')
+<div class="breadcamp">
+    <div class="container-fluid">
+       <a href="/">Home </a>/
+         <a href="#">Account</a> 
+    </div>
+</div>
+
+<div class="category-body margin20">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="loginbody page_logbody col-sm-6">
+                <h2>Login</h2>
+                <p>sign in here if you already have an account</p>
+                <div class="form-section">
+                    <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post" id="lgnFrm">
+                        {!! csrf_field() !!}
+                        <div class="form-group logfield">
+                            <i class="fa fa-envelope"></i>
+                            <input type="email"  id="email" name="email" placeholder="Email" value="{{ old('email') }}" class="form-control" autocomplete="off">
+                            @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong class="text-danger">{{ $errors->first('email') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="form-group logfield">
+                            <i class="fa fa-lock lock"></i>
+                            <input type="password" placeholder="Your account password" id="password" name="password" class="form-control">
+                            @if ($errors->has('password'))
+                            <span class="help-block">
+                                <strong class="text-danger">{{ $errors->first('password') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+
+                        <div class="remprt">
+                            <span>
+
+                                <input type="checkbox" id="remember-me" name="remember-me">
+                                Remember me
+                            </span>
+                            <span>
+                                <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#forgot-form">
+                                    Forgot Password
+                                </a>
+                            </span>
+                        </div>
+                        <button id="pagelgn" class="btn full-width margin20">Login</button>
+                    </form>
+
+                    <div class="orprt">OR</div>
+
+                    <ul class="sociallog">
+                    <li>
+                                <a href="{{ route('facebook.login')}}">
+                                    <i class="fa fa-facebook face"></i>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="{{ route('google.login')}}">
+                                    <i class="gplus">
+                                        <img src="{{ asset('images/icon/gplusicon.png') }}" alt="icon" />
+                                    </i>
+                                </a>
+
+                            </li>
+                    </ul>
+
+                    <p class="anotherlog">New to mambo dubai? <a href="#" class="pageLinkankerRegi">(Create an
+                            Account here)</a></p>
+                </div>
+
+            </div>
+
+            <div class="loginbody page_regibox col-sm-6">
+                <h2>Register</h2>
+                
+ <form>
+                <div class="tworegiselectprt">
+                    <span>
+                        <input type="radio"  name="page_user" checked="checked" value="page_buyerprt">
+                        <label>Buyer</label>
+                    </span>
+                    <span>
+
+                        <input type="radio" name="page_user" value="page_sellerprt">
+                        <label>Seller</label>
+                    </span>
+                </div>
+                <div class="form-section">
+                   
+                        {!! csrf_field() !!}
+                        <div class="page_buyerprt page_desc" id="page_buyerprt" style="">
+
+                            <h3>Join as Buyer</h3>
+                            <span id="page_buyererror" class="text-danger"></span>
+                            <div class="form-group">
+                                <input type="text"   name="page_buyer_user_name" placeholder="Name" class="form-control pageReg" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="page_buyer_phone" placeholder="Phone" class="form-control pageReg">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Email" class="form-control pageReg" name="page_buyer_email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="page_buyer_password" placeholder="Your password" class="form-control pageReg">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="page_buyer_password_confirmation" placeholder="Password Confirm" class="form-control pageReg">
+                            </div>
+                        </div>
+
+                        <div class="page_sellerprt page_desc" id="page_sellerprt" style="display: none;">
+
+                            <h3>Join as Seller</h3>
+                            <span id="page_sellererror" class="text-danger"></span>
+                            <div class="form-group">
+                                <input type="text" name="page_seller_user_name" placeholder="Name" class="form-control pageReg">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="page_seller_phone" placeholder="Phone" class="form-control pageReg">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="page_seller_email" placeholder="Email" class="form-control pageReg">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="page_seller_password" placeholder="Your password" class="form-control pageReg">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="page_seller_password_confirmation" placeholder="Password Confirm" class="form-control pageReg">
+                            </div>
+                        </div>
+
+
+
+                        <button type="button" id="pageJoinBtn" class="btn full-width margin20">Join Now</button>
+
+                        
+                    <p class="anotherlog"><a href="#" class="pageLinkankerlog">Have an account already? Sign In here </a>
+                    </p>
+{{-- 
+                    <ul class="sociallog">
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-facebook face"></i>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-linkedin linkin"></i>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="gplus">
+                                    <img src="https://rfq.projexonlineservices.com/images/icon/gplusicon.png" alt="icon">
+                                </i>
+                            </a>
+
+                        </li>
+                    </ul> --}}
+
+                </div>
+      </form>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>
+
+@stop
+
+@section('adminlte_js')
+<script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+<script>
+$(function () {
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
+});
+</script>
+
+
+
+@yield('js')
+@stop
+
