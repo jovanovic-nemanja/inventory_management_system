@@ -56,6 +56,12 @@
                                             <td>{{ $batch->id }}</td>
                                             <td>{{ $batch->name }}</td>
                                             <td>
+                                                <a href="{{ route('batch.addProductbatch', $batch->id) }}"
+                                                    data-toggle="tooltip" title="" class="btn btn-link btn-add"
+                                                    data-original-title="Add Product">
+                                                    <i class="fa fa-plus"></i>
+                                                </a>
+                                                
                                                 <a href="{{ route('batch.view', $batch->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-edit"
                                                     data-original-title="View">

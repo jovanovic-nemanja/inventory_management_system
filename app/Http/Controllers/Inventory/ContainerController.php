@@ -338,7 +338,18 @@ $allproductdetail = $allproductdetail->merge($allprod);
     public function batch()
     {
         $allbatch = Batch::all();
+        
         return view('inventory.batch.index', compact('allbatch'));
+    }
+    public function addProductbatch($id)
+    {
+        $allcategory = Inventorycategory::get();
+        $allproducts = Prod::get();
+        $containers = Container::get();
+        $batch = Batch::where('id', $id)->first();
+        $allmarks = Mark::get();
+
+        return view('inventory.batch.addproduct', compact('batch', 'containers', 'allproducts', 'allcategory', 'allmarks'));
     }
     public function batchcreate()
     {
