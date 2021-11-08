@@ -79,10 +79,10 @@
                                                 id="myTable_{{ $increment }}">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Product</th>
-                                                        <th scope="col">Initial Stock</th>
+                                                        <th scope="col" rowspan="2">Product</th>
+                                                        <th scope="col" rowspan="2">Initial Stock</th>
                                                         @foreach ($allmark as $mark)
-                                                                <th scope="col">{{ $mark->name }}</th>
+                                                            <th scope="col" rowspan="1">{{ $mark->name }}</th>
                                                         @endforeach
                                                         <th scope="col">Cost</th>
                                                         <th scope="col">Price</th>

@@ -350,6 +350,7 @@ Route::post('/inventory/container/batch/update', 'Inventory\ContainerController@
 Route::post('/inventory/container/batch/store', 'Inventory\ContainerController@batchstore')->name('batch.store');
 Route::get('/inventory/container/batch/delete/{id}', 'Inventory\ContainerController@batchdelete')->name('batch.delete');
 Route::get('/inventory/container/batch/addProductbatch/{batchid}', 'Inventory\ContainerController@addProductbatch')->name('batch.addProductbatch');
+Route::post('/inventory/container/batch/product/store', 'Inventory\ContainerController@batchproduct')->name('batchproduct.store');
 Route::get('/inventory/container/ajax_mark/{id}', 'Inventory\ContainerController@batchajax_mark')->name('batch.ajax_mark');
 
 
