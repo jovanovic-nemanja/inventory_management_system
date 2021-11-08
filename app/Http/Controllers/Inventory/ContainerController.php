@@ -394,6 +394,10 @@ $allproductdetail = $allproductdetail->merge($allprod);
                                 'batch_id' => $request['batch_id'],
                                 'mark_add_id' => $markcontainer
                             ]);
+
+                            $updateprod = Prod::where('id', $request['prodName'][$prd - 1])->first();
+                            $updateprod->stock = $request['stock'][$prd - 1];
+                            $updateprod->update();
                         } else {
                             $markcontainer1 = Productmarkcontainer::where('id', $containerChk->mark_add_id)->first();
                             $markcontainer1->mark_id = json_encode($makrId);
