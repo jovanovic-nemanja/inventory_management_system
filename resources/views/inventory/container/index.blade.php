@@ -47,7 +47,7 @@
                                         <tr>
                                             <th>Product</th>
                                             <th>Shipper</th>
-                                            <th>Batch</th>
+                                            {{-- <th>Batch</th> --}}
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -56,13 +56,13 @@
                                         <tr>
                                             <td>{{ $category->shipper_name }}</td>
                                             <td>{{ $category->batch_name }}</td>
-                                            <td>
+                                            {{-- <td>
                                                 <a href="{{ route('container.addproduct', $category->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-add"
                                                     data-original-title="Add">
                                                     <i class="fa fa-plus"></i>
                                                 </a>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <a href="{{ route('container.edit', $category->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-edit"

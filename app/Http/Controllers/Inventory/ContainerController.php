@@ -351,6 +351,67 @@ $allproductdetail = $allproductdetail->merge($allprod);
 
         return view('inventory.batch.addproduct', compact('batch', 'containers', 'allproducts', 'allcategory', 'allmarks'));
     }
+    public function batchproduct(Request $request)
+    {
+        // print_r($request['prodName']); exit;
+        $allmark = Mark::get()->count();
+        $makrId = Mark::select('id')->get()->toArray();
+        $allproducts = Prod::count();
+        $loopNo = $allmark * $allproducts;
+        $markData = array();
+        $prd = 1;
+       
+        for ($inc = 1; $inc <= $loopNo; $inc++) {
+            if(isset($request['prodName'][$prd - 1])) {
+                $idx = $request['prodName'][$prd - 1];
+                $markData[] = $request['mark_' . ((($idx - 1) * $allmark) + ($inc % $allmark))];
+            }
+            
+            if ($inc % $allmark == 0) {
+                if(isset($request['prodName'][$prd - 1])) {
+                    $markVal = json_encode($markData);
+                }
+                if ($prd <= $allproducts) {
+                    if(isset($request['prodName'][$prd - 1])){
+                        $containerChk = Productcontainer::where('product_id', $request['prodName'][$prd - 1])->where('batch_id', $request['batch_id'])->first();
+
+                        if (empty($containerChk)) {
+                            $markcontainer = Productmarkcontainer::create([
+                                'mark_id' => json_encode($makrId),
+                                'mark_data' => json_encode($markData),
+                                'batch_id' => $request['batch_id']
+                            ]);
+                            $markcontainer = $markcontainer->id;
+                            Productcontainer::create([
+                                'product_id' => $request['prodName'][$prd - 1],
+                                'category_id' => $request['cat_id'][$prd - 1],
+                                'initial_stock' => $request['initial_stock'][$prd - 1],
+                                // 'cost' => $request['cost'][$prd - 1],
+                                // 'price' => $request['price'][$prd - 1],
+                                'after_stock' => $request['stock'][$prd - 1],
+                                'cost' => 0,
+                                'price' => 0,
+                                'batch_id' => $request['batch_id'],
+                                'mark_add_id' => $markcontainer
+                            ]);
+                        } else {
+                            $markcontainer1 = Productmarkcontainer::where('id', $containerChk->mark_add_id)->first();
+                            $markcontainer1->mark_id = json_encode($makrId);
+                            $markcontainer1->mark_data = $markVal;
+                            $markcontainer1->update();
+
+                            $containerChk->initial_stock  = $request['initial_stock'][$prd - 1];
+                            $containerChk->after_stock  = $request['stock'][$prd - 1];
+                            $containerChk->update();
+                        }
+                    }
+                    $prd++;
+                    unset($markData);
+                }
+            }
+        }
+        return redirect()->route('batch.index')->with('message', 'success|Product has been successfully Updated in Batch.');
+    }
     public function batchcreate()
     {
         return view('inventory.batch.create');
