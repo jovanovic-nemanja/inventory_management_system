@@ -407,6 +407,10 @@ $allproductdetail = $allproductdetail->merge($allprod);
                             $containerChk->initial_stock  = $request['initial_stock'][$prd - 1];
                             $containerChk->after_stock  = $request['stock'][$prd - 1];
                             $containerChk->update();
+
+                            $updateprod = Prod::where('id', $request['prodName'][$prd - 1])->first();
+                            $updateprod->stock = $request['stock'][$prd - 1];
+                            $updateprod->update();
                         }
                     }
                     $prd++;
