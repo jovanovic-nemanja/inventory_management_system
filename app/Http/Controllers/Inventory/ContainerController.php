@@ -86,6 +86,10 @@ class ContainerController extends Controller
             'consignee_info' => $request->consignee_info,
             'vessel_no' => $request->vessel_no,
             'port_discharge' => $request->port_discharge,
+            'shipping_date' => $request->shipping_date,
+            'owner_name' => $request->owner_name,
+            'seal_number' => $request->seal_number,
+            'container_type' => $request->container_type,
         ]);
         $container_id = $container->id;
         $customer_no = sizeof($request->customer_id);
@@ -119,6 +123,11 @@ class ContainerController extends Controller
         $container->consignee_info = $request->consignee_info;
         $container->vessel_no = $request->vessel_no;
         $container->port_discharge = $request->port_discharge;
+        $container->shipping_date = $request->shipping_date;
+        $container->owner_name = $request->owner_name;
+        $container->seal_number = $request->seal_number;
+        $container->container_type = $request->container_type;
+
         $container->update();
         $customer_no = sizeof($request->customer_id);
         // echo '<pre>';  print_r($request->all()); exit;
@@ -310,7 +319,8 @@ class ContainerController extends Controller
             'notify_info' => $request->notify_info,
             'port_loading' => $request->port_loading,
             'consignee_info' => $request->consignee_info,
-            'port_discharge' => $request->port_discharge
+            'port_discharge' => $request->port_discharge,
+            'type' => $request->type
         ]);
         return redirect()->route('detail.index')->with('message', 'success|Container detail has been successfully created');
     }
@@ -325,6 +335,7 @@ class ContainerController extends Controller
         $updatedetail->consignee_info = $request->consignee_info;
         $updatedetail->vessel_no = $request->vessel_no;
         $updatedetail->port_discharge = $request->port_discharge;
+        $updatedetail->type = $request->type;
         $updatedetail->update();
         return redirect()->route('detail.index')->with('message', 'success|Container detail has been successfully updated');
     }

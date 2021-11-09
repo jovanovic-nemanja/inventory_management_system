@@ -20,7 +20,7 @@
                 <h4 class="page-title">Create Container</h4>
                 <ul class="breadcrumbs">
                     <li class="nav-home">
-                        <a href="#">
+                        <a href="{{ url('/inventoryboard') }}">
                             <i class="flaticon-home"></i>
                         </a>
                     </li>
@@ -29,7 +29,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="">Container List</a>
+                        <a href="{{ url('inventory/container') }}">Container List</a>
                     </li>
                 </ul>
             </div>
@@ -50,6 +50,10 @@
                                             <label>Container ID</label>
                                             <input required="" type="text" name="container_id" class="form-control"
                                                value="{{rand(00000, 99999)}}" readonly placeholder="Container ID" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Shipping Date</label>
+                                            <input type="date" required name="shipping_date" class="form-control" />
                                         </div>
                                         <div class="form-group">
                                             <label>Container Batch:</label>
@@ -95,8 +99,27 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Container Type</label>
+                                            <select name="container_type" class="form-control myselect2" required>
+                                                <option value="">Please Select</option>
+                                                @foreach ($allcontainerdetail as $type)
+                                                    <option value="{{ $type->id }}">
+                                                        {{ $type->type }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Owner Name:</label>
+                                            <input type="text" name="owner_name" id="owner_name" class="form-control" placeholder="Owner Name">
+                                        </div>
                                     </div>
                                     <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Seal Number:</label>
+                                            <input type="text" name="seal_number" id="seal_number" class="form-control" placeholder="Seal Number">
+                                        </div>
                                         <div class="form-group">
                                             <label>Container Number:</label>
                                             <input type="text" name="container_number" id="container_number" class="form-control" placeholder="Container Number">
