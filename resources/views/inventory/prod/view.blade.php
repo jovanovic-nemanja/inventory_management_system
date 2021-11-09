@@ -33,7 +33,7 @@
                 <h4 class="page-title">Product</h4>
                 <ul class="breadcrumbs">
                     <li class="nav-home">
-                        <a href="#">
+                        <a href="{{ url('/inventoryboard') }}">
                             <i class="flaticon-home"></i>
                         </a>
                     </li>
@@ -42,7 +42,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#">Product</a>
+                        <a href="{{ url('inventory/prod') }}">Product</a>
                     </li>
                 </ul>
 
@@ -120,7 +120,7 @@
                                             <td>{{ $category->date }}</td>
                                             <td>(-) {{ $category->item }}</td>
                                             <td>{{ $category->after_stock }}</td>
-                                            <td> Container ID - {{ $category->container }} </td>
+                                            <td> Batch ID - {{ $category->batch_id }} </td>
 
                                         </tr>
                                         @endforeach

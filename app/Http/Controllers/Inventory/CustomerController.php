@@ -105,7 +105,7 @@ class CustomerController extends Controller
             ->leftJoin('inventory_units', 'inventory_units.id', '=', 'inventory_product.unit')
             // ->leftJoin('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')
             // ->where('inventory_mark.customer_id', $id)
-            ->where('inventory_container_to_product.container_id', $con_id)
+            // ->where('inventory_container_to_product.container_id', $con_id)
             // ->select('inventory_container_mark_add.*') 
             ->select('inventory_container_mark_add.*', 'inventory_container_to_product.*','inventory_units.name as unit_name', 'inventory_categories.id as category_id', 'inventory_categories.name as category_name', 'inventory_product.stock', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
             ->get();
