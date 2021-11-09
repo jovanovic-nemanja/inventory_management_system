@@ -21,7 +21,7 @@
                     <h4 class="page-title">Edit Container</h4>
                     <ul class="breadcrumbs">
                         <li class="nav-home">
-                            <a href="#">
+                            <a href="{{ url('/inventoryboard') }}">
                                 <i class="flaticon-home"></i>
                             </a>
                         </li>
@@ -30,7 +30,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="">Container List</a>
+                            <a href="{{ url('inventory/container') }}">Container List</a>
                         </li>
                     </ul>
                 </div>
@@ -53,6 +53,10 @@
                                                 <input required="" readonly type="text" name="container_id"
                                                     value="{{ $container_detail->containerid }}" class="form-control"
                                                     placeholder="Container ID" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Shipping Date</label>
+                                                <input type="date" required name="shipping_date" class="form-control" value="{{ $container_detail->shipping_date }}" />
                                             </div>
                                             <div class="form-group">
                                                 <label>Container Batch:</label>
@@ -123,9 +127,34 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Container Type</label>
+                                                <select name="container_type" class="form-control myselect2" required>
+                                                    <option value="">Please Select</option>
+                                                    @foreach ($allcontainerdetail as $type)
+                                                        @if ($type->id == $container_detail->container_type)
+                                                            <option selected value="{{ $type->id }}">
+                                                                {{ $type->type }}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $type->id }}">
+                                                                {{ $type->type }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Owner Name:</label>
+                                                <input type="text" name="owner_name" id="owner_name" class="form-control" placeholder="Owner Name" value="{{ $container_detail->owner_name }}" />
+                                            </div>
                                         </div>
 
                                         <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label>Seal Number:</label>
+                                                <input type="text" name="seal_number" id="seal_number" class="form-control" placeholder="Seal Number" value="{{ $container_detail->seal_number }}" />
+                                            </div>
                                             <div class="form-group">
                                                 <label>Container Number:</label>
                                                 <input type="text" name="container_number" id="container_number"

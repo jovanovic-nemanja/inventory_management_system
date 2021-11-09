@@ -48,6 +48,7 @@
                                             <th>No</th>
                                             <th>Shipper Info</th>
                                             <th>Notify Info</th>
+                                            <th>Type</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -57,6 +58,7 @@
                                             <td>{{ $detail->id }}</td>
                                             <td>{{ $detail->shipper_info }}</td>
                                             <td>{{ $detail->notify_info }}</td>
+                                            <td>{{ $detail->type }}</td>
                                             <td>
                                                 <a href="{{ route('detail.edit', $detail->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-edit"

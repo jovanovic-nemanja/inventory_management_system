@@ -58,6 +58,11 @@
                                         <input required="" type="text" name="port_discharge" class="form-control"
                                             placeholder="Port of Discharge" />
                                     </div>
+                                    <div class="form-group">
+                                        <label>Type</label>
+                                        <input required="" type="text" name="type" class="form-control"
+                                            placeholder="Type" />
+                                    </div>
                                 </div>
 
                                 <div class="card-action">
