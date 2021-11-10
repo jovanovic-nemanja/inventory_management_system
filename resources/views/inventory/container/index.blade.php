@@ -46,8 +46,9 @@
                                     <thead>
                                         <tr>
                                             <th>Product</th>
+                                            <th>Owner Name</th>
                                             <th>Shipper</th>
-                                            {{-- <th>Batch</th> --}}
+                                            <th>Container Number</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -55,7 +56,9 @@
                                         @foreach ($allcontainer as $category)
                                         <tr>
                                             <td>{{ $category->shipper_name }}</td>
+                                            <td>{{ $category->owner_name }}</td>
                                             <td>{{ $category->batch_name }}</td>
+                                            <td>{{ $category->container_number }}</td>
                                             {{-- <td>
                                                 <a href="{{ route('container.addproduct', $category->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-add"
