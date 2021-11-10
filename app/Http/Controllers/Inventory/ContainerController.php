@@ -173,14 +173,13 @@ class ContainerController extends Controller
 
     public function addProduct($id)
     {
-
-        $container_detail = Container::where('id', $id)->first();
-        $allcustomers = Customer::get();
-        $allproducts = Prod::get();
         $allcategory = Inventorycategory::get();
-        $allmark = Mark::where('container_id', $id)->get();
-        $allmarkdetail = Productmarkcontainer::where('container_id', $id)->get()->toArray();
-        $allproductdetail = Productcontainer::where('container_id', $id)
+        $allproducts = Prod::get();
+        $containers = Container::get();
+        $batch = Batch::where('id', $id)->first();
+        $allmarks = Mark::get();
+        $allmarkdetail = Productmarkcontainer::where('batch_id', $id)->get()->toArray();
+        $allproductdetail = Productcontainer::where('batch_id', $id)
             ->join('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
             ->select('inventory_container_to_product.*', 'inventory_product.name as product_name')
             ->get();
@@ -191,10 +190,10 @@ class ContainerController extends Controller
             ->select('inventory_customer.id as cus_id', 'inventory_customer.name as cus_name')
             ->distinct()
             ->get();
-        
+
         if (sizeof($allproductdetail) <= 0) {
-            return view('inventory.container.addproduct', compact('allcustomers', 'cus_no', 'container_detail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmark'));
-        } else {
+            return view('inventory.container.addproduct', compact('batch', 'containers', 'allproducts', 'allcategory', 'allmarks'));
+        }else{
             $allprod = Prod::whereNotIn('id', function($query){
                 $query->select('product_id')->from(with(new Productcontainer)->getTable());})  
                 ->select('id as product_id','category as category_id','stock as initial_stock','price as cost','price as price','stock as after_stock','name as product_name',)
@@ -202,93 +201,21 @@ class ContainerController extends Controller
 
             $allproductdetail = $allproductdetail->merge($allprod);
 
-            return view('inventory.container.editproduct', compact('allcustomers', 'allproductdetail', 'cus_no', 'container_detail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmark'));
+            return view('inventory.container.editproduct', compact('batch', 'containers', 'allproductdetail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmarks'));
         }
     }
     public function storeProduct(Request $request)
     {
-        $allmark = Mark::where('container_id', $request['container_id'])->get()->count();
-        $makrId = Mark::where('container_id', $request['container_id'])->select('id')->get()->toArray();
         $allproducts = Prod::count();
-        $loopNo = $allmark * $allproducts;
-        $markData = array();
-        $prd = 1;
        
-        for ($inc = 1; $inc <= $loopNo; $inc++) {
-            $markData[] = $request['mark_' . $inc];
-            if ($inc % $allmark == 0) {
-                $markVal = json_encode($markData);
-                if ($prd <= $allproducts) {
-                    if(isset($request['prodName'][$prd - 1])){
-                    $containerChk = Productcontainer::where('product_id', $request['prodName'][$prd - 1])->where('container_id', $request['container_id'])->first();
-                    
-
-                    if (empty($containerChk)) {
-                        $markcontainer = Productmarkcontainer::create([
-                            'mark_id' => json_encode($makrId),
-                            'mark_data' => json_encode($markData),
-                            'container_id' => $request['container_id']
-                        ]);
-                        $markcontainer = $markcontainer->id;
-                        $container = Productcontainer::create([
-                            'product_id' => $request['prodName'][$prd - 1],
-                            'category_id' => $request['cat_id'][$prd - 1],
-                            'initial_stock' => $request['initial_stock'][$prd - 1],
-                            'cost' => $request['cost'][$prd - 1],
-                            'price' => $request['price'][$prd - 1],
-                            'after_stock' => $request['stock'][$prd - 1],
-                            'container_id' => $request['container_id'],
-                            'mark_add_id' => $markcontainer
-                        ]);
-                        $updateprod = Prod::where('id', $request['prodName'][$prd - 1])->first();
-                        $updateprod->stock = $request['stock'][$prd - 1];
-                        $updateprod->update();
-                        if ($request['initial_stock'][$prd - 1] != $request['stock'][$prd - 1]) {
-                            Productdistribution::create([
-                                'product_id' => $request['prodName'][$prd - 1],
-                                'container_id' => $request['container_id'],
-                                'initial_stock' => $request['initial_stock'][$prd - 1],
-                                'item' => ($request['initial_stock'][$prd - 1] - $request['stock'][$prd - 1]),
-                                'cost' => $request['cost'][$prd - 1],
-                                'price' => $request['price'][$prd - 1],
-                                'after_stock' => $request['stock'][$prd - 1]
-                            ]);
-                        }
-                    } else {
-                        // echo '<pre>'; print_r($request->all()); exit;
-                        $markcontainer1 = Productmarkcontainer::where('id', $containerChk->mark_add_id)->first();
-                        $markcontainer1->mark_id = json_encode($makrId);
-                        $markcontainer1->mark_data = $markVal;
-                        $markcontainer1->update();
-
-                        $containerChk->initial_stock  = $request['initial_stock'][$prd - 1];
-                        $containerChk->cost  = $request['cost'][$prd - 1];
-                        $containerChk->price  = $request['price'][$prd - 1];
-                        $containerChk->after_stock  = $request['stock'][$prd - 1];
-                        $containerChk->update();
-
-                        $updateprod = Prod::where('id', $request['prodName'][$prd - 1])->first();
-                        $updateprod->stock = $request['stock'][$prd - 1];
-                        $updateprod->update();
-                        if ($request['initial_stock'][$prd - 1] != $request['stock'][$prd - 1]) {
-                            Productdistribution::create([
-                                'product_id' => $request['prodName'][$prd - 1],
-                                'container_id' => $request['container_id'],
-                                'initial_stock' => $request['initial_stock'][$prd - 1],
-                                'item' => ($request['initial_stock'][$prd - 1] - $request['stock'][$prd - 1]),
-                                'cost' => $request['cost'][$prd - 1],
-                                'price' => $request['price'][$prd - 1],
-                                'after_stock' => $request['stock'][$prd - 1]
-                            ]);
-                        }
-                    }
-                }
-                    $prd++;
-                    unset($markData);
-                }
+        for ($inc = 0; $inc < $allproducts; $inc++) {
+            $container = Productcontainer::where('batch_id', $request->batch_id)->where('product_id', $request->prodName[$inc])->first();
+            if(@$container) {
+                $container->price = $request->price[$inc];
+                $container->update();
             }
         }
-        return redirect()->route('container.index')->with('message', 'success|Product has been successfully Updated in container');
+        return redirect()->route('container.index')->with('message', 'success|Product has been successfully Updated in container.');
     }
 
     public function ajax_cat_prod($id)
@@ -441,7 +368,7 @@ class ContainerController extends Controller
             if(isset($request['prodName'][$prd])) {
                 $idx = $request['prodName'][$prd];
                 if($inc % $allmark == 0) {
-                    $markData[] = $request['mark_' . ((($idx - 1) * $allmark) + 24)];
+                    $markData[] = $request['mark_' . ((($idx - 1) * $allmark) + $allmark)];
                 }else{
                     $markData[] = $request['mark_' . ((($idx - 1) * $allmark) + ($inc % $allmark))];
                 }
@@ -466,10 +393,9 @@ class ContainerController extends Controller
                                 'product_id' => $request['prodName'][$prd],
                                 'category_id' => $request['cat_id'][$prd],
                                 'initial_stock' => $request['initial_stock'][$prd],
-                                // 'cost' => $request['cost'][$prd],
+                                'cost' => $request['cost'][$prd],
                                 // 'price' => $request['price'][$prd],
                                 'after_stock' => $request['stock'][$prd],
-                                'cost' => 0,
                                 'price' => 0,
                                 'batch_id' => $request['batch_id'],
                                 'mark_add_id' => $markcontainer
@@ -485,9 +411,8 @@ class ContainerController extends Controller
                                     'batch_id' => $request['batch_id'],
                                     'initial_stock' => $request['initial_stock'][$prd],
                                     'item' => ($request['initial_stock'][$prd] - $request['stock'][$prd]),
-                                    'cost' => 0,
                                     'price' => 0,
-                                    // 'cost' => $request['cost'][$prd],
+                                    'cost' => $request['cost'][$prd],
                                     // 'price' => $request['price'][$prd],
                                     'after_stock' => $request['stock'][$prd]
                                 ]);
@@ -499,6 +424,7 @@ class ContainerController extends Controller
                             $markcontainer1->update();
 
                             $containerChk->initial_stock  = $request['initial_stock'][$prd];
+                            $containerChk->cost  = $request['cost'][$prd];
                             $containerChk->after_stock  = $request['stock'][$prd];
                             $containerChk->update();
 
@@ -512,9 +438,8 @@ class ContainerController extends Controller
                                     'batch_id' => $request['batch_id'],
                                     'initial_stock' => $request['initial_stock'][$prd],
                                     'item' => ($request['initial_stock'][$prd] - $request['stock'][$prd]),
-                                    // 'cost' => $request['cost'][$prd],
+                                    'cost' => $request['cost'][$prd],
                                     // 'price' => $request['price'][$prd],
-                                    'cost' => 0,
                                     'price' => 0,
                                     'after_stock' => $request['stock'][$prd]
                                 ]);
