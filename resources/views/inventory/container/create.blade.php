@@ -103,9 +103,9 @@
                                             <label>Container Type</label>
                                             <select name="container_type" class="form-control myselect2" required>
                                                 <option value="">Please Select</option>
-                                                @foreach ($allcontainerdetail as $type)
+                                                @foreach ($types as $type)
                                                     <option value="{{ $type->id }}">
-                                                        {{ $type->type }}
+                                                        {{ $type->title }}
                                                     </option>
                                                 @endforeach
                                             </select>
