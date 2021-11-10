@@ -342,6 +342,15 @@ Route::post('/inventory/container/detail/update', 'Inventory\ContainerController
 Route::get('/inventory/container/detail/delete/{id}', 'Inventory\ContainerController@detaildelete')->name('detail.delete');
 Route::get('/inventory/container/downloadExcel/{type}', 'Inventory\ContainerController@downloadExcel')->name('container.download');;
 
+
+Route::get('/inventory/container/type', 'Inventory\ContainerController@type')->name('type.index');
+Route::get('/inventory/container/type/create', 'Inventory\ContainerController@typecreate')->name('type.create');
+Route::get('/inventory/container/type/edit/{id}', 'Inventory\ContainerController@typeedit')->name('type.edit');
+Route::post('/inventory/container/type/store', 'Inventory\ContainerController@typestore')->name('type.store');
+Route::post('/inventory/container/type/update', 'Inventory\ContainerController@typeupdate')->name('type.update');
+Route::get('/inventory/container/type/delete/{id}', 'Inventory\ContainerController@typedelete')->name('type.delete');
+
+
 Route::get('/inventory/container/batch', 'Inventory\ContainerController@batch')->name('batch.index');
 Route::get('/inventory/container/batch/create', 'Inventory\ContainerController@batchcreate')->name('batch.create');
 Route::get('/inventory/container/batch/edit/{id}', 'Inventory\ContainerController@batchedit')->name('batch.edit');

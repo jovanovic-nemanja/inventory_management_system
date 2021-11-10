@@ -85,7 +85,7 @@
                                                                 @php
                                                                     $counts = count(App\Mark::where('container_id', $container->id)->get());
                                                                 @endphp
-                                                                <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->containerid }}</th>
+                                                                <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
                                                             @endforeach
                                                             <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th>
                                                             <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>

@@ -15,6 +15,7 @@ use App\Batch;
 use App\Consignee;
 use App\Productdistribution;
 use App\Shipper;
+use App\InventoryTypes;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,17 +46,19 @@ class ContainerController extends Controller
     public function create()
     {
         $allcontainerdetail = Containerdetail::get();
+        $types = InventoryTypes::get();
         $allshipper = Shipper::get();
         $allconsignee = Consignee::get();
         $allcustomers = Customer::get();
         $allproducts = Prod::get();
         $allbatch = Batch::all();
         $allcategory = Inventorycategory::get();
-        return view('inventory.container.create', compact('allcustomers', 'allproducts', 'allcategory', 'allcontainerdetail', 'allbatch', 'allshipper', 'allconsignee'));
+        return view('inventory.container.create', compact('types', 'allcustomers', 'allproducts', 'allcategory', 'allcontainerdetail', 'allbatch', 'allshipper', 'allconsignee'));
     }
     public function edit($id)
     {
         $container_detail = Container::where('id', $id)->first();
+        $types = InventoryTypes::get();
         $allcontainerdetail = Containerdetail::get();
         // $cus_no = Mark::where('container_id', $id)->distinct()->get('customer_id');
         $cus_no = DB::table('inventory_mark')
@@ -71,7 +74,7 @@ class ContainerController extends Controller
         $allbatch = Batch::all();
         $allcategory = Inventorycategory::get();
 
-        return view('inventory.container.edit', compact('container_detail', 'allcustomers', 'allproducts', 'allshipper', 'allconsignee', 'allcategory', 'con_cus', 'cus_no', 'allbatch', 'allcontainerdetail'));
+        return view('inventory.container.edit', compact('types', 'container_detail', 'allcustomers', 'allproducts', 'allshipper', 'allconsignee', 'allcategory', 'con_cus', 'cus_no', 'allbatch', 'allcontainerdetail'));
     }
     public function store(Request $request)
     {
@@ -319,8 +322,7 @@ class ContainerController extends Controller
             'notify_info' => $request->notify_info,
             'port_loading' => $request->port_loading,
             'consignee_info' => $request->consignee_info,
-            'port_discharge' => $request->port_discharge,
-            'type' => $request->type
+            'port_discharge' => $request->port_discharge
         ]);
         return redirect()->route('detail.index')->with('message', 'success|Container detail has been successfully created');
     }
@@ -335,7 +337,6 @@ class ContainerController extends Controller
         $updatedetail->consignee_info = $request->consignee_info;
         $updatedetail->vessel_no = $request->vessel_no;
         $updatedetail->port_discharge = $request->port_discharge;
-        $updatedetail->type = $request->type;
         $updatedetail->update();
         return redirect()->route('detail.index')->with('message', 'success|Container detail has been successfully updated');
     }
@@ -344,6 +345,46 @@ class ContainerController extends Controller
         if (@$id) {
             $product = Containerdetail::where('id', $id)->delete();
             return redirect()->route('detail.index')->with('message', 'success|Container detail has successfully deleted');
+        }
+    }
+
+    public function type()
+    {
+        $alltypes = InventoryTypes::get();
+
+        return view('inventory.type.index', compact('alltypes'));
+    }
+    public function typecreate()
+    {
+        return view('inventory.type.create');
+    }
+    public function typeedit($id)
+    {
+        $type = InventoryTypes::where('id', $id)->first();
+
+        return view('inventory.type.edit', compact('type'));
+    }
+    public function typestore(Request $request)
+    {
+        $container = InventoryTypes::create([
+            'title' => $request->title,
+            'sign_date' => date('Y-m-d')
+        ]);
+        return redirect()->route('type.index')->with('message', 'success|Container Type has been successfully created.');
+    }
+
+    public function typeupdate(Request $request)
+    {
+        $model = InventoryTypes::where('id', $request->id)->first();
+        $model->title = $request->title;
+        $model->update();
+        return redirect()->route('type.index')->with('message', 'success|Container Type has been successfully updated.');
+    }
+    public function typedelete($id)
+    {
+        if (@$id) {
+            InventoryTypes::where('id', $id)->delete();
+            return redirect()->route('type.index')->with('message', 'success|Container Type has successfully deleted.');
         }
     }
 

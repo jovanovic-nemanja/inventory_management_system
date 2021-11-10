@@ -201,6 +201,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ url('inventory/container/type') }}">
+                                <i class="fab fa-first-order-alt"></i>
+                                {{ __('Container Type') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="" onClick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fab fa-first-order-alt"></i>
                                 {{ __('Logout') }}

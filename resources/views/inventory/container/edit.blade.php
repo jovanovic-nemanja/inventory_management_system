@@ -131,14 +131,14 @@
                                                 <label>Container Type</label>
                                                 <select name="container_type" class="form-control myselect2" required>
                                                     <option value="">Please Select</option>
-                                                    @foreach ($allcontainerdetail as $type)
+                                                    @foreach ($types as $type)
                                                         @if ($type->id == $container_detail->container_type)
                                                             <option selected value="{{ $type->id }}">
-                                                                {{ $type->type }}
+                                                                {{ $type->title }}
                                                             </option>
                                                         @else
                                                             <option value="{{ $type->id }}">
-                                                                {{ $type->type }}
+                                                                {{ $type->title }}
                                                             </option>
                                                         @endif
                                                     @endforeach
