@@ -87,6 +87,7 @@
                                                                 @endphp
                                                                 <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
                                                             @endforeach
+                                                            <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Cost</th>
                                                             <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th>
                                                             <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>
                                                         </tr>
@@ -123,6 +124,11 @@
                                                                             $td_inc++;
                                                                         @endphp
                                                                     @endforeach
+
+                                                                    <td>
+                                                                        <label>{{ $prod->price }}</label>
+                                                                        <input type="hidden" class="form-control" name="cost[]" value="{{ $prod->price }}"/></td>
+                                                                    </td>
                                                                     <td><input type="text" readonly
                                                                         class="form-control stock_{{ $tbl_inc }}"
                                                                         name="stock[]"

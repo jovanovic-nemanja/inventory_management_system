@@ -47,32 +47,30 @@
                                         <tr>
                                             <th>Product</th>
                                             <th>Owner Name</th>
-                                            <th>Shipper</th>
+                                            <th>Batch</th>
                                             <th>Container Number</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($allcontainer as $category)
+                                        @foreach ($allcontainer as $container)
                                         <tr>
-                                            <td>{{ $category->shipper_name }}</td>
-                                            <td>{{ $category->owner_name }}</td>
-                                            <td>{{ $category->batch_name }}</td>
-                                            <td>{{ $category->container_number }}</td>
-                                            {{-- <td>
-                                                <a href="{{ route('container.addproduct', $category->id) }}"
+                                            <td>{{ $container->shipper_name }}</td>
+                                            <td>{{ $container->owner_name }}</td>
+                                            <td>{{ $container->batch_name }}</td>
+                                            <td>{{ $container->container_number }}</td>
+                                            <td>
+                                                <a href="{{ route('container.addproduct', $container->container_batch) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-add"
                                                     data-original-title="Add">
                                                     <i class="fa fa-plus"></i>
                                                 </a>
-                                            </td> --}}
-                                            <td>
-                                                <a href="{{ route('container.edit', $category->id) }}"
+                                                <a href="{{ route('container.edit', $container->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-edit"
                                                     data-original-title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a href="{{ route('container.delete', $category->id) }}"
+                                                <a href="{{ route('container.delete', $container->id) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-danger"
                                                     data-original-title="Remove">
                                                     <i class="fa fa-times"></i>
