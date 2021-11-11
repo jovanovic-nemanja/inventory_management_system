@@ -105,6 +105,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            @if(@$allproductdetail)
                                                             @foreach ($allproductdetail as $prod)
                                                                 @if ($prod->category_id == $cus->id)
                                                                     <tr id="row_{{ $tbl_inc }}" class="getRow">
@@ -187,6 +188,7 @@
                                                                     @endphp
                                                                 @endif
                                                             @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>

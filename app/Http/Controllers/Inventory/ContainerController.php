@@ -214,6 +214,13 @@ class ContainerController extends Controller
                 $container->price = $request->price[$inc];
                 $container->update();
             }
+
+            $productdistribution = Productdistribution::where('product_id', $request['prodName'][$inc])->where('batch_id', $request['batch_id'])->first();
+            if(@$productdistribution) {
+                $productdistribution->price = $request['price'][$inc];
+
+                $productdistribution->update();
+            }
         }
         return redirect()->route('container.index')->with('message', 'success|Product has been successfully Updated in container.');
     }
@@ -433,16 +440,26 @@ class ContainerController extends Controller
                             $updateprod->update();
 
                             if ($request['initial_stock'][$prd] != $request['stock'][$prd]) {
-                                Productdistribution::create([
-                                    'product_id' => $request['prodName'][$prd],
-                                    'batch_id' => $request['batch_id'],
-                                    'initial_stock' => $request['initial_stock'][$prd],
-                                    'item' => ($request['initial_stock'][$prd] - $request['stock'][$prd]),
-                                    'cost' => $request['cost'][$prd],
-                                    // 'price' => $request['price'][$prd],
-                                    'price' => 0,
-                                    'after_stock' => $request['stock'][$prd]
-                                ]);
+                                $productdistribution = Productdistribution::where('product_id', $request['prodName'][$prd])->where('batch_id', $request['batch_id'])->first();
+                                if(@$productdistribution) {
+                                    $productdistribution->initial_stock = $request['initial_stock'][$prd];
+                                    $productdistribution->item = ($request['initial_stock'][$prd] - $request['stock'][$prd]);
+                                    $productdistribution->cost = $request['cost'][$prd];
+                                    $productdistribution->after_stock = $request['stock'][$prd];
+
+                                    $productdistribution->update();
+                                }else{
+                                    Productdistribution::create([
+                                        'product_id' => $request['prodName'][$prd],
+                                        'batch_id' => $request['batch_id'],
+                                        'initial_stock' => $request['initial_stock'][$prd],
+                                        'item' => ($request['initial_stock'][$prd] - $request['stock'][$prd]),
+                                        'cost' => $request['cost'][$prd],
+                                        // 'price' => $request['price'][$prd],
+                                        'price' => 0,
+                                        'after_stock' => $request['stock'][$prd]
+                                    ]);
+                                }
                             }
                         }
                     }
