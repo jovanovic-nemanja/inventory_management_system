@@ -84,18 +84,14 @@
                                                             <tr>
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Product</th>
                                                                 
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Initial Stock</th>
-
-                                                                @foreach ($containers as $container)
-                                                                    @php
-                                                                        $counts = count(App\Mark::where('container_id', $container->id)->get());
-                                                                    @endphp
-                                                                    <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
-                                                                @endforeach
+                                                                @php
+                                                                    $counts = count(App\Mark::where('container_id', $container->id)->get());
+                                                                @endphp
+                                                                <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
                                                                 
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Cost</th>
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Price</th>
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th>
+                                                                {{-- <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th> --}}
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>
                                                             </tr>
                                                             <tr>
@@ -116,12 +112,7 @@
                                                                             <input type="hidden" name="cat_id[]"
                                                                                 value="{{ $prod->category_id }}" />
                                                                         </td>
-                                                                        <td>
-                                                                            <label>{{ $prod->initial_stock }}</label>
-                                                                            <input type="hidden" name="initial_stock[]"
-                                                                                class="iStock_{{ $tbl_inc }}"
-                                                                                value="{{ $prod->initial_stock }}" />
-                                                                        </td>
+                                                                        <input type="hidden" name="initial_stock[]" class="iStock_{{ $tbl_inc }}" value="{{ $prod->initial_stock }}" />
 
                                                                         @if (isset($allmarkdetail[$tbl_inc - 1]))
                                                                             @php
@@ -162,18 +153,13 @@
                                                                                 value="{{ $prod->cost }}" />
                                                                         </td>
                                                                         <td>
-
                                                                             <input type="text" class="form-control"
                                                                                 name="price[]"
                                                                                 value="{{ $prod->price }}" />
                                                                         </td>
 
-                                                                        <td>
-                                                                            <input type="text" readonly
-                                                                                class="form-control stock_{{ $tbl_inc }}"
-                                                                                name="stock[]"
-                                                                                value="{{ $prod->after_stock }}" />
-                                                                        </td>
+                                                                        <input type="hidden" class="form-control stock_{{ $tbl_inc }}" name="stock[]" value="{{ $prod->after_stock }}" />
+
                                                                         <td>
                                                                             <button type="button"
                                                                                 onclick="deleteTblRow(this)"
