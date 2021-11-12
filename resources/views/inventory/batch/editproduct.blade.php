@@ -85,6 +85,7 @@
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Product</th>
                                                                 
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Initial Stock</th>
+                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th>
 
                                                                 @foreach ($containers as $container)
                                                                     @php
@@ -93,8 +94,6 @@
                                                                     <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
                                                                 @endforeach
                                                                 
-                                                                {{-- <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Cost</th> --}}
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th>
                                                                 <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>
                                                             </tr>
                                                             <tr>
@@ -120,6 +119,14 @@
                                                                                 class="iStock_{{ $tbl_inc }}"
                                                                                 value="{{ $prod->initial_stock }}" />
                                                                         </td>
+                                                                        <td>
+                                                                            <input type="hidden" class="form-control"
+                                                                                name="cost[]"
+                                                                                value="{{ $prod->cost }}" />
+                                                                            <input type="text" readonly
+                                                                                class="form-control stock_{{ $tbl_inc }}"
+                                                                                name="stock[]"
+                                                                                value="{{ $prod->after_stock }}" /></td>
 
                                                                         @if (isset($allmarkdetail[$tbl_inc - 1]))
                                                                             @php
@@ -154,15 +161,6 @@
                                                                                     class="form-control mkkk mark_{{ $tbl_inc }}" />
                                                                             </td>
                                                                         @endif
-                                                                        
-                                                                        <td>
-                                                                            <input type="hidden" class="form-control"
-                                                                                name="cost[]"
-                                                                                value="{{ $prod->cost }}" />
-                                                                            <input type="text" readonly
-                                                                                class="form-control stock_{{ $tbl_inc }}"
-                                                                                name="stock[]"
-                                                                                value="{{ $prod->after_stock }}" /></td>
                                                                         <td><button type="button"
                                                                                 onclick="deleteTblRow(this)"
                                                                                 class="btn btn-danger"><i
