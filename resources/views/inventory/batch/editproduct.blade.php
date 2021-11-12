@@ -114,7 +114,7 @@
                                                                                 value="{{ $prod->category_id }}" />
                                                                         </td>
                                                                         <td>
-                                                                            <label>{{ $prod->initial_stock }}</label>
+                                                                            <label style="font-weight: bolder;">{{ $prod->initial_stock }}</label>
                                                                             <input type="hidden" name="initial_stock[]"
                                                                                 class="iStock_{{ $tbl_inc }}"
                                                                                 value="{{ $prod->initial_stock }}" />
@@ -126,13 +126,11 @@
                                                                             <input type="text" readonly
                                                                                 class="form-control stock_{{ $tbl_inc }}"
                                                                                 name="stock[]"
-                                                                                value="{{ $prod->after_stock }}" /></td>
+                                                                                value="{{ $prod->after_stock }}" style="font-weight: bolder;" /></td>
 
                                                                         @if (isset($allmarkdetail[$tbl_inc - 1]))
                                                                             @php
                                                                                 $markinc = 1;
-                                                                                // $incMarkId = $allmarkdetail[$tbl_inc - 1]['mark_id'];
-                                                                                // $incMarkId = json_decode($incMarkId);
                                                                                 $incMarkData = $allmarkdetail[$tbl_inc - 1]['mark_data'];
                                                                                 $incMarkData = json_decode($incMarkData);
 
@@ -140,15 +138,15 @@
                                                                             @foreach ($allmarks as $key => $mark)
                                                                                 @php
                                                                                     $makrval = $incMarkData[$markinc-1];
-                                                                                    // echo '<pre>'; print_r($incMarkData);
                                                                                 @endphp
 
-                                                                                    <td>
-                                                                                        <input type="text"
-                                                                                            value="{{ $makrval }}"
-                                                                                            name="mark_{{ ($key + 1) + count($allmarks) * ($prod->product_id - 1) }}"
-                                                                                            class="form-control mkkk mark_{{ $tbl_inc }}" />
-                                                                                    </td>
+                                                                                <td>
+                                                                                    <input type="text"
+                                                                                        value="{{ $makrval }}"
+                                                                                        name="mark_{{ ($key + 1) + count($allmarks) * ($prod->product_id - 1) }}"
+                                                                                        class="form-control mkkk mark_{{ $tbl_inc }}" />
+                                                                                </td>
+
                                                                                 @php
                                                                                     $td_inc++;
                                                                                     $markinc++;
