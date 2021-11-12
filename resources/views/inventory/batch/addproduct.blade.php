@@ -108,14 +108,14 @@
                                                                             value="{{ $prod->category }}" />
                                                                     </td>
                                                                     <td>
-                                                                        <label>{{ $prod->stock }}</label>
+                                                                        <label style="font-weight: bolder;">{{ $prod->stock }}</label>
                                                                         <input type="hidden" name="initial_stock[]"
                                                                             class="iStock_{{ $tbl_inc }}"
                                                                             value="{{ $prod->stock }}" />
                                                                     </td>
                                                                     <td>
                                                                         <input type="hidden" class="form-control" name="cost[]" value="{{ $prod->price }}"/>
-                                                                        <input type="text" readonly class="form-control stock_{{ $tbl_inc }}" name="stock[]" value="{{ $prod->stock }}" />
+                                                                        <input type="text" readonly class="form-control stock_{{ $tbl_inc }}" name="stock[]" value="{{ $prod->stock }}" style="font-weight: bolder;" />
                                                                     </td>
                                                                     @foreach ($allmarks as $key => $mark)
                                                                         <td>

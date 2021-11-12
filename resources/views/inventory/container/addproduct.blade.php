@@ -48,7 +48,7 @@
                                     <div class="d-flex align-items-center">
                                         <h3>
                                             {{ $batch->name }}
-                                            <input type="hidden" name="batch_id" value="{{$batch->id}}">
+                                            <input type="hidden" name="batch_id" value="{{ $batch->id }}">
                                         </h3>
                                     </div>
                                 </div>
@@ -82,98 +82,114 @@
                                                         id="myTable_{{ $increment }}" style="text-align: center;">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Product</th>
-                                                                
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Product</th>
+
                                                                 @php
                                                                     $counts = count(App\Mark::where('container_id', $container->id)->get());
                                                                 @endphp
-                                                                <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
-                                                                
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Cost</th>
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Price</th>
+                                                                <th scope="col" colspan="<?= $counts + 1 ?>"
+                                                                    style="text-align: center; border: 1px solid #999 !important;">
+                                                                    {{ $container->owner_name }}</th>
+
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Cost</th>
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Price</th>
                                                                 {{-- <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th> --}}
-                                                                <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;"></th>
                                                             </tr>
                                                             <tr>
                                                                 @foreach ($allmarks as $mark)
                                                                     <th scope="col">{{ $mark->name }}</th>
                                                                 @endforeach
+                                                                <th scope="col">Total</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @if(@$allproductdetail)
-                                                            @foreach ($allproductdetail as $prod)
-                                                                @if ($prod->category_id == $cus->id)
-                                                                    <tr id="row_{{ $tbl_inc }}" class="getRow">
-                                                                        <td>
-                                                                            <label>{{ $prod->product_name }}</label>
-                                                                            <input type="hidden" name="prodName[]"
-                                                                                value="{{ $prod->product_id }}" />
-                                                                            <input type="hidden" name="cat_id[]"
-                                                                                value="{{ $prod->category_id }}" />
-                                                                        </td>
-                                                                        <input type="hidden" name="initial_stock[]" class="iStock_{{ $tbl_inc }}" value="{{ $prod->initial_stock }}" />
+                                                            @if (@$allproductdetail)
+                                                                @foreach ($allproductdetail as $prod)
+                                                                    @if ($prod->category_id == $cus->id)
+                                                                        <tr id="row_{{ $tbl_inc }}"
+                                                                            class="getRow">
+                                                                            <td>
+                                                                                <label>{{ $prod->product_name }}</label>
+                                                                                <input type="hidden" name="prodName[]"
+                                                                                    value="{{ $prod->product_id }}" />
+                                                                                <input type="hidden" name="cat_id[]"
+                                                                                    value="{{ $prod->category_id }}" />
+                                                                            </td>
+                                                                            <input type="hidden" name="initial_stock[]"
+                                                                                class="iStock_{{ $tbl_inc }}"
+                                                                                value="{{ $prod->initial_stock }}" />
 
-                                                                        @if (isset($allmarkdetail[$tbl_inc - 1]))
-                                                                            @php
-                                                                                $markinc = 1;
-                                                                                $incMarkData = $allmarkdetail[$tbl_inc - 1]['mark_data'];
-                                                                                $incMarkData = json_decode($incMarkData);
-
-                                                                            @endphp
-                                                                            @foreach ($allmarks as $key => $mark)
+                                                                            @if (isset($allmarkdetail[$tbl_inc - 1]))
                                                                                 @php
-                                                                                    $makrval = $incMarkData[$markinc-1];
+                                                                                    $markinc = 1;
+                                                                                    $incMarkData = $allmarkdetail[$tbl_inc - 1]['mark_data'];
+                                                                                    $incMarkData = json_decode($incMarkData);
+                                                                                    $countOfprev = $prev_count;
+                                                                                    
                                                                                 @endphp
+                                                                                @foreach ($allmarks as $key => $mark)
+                                                                                    @php
+                                                                                        $makrval = $incMarkData[$markinc - 1 + $countOfprev];
+                                                                                        $total = $total + $makrval;
+                                                                                    @endphp
 
                                                                                     <td>
                                                                                         <label>{{ $makrval }}</label>
                                                                                         <input type="hidden"
                                                                                             value="{{ $makrval }}"
-                                                                                            name="mark_{{ ($key + 1) + count($allmarks) * ($prod->product_id - 1) }}"
+                                                                                            name="mark_{{ $key + 1 + count($allmarks) * ($prod->product_id - 1) }}"
                                                                                             class="form-control mkkk mark_{{ $tbl_inc }}" />
                                                                                     </td>
-                                                                                @php
-                                                                                    $td_inc++;
-                                                                                    $markinc++;
-                                                                                @endphp
-                                                                            @endforeach
-                                                                        @else
+                                                                                    @php
+                                                                                        $td_inc++;
+                                                                                        $markinc++;
+                                                                                    @endphp
+                                                                                @endforeach
+                                                                                <td><label>{{ $total }}</label></td>
+                                                                            @else
+                                                                                <td>
+                                                                                    <input type="text"
+                                                                                        name="mark_{{ $td_inc }}"
+                                                                                        class="form-control mkkk mark_{{ $tbl_inc }}" />
+                                                                                </td>
+                                                                            @endif
+
                                                                             <td>
-                                                                                <input type="text"
-                                                                                    name="mark_{{ $td_inc }}"
-                                                                                    class="form-control mkkk mark_{{ $tbl_inc }}" />
+                                                                                <label>{{ $prod->cost }}</label>
+                                                                                <input type="hidden" class="form-control"
+                                                                                    name="cost[]"
+                                                                                    value="{{ $prod->cost }}" />
                                                                             </td>
-                                                                        @endif
-                                                                        
-                                                                        <td>
-                                                                            <label>{{ $prod->cost }}</label>
-                                                                            <input type="hidden" class="form-control"
-                                                                                name="cost[]"
-                                                                                value="{{ $prod->cost }}" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="text" class="form-control"
-                                                                                name="price[]"
-                                                                                value="{{ $prod->price }}" />
-                                                                        </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control"
+                                                                                    name="price[]"
+                                                                                    value="{{ $prod->price }}" />
+                                                                            </td>
 
-                                                                        <input type="hidden" class="form-control stock_{{ $tbl_inc }}" name="stock[]" value="{{ $prod->after_stock }}" />
+                                                                            <input type="hidden"
+                                                                                class="form-control stock_{{ $tbl_inc }}"
+                                                                                name="stock[]"
+                                                                                value="{{ $prod->after_stock }}" />
 
-                                                                        <td>
-                                                                            <button type="button"
-                                                                                onclick="deleteTblRow(this)"
-                                                                                class="btn btn-danger">
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
+                                                                            <td>
+                                                                                <button type="button"
+                                                                                    onclick="deleteTblRow(this)"
+                                                                                    class="btn btn-danger">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
 
-                                                                    @php
-                                                                        $tbl_inc++;
-                                                                    @endphp
-                                                                @endif
-                                                            @endforeach
+                                                                        @php
+                                                                            $tbl_inc++;
+                                                                        @endphp
+                                                                    @endif
+                                                                @endforeach
                                                             @endif
                                                         </tbody>
                                                     </table>

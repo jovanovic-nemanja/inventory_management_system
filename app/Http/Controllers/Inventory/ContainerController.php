@@ -178,6 +178,12 @@ class ContainerController extends Controller
         $container = Container::where('id', $container_id)->first();
         $batch = Batch::where('id', $batch_id)->first();
         $allmarks = Mark::where('container_id', $container_id)->get();
+        $all_mark = Mark::all();
+        
+        $cur_mark = Mark::where('container_id', $container_id)->first();
+        // SELECT COUNT(*) FROM inventory_mark WHERE id < 30
+        $prev_count = Mark::where('id', '<', $cur_mark->id)->count();
+
         $allmarkdetail = Productmarkcontainer::where('batch_id', $batch_id)->get()->toArray();
         $allproductdetail = Productcontainer::where('batch_id', $batch_id)
             ->join('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
@@ -185,7 +191,7 @@ class ContainerController extends Controller
             ->get();
 
         if (sizeof($allproductdetail) <= 0) {
-            return view('inventory.container.addproduct', compact('batch', 'container', 'allproducts', 'allcategory', 'allmarks'));
+            return view('inventory.container.addproduct', compact('all_mark', 'prev_count', 'batch', 'container', 'allproducts', 'allcategory', 'allmarks'));
         }else{
             $allprod = Prod::whereNotIn('id', function($query){
                 $query->select('product_id')->from(with(new Productcontainer)->getTable());})  
@@ -194,7 +200,7 @@ class ContainerController extends Controller
 
             $allproductdetail = $allproductdetail->merge($allprod);
 
-            return view('inventory.container.editproduct', compact('batch', 'container', 'allproductdetail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmarks'));
+            return view('inventory.container.editproduct', compact('all_mark', 'prev_count', 'batch', 'container', 'allproductdetail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmarks'));
         }
     }
     public function storeProduct(Request $request)
