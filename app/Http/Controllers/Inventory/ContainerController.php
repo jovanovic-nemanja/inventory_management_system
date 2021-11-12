@@ -171,28 +171,21 @@ class ContainerController extends Controller
         }
     }
 
-    public function addProduct($id)
+    public function addProduct($container_id, $batch_id)
     {
         $allcategory = Inventorycategory::get();
         $allproducts = Prod::get();
-        $containers = Container::get();
-        $batch = Batch::where('id', $id)->first();
-        $allmarks = Mark::get();
-        $allmarkdetail = Productmarkcontainer::where('batch_id', $id)->get()->toArray();
-        $allproductdetail = Productcontainer::where('batch_id', $id)
+        $container = Container::where('id', $container_id)->first();
+        $batch = Batch::where('id', $batch_id)->first();
+        $allmarks = Mark::where('container_id', $container_id)->get();
+        $allmarkdetail = Productmarkcontainer::where('batch_id', $batch_id)->get()->toArray();
+        $allproductdetail = Productcontainer::where('batch_id', $batch_id)
             ->join('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
             ->select('inventory_container_to_product.*', 'inventory_product.name as product_name')
             ->get();
 
-        $cus_no = DB::table('inventory_mark')
-            ->join('inventory_customer', 'inventory_customer.id', '=', 'inventory_mark.customer_id')
-            ->where('inventory_mark.container_id', $id)
-            ->select('inventory_customer.id as cus_id', 'inventory_customer.name as cus_name')
-            ->distinct()
-            ->get();
-
         if (sizeof($allproductdetail) <= 0) {
-            return view('inventory.container.addproduct', compact('batch', 'containers', 'allproducts', 'allcategory', 'allmarks'));
+            return view('inventory.container.addproduct', compact('batch', 'container', 'allproducts', 'allcategory', 'allmarks'));
         }else{
             $allprod = Prod::whereNotIn('id', function($query){
                 $query->select('product_id')->from(with(new Productcontainer)->getTable());})  
@@ -201,7 +194,7 @@ class ContainerController extends Controller
 
             $allproductdetail = $allproductdetail->merge($allprod);
 
-            return view('inventory.container.editproduct', compact('batch', 'containers', 'allproductdetail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmarks'));
+            return view('inventory.container.editproduct', compact('batch', 'container', 'allproductdetail', 'allmarkdetail', 'allproducts', 'allcategory', 'allmarks'));
         }
     }
     public function storeProduct(Request $request)

@@ -331,7 +331,7 @@ Route::get('/inventory/container/edit/{id}', 'Inventory\ContainerController@edit
 Route::post('/inventory/container/update', 'Inventory\ContainerController@update')->name('container.update');
 Route::post('/inventory/container/store', 'Inventory\ContainerController@store')->name('container.store');
 Route::get('/inventory/container/delete/{id}', 'Inventory\ContainerController@delete_container')->name('container.delete');
-Route::get('/inventory/container/addproduct/{id}', 'Inventory\ContainerController@addProduct')->name('container.addproduct');
+Route::get('/inventory/container/addproduct/{containerid}/{batchid}', 'Inventory\ContainerController@addProduct')->name('container.addproduct');
 Route::get('/inventory/container/ajax_cat_prod/{id}', 'Inventory\ContainerController@ajax_cat_prod')->name('container.ajax_cat_prod');
 Route::post('/inventory/container/product/store', 'Inventory\ContainerController@storeProduct')->name('product.store');
 Route::get('/inventory/container/detail', 'Inventory\ContainerController@detaillist')->name('detail.index');

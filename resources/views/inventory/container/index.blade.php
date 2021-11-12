@@ -60,7 +60,7 @@
                                             <td>{{ $container->batch_name }}</td>
                                             <td>{{ $container->container_number }}</td>
                                             <td>
-                                                <a href="{{ route('container.addproduct', $container->container_batch) }}"
+                                                <a href="{{ route('container.addproduct', [$container->id, $container->container_batch]) }}"
                                                     data-toggle="tooltip" title="" class="btn btn-link btn-add"
                                                     data-original-title="Add">
                                                     <i class="fa fa-plus"></i>
