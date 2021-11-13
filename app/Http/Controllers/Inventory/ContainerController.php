@@ -20,6 +20,7 @@ use App\BatchProdPrices;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class ContainerController extends Controller
 {
@@ -549,5 +550,42 @@ class ContainerController extends Controller
                 $sheet->fromArray($data);
             });
         })->download($type);
+    }
+
+    /**
+     * Download the add-product as PDF.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadPDF($container_id, $batch_id)
+    {
+        $items = [];
+        $items['allcategory'] = Inventorycategory::get();
+        $items['allproducts'] = Prod::get();
+        $items['container'] = Container::where('id', $container_id)->first();
+        $items['batch'] = Batch::where('id', $batch_id)->first();
+        $items['allmarks'] = Mark::where('container_id', $container_id)->get();
+        $items['all_mark'] = Mark::all();
+        
+        $cur_mark = Mark::where('container_id', $container_id)->first();
+        $items['prev_count'] = Mark::where('id', '<', $cur_mark->id)->count();
+
+        $items['allmarkdetail'] = Productmarkcontainer::where('batch_id', $batch_id)->get()->toArray();
+        $items['allproductdetail'] = Productcontainer::where('batch_id', $batch_id)
+            ->join('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
+            ->select('inventory_container_to_product.*', 'inventory_product.name as product_name')
+            ->get();
+
+        $allprod = Prod::whereNotIn('id', function($query){
+            $query->select('product_id')->from(with(new Productcontainer)->getTable());})  
+            ->select('id as product_id','category as category_id','stock as initial_stock','price as cost','price as price','stock as after_stock','name as product_name',)
+            ->get();
+
+        $items['allproductdetail'] = $items['allproductdetail']->merge($allprod);
+
+        view()->share('items',$items);
+
+        // $pdf = PDF::loadView('pdfview');
+        // return $pdf->download('pdfview.pdf');
     }
 }
