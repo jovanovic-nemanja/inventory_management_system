@@ -254,8 +254,13 @@
                                 <div class="card-footer">
                                     <div class="card-action">
                                         <button type="submit" class="btn btn-success">Update</button>
-                                        <button type="button" id="makePdfContainer" class="btn btn-warning pull-right">
-                                            <i class="fas fa-file-pdf"></i> Download Loading List</button>
+                                        {{-- <button type="button" id="makePdfContainer" class="btn btn-warning pull-right">
+                                            <i class="fas fa-file-pdf"></i> Download Loading List
+                                        </button> --}}
+
+                                        <a href="{{ route('container.downloadPDF', [$container->id, $batch->id]) }}" class="btn btn-warning pull-right">
+                                            <i class="fas fa-file-pdf"></i> Download Loading List
+                                        </a>
 
                                         {{-- <button class="btn btn-danger pull-right">Lock Container</button> --}}
                                     </div>
