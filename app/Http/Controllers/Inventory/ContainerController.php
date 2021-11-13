@@ -584,6 +584,7 @@ class ContainerController extends Controller
         $items['allproductdetail'] = $items['allproductdetail']->merge($allprod);
 
         view()->share('items',$items);
+        
 
         // $pdf = PDF::loadView('pdfview');
         // return $pdf->download('pdfview.pdf');
