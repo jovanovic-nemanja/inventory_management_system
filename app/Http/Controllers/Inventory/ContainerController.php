@@ -16,6 +16,7 @@ use App\Consignee;
 use App\Productdistribution;
 use App\Shipper;
 use App\InventoryTypes;
+use App\BatchProdPrices;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -181,7 +182,6 @@ class ContainerController extends Controller
         $all_mark = Mark::all();
         
         $cur_mark = Mark::where('container_id', $container_id)->first();
-        // SELECT COUNT(*) FROM inventory_mark WHERE id < 30
         $prev_count = Mark::where('id', '<', $cur_mark->id)->count();
 
         $allmarkdetail = Productmarkcontainer::where('batch_id', $batch_id)->get()->toArray();
@@ -208,18 +208,25 @@ class ContainerController extends Controller
         $allproducts = Prod::count();
        
         for ($inc = 0; $inc < $allproducts; $inc++) {
-            $container = Productcontainer::where('batch_id', $request->batch_id)->where('product_id', $request->prodName[$inc])->first();
-            if(@$container) {
-                $container->price = $request->price[$inc];
-                $container->update();
+            $price_item = BatchProdPrices::where('container_id', $request->container_id)->where('batch_prod_id', $request->prodName[$inc])->first();
+            if(@$price_item) {
+                $price_item->price = $request->price[$inc];
+                $price_item->update();
+            }else{
+                BatchProdPrices::create([
+                    'batch_prod_id' => $request->prodName[$inc],
+                    'container_id' => $request->container_id,
+                    'price' => $request->price[$inc],
+                    'sign_date' => date('Y-m-d H:i:s')
+                ]);
             }
 
-            $productdistribution = Productdistribution::where('product_id', $request['prodName'][$inc])->where('batch_id', $request['batch_id'])->first();
-            if(@$productdistribution) {
-                $productdistribution->price = $request['price'][$inc];
+            // $productdistribution = Productdistribution::where('product_id', $request['prodName'][$inc])->where('batch_id', $request['batch_id'])->first();
+            // if(@$productdistribution) {
+            //     $productdistribution->price = $request['price'][$inc];
 
-                $productdistribution->update();
-            }
+            //     $productdistribution->update();
+            // }
         }
         return redirect()->route('container.index')->with('message', 'success|Product has been successfully Updated in container.');
     }

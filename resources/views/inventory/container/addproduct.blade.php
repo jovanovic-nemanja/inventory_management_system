@@ -166,9 +166,18 @@
                                                                                     value="{{ $prod->cost }}" />
                                                                             </td>
                                                                             <td>
+                                                                                @php
+                                                                                    $item = App\BatchProdPrices::where('batch_prod_id', $prod->id)->where('container_id', $container->id)->first();
+                                                                                    if (@$item) {
+                                                                                        $price = $item->price;
+                                                                                    }else{
+                                                                                        $price = 0;
+                                                                                    }
+                                                                                @endphp
+
                                                                                 <input type="text" class="form-control"
                                                                                     name="price[]"
-                                                                                    value="{{ $prod->price }}" />
+                                                                                    value="{{ $price }}" />
                                                                             </td>
 
                                                                             <input type="hidden"
