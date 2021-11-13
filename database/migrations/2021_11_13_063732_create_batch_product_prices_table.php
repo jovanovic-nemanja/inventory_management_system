@@ -19,6 +19,7 @@ class CreateBatchProductPricesTable extends Migration
             $table->integer('batch_prod_id');
             $table->integer('container_id');
             $table->text('price');
+            $table->integer('vat');
             $table->date_time('sign_date');
 
             $table->timestamps();

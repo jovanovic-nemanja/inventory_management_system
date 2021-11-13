@@ -211,12 +211,14 @@ class ContainerController extends Controller
             $price_item = BatchProdPrices::where('container_id', $request->container_id)->where('batch_prod_id', $request->prodName[$inc])->first();
             if(@$price_item) {
                 $price_item->price = $request->price[$inc];
+                $price_item->vat = $request->vat[$inc];
                 $price_item->update();
             }else{
                 BatchProdPrices::create([
                     'batch_prod_id' => $request->prodName[$inc],
                     'container_id' => $request->container_id,
                     'price' => $request->price[$inc],
+                    'vat' => $request->vat[$inc],
                     'sign_date' => date('Y-m-d H:i:s')
                 ]);
             }

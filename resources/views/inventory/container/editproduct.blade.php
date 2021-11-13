@@ -97,7 +97,19 @@
                                                                     style="border: 1px solid #999 !important;">Cost</th>
                                                                 <th scope="col" rowspan="2"
                                                                     style="border: 1px solid #999 !important;">Price</th>
-                                                                {{-- <th scope="col" rowspan="2" style="border: 1px solid #999 !important;">Stock After</th> --}}
+                                                                    
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Vat</th>
+
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Vat Price</th>
+
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Total Price</th>
+
+                                                                <th scope="col" rowspan="2"
+                                                                    style="border: 1px solid #999 !important;">Profit</th>
+
                                                                 <th scope="col" rowspan="2"
                                                                     style="border: 1px solid #999 !important;"></th>
                                                             </tr>
@@ -140,7 +152,6 @@
                                                                                 @php
                                                                                     $makrval = $incMarkData[$markinc - 1 + $countOfprev];
                                                                                     $total = $total + $makrval;
-                                                                                    // echo '<pre>'; print_r($incMarkData);
                                                                                 @endphp
 
                                                                                 <td>
@@ -165,7 +176,7 @@
                                                                         @endif
 
                                                                         <td>
-                                                                            <label>{{ $prod->cost }}</label>
+                                                                            <label>{{ number_format(round($prod->cost, 0, PHP_ROUND_HALF_UP), 2) }}</label>
                                                                             <input type="hidden" class="form-control"
                                                                                 name="cost[]"
                                                                                 value="{{ $prod->cost }}" />
@@ -173,17 +184,43 @@
                                                                         <td>
                                                                             @php
                                                                                 $item = App\BatchProdPrices::where('batch_prod_id', $prod->product_id)->where('container_id', $container->id)->first();
-                                                                                // dd($item);
                                                                                 if (@$item) {
                                                                                     $price = $item->price;
+                                                                                    $vat = ($item->vat == 1) ? 0 : 5;
+                                                                                    $vt = $item->vat;
                                                                                 }else{
                                                                                     $price = 0;
+                                                                                    $vat = 0;
+                                                                                    $vt = 1;
                                                                                 }
+
+                                                                                $vat_price = $vat * $price / 100;
+                                                                                $total_price = $vat_price + $price;
+                                                                                $profit = $total_price - $prod->cost;
                                                                             @endphp
 
                                                                             <input type="text" class="form-control"
                                                                                 name="price[]"
                                                                                 value="{{ $price }}" />
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <select class="form-control" name="vat[]">
+                                                                                <option value="1" <?php if($vt == 1) { echo "selected"; } ?>>0%</option>
+                                                                                <option value="2" <?php if($vt == 2) { echo "selected"; } ?>>5%</option>
+                                                                            </select>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input type="text" class="form-control" name="vat_price[]" value="{{ number_format(round($vat_price, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input type="text" class="form-control" name="total_price[]" value="{{ number_format(round($total_price, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input type="text" class="form-control" name="profit[]" value="{{ number_format(round($profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
                                                                         </td>
 
                                                                         <input type="hidden"
