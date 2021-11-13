@@ -9,3 +9,5 @@ https://greenflag.projexcost.com/inventoryboard
 # php artisan config:clear
 # php artisan migrate --seed
 # php artisan serve
+
+Made by Nemanja Jovanovic
