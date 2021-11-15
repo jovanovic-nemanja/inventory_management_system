@@ -692,6 +692,7 @@
         </div>-->
         <!-- End Custom template -->
     </div>
+    
     <!--   Core JS Files   -->
     <script src="{{ asset('admindesign/js/core/jquery.3.2.1.min.js') }}"></script>
     <script src="{{ asset('admindesign/js/core/popper.min.js') }}"></script>
@@ -917,18 +918,7 @@
 
 
         $('#makePdfContainer1').click(function() {
-            var pdf = new jsPDF('p', 'pt', 'letter')
-
-            // source can be HTML-formatted string, or a reference
-            // to an actual DOM element from which the text will be scraped.
-            , source = $('#sideview5')[0]
-
-            // we support special element handlers. Register them with jQuery-style
-            // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-            // There is no support for any other type of selectors
-            // (class, of compound) at this time.
-            , specialElementHandlers = {
-            }
+            var pdf = new jsPDF('p', 'pt', 'letter'), source = $('#sideview5')[0], specialElementHandlers = {}
 
             margins = {
                 top: 80,
@@ -957,67 +947,35 @@
         });
 
         $('#makePdfContainer').click(function() {
-
-
-
             var HTML_Width = $("#sideview5").width();
-		var HTML_Height = $("#sideview5").height();
-		var top_left_margin = 25;
-		var PDF_Width = HTML_Width+(top_left_margin*2);
-		var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
-		var canvas_image_width = HTML_Width;
-		var canvas_image_height = HTML_Height;
+            var HTML_Height = $("#sideview5").height();
+            var top_left_margin = 25;
+            var PDF_Width = HTML_Width+(top_left_margin*2);
+            var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+            var canvas_image_width = HTML_Width;
+            var canvas_image_height = HTML_Height;
+            
+            var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
 		
-		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
-		
 
-		html2canvas($("#sideview5")[0],{allowTaint:true}).then(function(canvas) {
-			canvas.getContext('2d');
-			
-			console.log(canvas.height+"  "+canvas.width);
-			
-			
-			var imgData = canvas.toDataURL("image/jpeg", 1.0);
-			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-			
-			
-			for (var i = 1; i <= totalPDFPages; i++) { 
-				pdf.addPage(PDF_Width, PDF_Height);
-				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-			}
-			
-		    pdf.save("loading-list.pdf");
-        });
-
-
-
-
-
-        // var doc = new jsPDF('p', 'pt', 'a4');
-
-// doc.fromHTML($('#sideview5'), {
-//   callback: function (doc) {
-//     doc.save('MLB.pdf');
-//   },
-//   margin: [60, 60, 60, 60],
-//   x: 32,
-//   y: 32,
-// });
-
-
-
-
-
-
-    //         var doc = new jsPDF();
-    //         var options = {
-    //           pagesplit: true 
-    //   };
-    //         doc.addHTML($('#sideview5'), {pagesplit:true}, function() {
-    //             doc.save('loading_list.pdf');
-    //         });
-
+            html2canvas($("#sideview5")[0],{allowTaint:true}).then(function(canvas) {
+                canvas.getContext('2d');
+                
+                console.log(canvas.height+"  "+canvas.width);
+                
+                
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);
+                var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+                pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+                
+                
+                for (var i = 1; i <= totalPDFPages; i++) { 
+                    pdf.addPage(PDF_Width, PDF_Height);
+                    pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+                }
+                
+                pdf.save("loading-list.pdf");
+            });
         });
     </script>
     <script>
@@ -1535,7 +1493,7 @@
 				});
     </script>
 
-
+    @yield('script')
 </body>
 
 </html>

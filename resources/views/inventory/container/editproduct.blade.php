@@ -199,13 +199,13 @@
                                                                                 $profit = $total_price - $prod->cost;
                                                                             @endphp
 
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="text" class="form-control container_price"
                                                                                 name="price[]"
                                                                                 value="{{ $price }}" />
                                                                         </td>
 
                                                                         <td>
-                                                                            <select class="form-control" name="vat[]">
+                                                                            <select class="form-control container_vat_choose" name="vat[]">
                                                                                 <option value="1" <?php if($vt == 1) { echo "selected"; } ?>>0%</option>
                                                                                 <option value="2" <?php if($vt == 2) { echo "selected"; } ?>>5%</option>
                                                                             </select>
@@ -254,15 +254,10 @@
                                 <div class="card-footer">
                                     <div class="card-action">
                                         <button type="submit" class="btn btn-success">Update</button>
-                                        {{-- <button type="button" id="makePdfContainer" class="btn btn-warning pull-right">
-                                            <i class="fas fa-file-pdf"></i> Download Loading List
-                                        </button> --}}
 
                                         <a href="{{ route('container.downloadPDF', [$container->id, $batch->id]) }}" class="btn btn-warning pull-right">
                                             <i class="fas fa-file-pdf"></i> Download Loading List
                                         </a>
-
-                                        {{-- <button class="btn btn-danger pull-right">Lock Container</button> --}}
                                     </div>
                                 </div>
                             </div>
@@ -272,6 +267,8 @@
             </div>
         </div>
     </div>
+@stop
 
-
+@section('script')
+    <script src="{{ asset('custom/inventory.js') }}"></script>
 @endsection
