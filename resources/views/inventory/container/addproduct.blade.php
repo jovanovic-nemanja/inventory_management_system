@@ -265,5 +265,8 @@
             </div>
         </div>
     </div>
+@stop
 
+@section('script')
+    <script src="{{ asset('custom/inventory.js') }}"></script>
 @endsection
