@@ -1,70 +1,57 @@
-@extends('layouts.inventory')
+@extends('layouts.inventory', ['menu' => 'batch'])
 
 @section('content')
 
-<div class="main-panel">
-    <div class="content">
-        <div class="page-inner">
-            <?php echo displayAlert(); ?>
-            @if ($errors->any())
-            @endif
-            <div class="page-header">
-                <h4 class="page-title">Batch</h4>
-                <ul class="breadcrumbs">
-                    <li class="nav-home">
-                        <a href="#">
-                            <i class="flaticon-home"></i>
-                        </a>
-                    </li>
-                    <li class="separator">
-                        <i class="flaticon-right-arrow"></i>
-                    </li>
+    <?php echo displayAlert(); ?>
+    @if ($errors->any())
+    @endif
 
-                    <li class="nav-item">
-                        <a href="#">Batch</a>
-                    </li>
-                </ul>
+    <div class="page-header">
+        <h3 class="page-title"> {{$batch_detail->name}} </h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url('inventory/container/batch') }}">Batch</a></li>
+                <li class="breadcrumb-item active" aria-current="page">View</li>
+            </ol>
+        </nav>
+    </div>
 
-
-
-            </div>
+    <div class="card grid-margin">
+        <div class="card-body">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                           <h2 class="page-title" style="color:#6761b5;"> {{$batch_detail->name}} </h2>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="add-row" class="display table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Container Number</th>
-                                            <th>Shipper Name</th>
-                                            <th>Consignee Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($allcontainer as $category)
-                                        <tr style="background-color: #cef0ac;">
-                                            <td>{{ $category->created_at }}</td>
-                                            <td>{{ $category->container_number }}</td>
-                                            <td>{{ $category->shipper_name }}</td>
-                                            <td>{{ $category->consignee_name }}</td>
-
-                                        </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table id="order-listing" class="table">
+                            <thead>
+                                <tr>
+                                    <th>No #</th>
+                                    <th>Date</th>
+                                    <th>Container Number</th>
+                                    <th>Shipper Name</th>
+                                    <th>Consignee Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @foreach ($allcontainer as $category)
+                                    <tr style="background-color: #cef0ac;">
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $category->created_at }}</td>
+                                        <td>{{ $category->container_number }}</td>
+                                        <td>{{ $category->shipper_name }}</td>
+                                        <td>{{ $category->consignee_name }}</td>
+                                    </tr>
+                                    @php
+                                        $i++;
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @stop

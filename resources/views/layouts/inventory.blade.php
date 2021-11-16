@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Dashboard</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
@@ -9,774 +10,169 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts and icons -->
-    <script src="{{ asset('admindesign/js/plugin/webfont/webfont.min.js') }}"></script>
-    <script>
-        WebFont.load({
-            google: {
-                "families": ["Lato:300,400,700,900"]
-            },
-            custom: {
-                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands", "simple-line-icons"
-                ],
-                urls: ["{{ asset('admindesign/css/fonts.min.css ') }}"]
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ asset('admindesign/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admindesign/css/millenium.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/simple-line-icons/css/simple-line-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/codemirror/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/codemirror/ambiance.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-toast-plugin/jquery.toast.min.css') }}">
 
-    <!-- Image uploader-->
-    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link type="text/css" rel="stylesheet" href="{{ asset('newdesign/css/image-uploader.min.css') }}">
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{ asset('admindesign/css/demo.css') }}">
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="main-header">
-            <!-- Logo Header -->
-            <div class="logo-header" data-background-color="purple">
-
-                <a href="/" class="logo">
-                    {{-- <img src="{{ asset('admindesign/img/logo.png') }}" alt="navbar brand" class="navbar-brand"
-                    style="width: 54%;"> --}}
-                </a>
-                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
-                    data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon">
-                        <i class="icon-menu"></i>
-                    </span>
-                </button>
-                <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
-                <div class="nav-toggle">
-                    <button class="btn btn-toggle toggle-sidebar">
-                        <i class="icon-menu"></i>
-                    </button>
+    <div class="container-scroller">
+        <!-- partial:partials/_horizontal-navbar.html -->
+        <div class="horizontal-menu">
+            <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+                <div class="container">
+                    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                        <a class="navbar-brand brand-logo" href="{{ url('/inventoryboard') }}"><img style="height: 60px !important;" src="{{ asset('admindesign/img/logo.png') }}" alt="logo" /></a>
+                        <a class="navbar-brand brand-logo-mini" href="{{ url('/inventoryboard') }}"><img src="{{ asset('admindesign/img/logo.png') }}" alt="logo" /></a>
+                    </div>
+                    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                        <ul class="navbar-nav navbar-nav-right">
+                            <li class="nav-item dropdown d-inline-flex align-items-center user-dropdown">
+                                <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                                    <img class="img-xs rounded-circle mr-2" src="{{ asset('admindesign/img/profile.jpg') }}" alt="Profile image"> <span class="d-none d-md-inline"> Super Admin </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                                    <div class="dropdown-header text-center">
+                                        <img class="img-xs rounded-circle mr-2" src="{{ asset('admindesign/img/profile.jpg') }}" alt="Profile image">
+                                        <p class="mb-1 mt-3 font-weight-semibold">Super Admin</p>
+                                        <p class="font-weight-light text-muted mb-0">saels@inventory.com</p>
+                                    </div>
+                                    <a class="dropdown-item" href="/"><i class="dropdown-item-icon icon-user text-primary"></i> Visit Website </a>
+                                    <a class="dropdown-item" href="{{ url('admin/general') }}"><i class="dropdown-item-icon icon-speech text-primary"></i> Site Settings</a>
+                                    <a class="dropdown-item" onClick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                            <span class="icon-menu"></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <!-- End Logo Header -->
-
-            <!-- Navbar Header -->
-            <nav class="navbar navbar-header navbar-expand-lg" data-background-color="purple2">
-
-                <div class="container-fluid">
-
-                    <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-
-                        <li class="nav-item dropdown hidden-caret">
-                            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
-                                aria-expanded="false">
-                                <div class="avatar-sm">
-                                    {{-- <img src="{{ asset('admindesign/img/profile.jpg') }}" alt="..."
-                                    class="avatar-img rounded-circle"> --}}
-                                </div>
+            </nav>
+            <nav class="bottom-navbar">
+                <div class="container">
+                    <ul class="nav page-navigation">
+                        <li class="nav-item <?= ($menu == "dashboard") ? "active" : "" ?>">
+                            <a class="nav-link" href="{{ url('/inventoryboard') }}">
+                                <i class="icon-home menu-icon"></i>
+                                <span class="menu-title">Dashboard</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-user animated fadeIn">
-                                <div class="dropdown-user-scroll scrollbar-outer">
-                                    <li>
-                                        <div class="user-box">
-                                            <div class="avatar-lg"><img
-                                                    src="{{ asset('admindesign/img/profile.jpg') }}"
-                                                    alt="image profile" class="avatar-img rounded"></div>
-                                            <div class="u-text">
-                                                <h4>Super Admin</h4>
-                                                <p class="text-muted">saels@inventory.com</p>
-                                                <a href="/" class="btn btn-xs btn-secondary btn-sm">Visit
-                                                    Website</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ url('admin/general') }}">Site Settings</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onClick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    </li>
-                                </div>
-                            </ul>
                         </li>
-
+                        <li class="nav-item <?= ($menu == "batch") ? "active" : "" ?>">
+                            <a class="nav-link" href="{{ url('inventory/container/batch') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Batch</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('inventory/container') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Container</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="icon-book-open menu-icon"></i>
+                                <span class="menu-title">Resources</span>
+                                <i class="menu-arrow"></i></a>
+                            <div class="submenu">
+                                <ul class="submenu-item">
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/prod') }}">Products</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/unit') }}">Units</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/category') }}">Category</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/container/detail') }}">Container Setting</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/container/type') }}">Container Type</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('inventory/customer') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Customer</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('inventory/supplier') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Supplier</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('inventory/purchase') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Purchase</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('inventory/shipper') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Shipper Info</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('inventory/consignee') }}">
+                                <i class="icon-reload menu-icon"></i>
+                                <span class="menu-title">Consignee Info</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
-            <!-- End Navbar -->
         </div>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                <div class="sidebar-content">
-
-                    <ul class="nav nav-secondary">
-                        <li class="nav-item">
-                            <a href="{{ url('/inventoryboard') }}">
-                                <i class="fas fa-certificate"></i>
-                                {{ __('Dashboard') }}
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                                <a href="{{ url('inventory/label') }}">
-                        <i class="fas fa-certificate"></i>
-                        {{ __('Label') }}
-                        </a>
-                        </li> --}}
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/container/batch') }}">
-                                <i class="fas fa-certificate"></i>
-                                {{ __('Batch') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/container') }}">
-                                <i class="fas fa-certificate"></i>
-                                {{ __('Container') }}
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a href="{{ url('inventory/prod') }}">
-                                <i class="fab fa-product-hunt"></i>
-                                {{ __('Products') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-
-                            <a href="{{ url('inventory/unit') }}">
-                                <i class="fab fa-product-hunt"></i>
-                                {{ __('Units') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-
-                            <a href="{{ url('inventory/category') }}">
-                                <i class="fab fa-product-hunt"></i>
-                                {{ __('Category') }}
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/customer') }}">
-                                <i class="far fa-hand-paper"></i>
-                                {{ __('Customers') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/supplier') }}">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Supplier') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/purchase') }}">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Purchase') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/shipper') }}">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Shipper Info') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/consignee') }}">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Consignee Info') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/container/detail') }}">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Setting') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('inventory/container/type') }}">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Container Type') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" onClick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fab fa-first-order-alt"></i>
-                                {{ __('Logout') }}
-                            </a>
-                        </li>
-                        
-                    </ul>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @yield('content')
                 </div>
+            
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer container">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <?= date('Y'); ?> Stellar. All rights reserved. <a href="/"> Terms of use</a><a href="/">Privacy Policy</a></span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="icon-heart text-danger"></i></span>
+                    </div>
+                </footer>
+                <!-- partial -->
             </div>
         </div>
-        <!-- End Sidebar -->
-
-        @yield('content')
-
-        <div class="quick-sidebar">
-            <a href="#" class="close-quick-sidebar">
-                <i class="flaticon-cross"></i>
-            </a>
-            <div class="quick-sidebar-wrapper">
-                <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
-                    <li class="nav-item"> <a class="nav-link active show" data-toggle="tab" href="#messages" role="tab"
-                            aria-selected="true">Messages</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tasks" role="tab"
-                            aria-selected="false">Tasks</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab"
-                            aria-selected="false">Settings</a> </li>
-                </ul>
-                <div class="tab-content mt-3">
-                    <div class="tab-chat tab-pane fade show active" id="messages" role="tabpanel">
-                        <div class="messages-contact">
-                            <div class="quick-wrapper">
-                                <div class="quick-scroll scrollbar-outer">
-                                    <div class="quick-content contact-content">
-                                        <span class="category-title mt-0">Contacts</span>
-                                        <div class="avatar-group">
-                                            <div class="avatar">
-                                                <img src="{{ asset('admindesign/img/jm_denis.jpg') }}" alt="..."
-                                                    class="avatar-img rounded-circle border border-white">
-                                            </div>
-                                            <div class="avatar">
-                                                <img src="{{ asset('admindesign/img/chadengle.jpg') }}" alt="...""
-                                                    class=" avatar-img rounded-circle border border-white">
-                                            </div>
-                                            <div class="avatar">
-                                                <img src="{{ asset('admindesign/img/mlane.jpg') }}" alt="..."
-                                                    class="avatar-img rounded-circle border border-white">
-                                            </div>
-                                            <div class="avatar">
-                                                <img src="{{ asset('admindesign/img/talha.jpg') }}" alt="..."
-                                                    class="avatar-img rounded-circle border border-white">
-                                            </div>
-                                            <div class="avatar">
-                                                <span class="avatar-title rounded-circle border border-white">+</span>
-                                            </div>
-                                        </div>
-                                        <span class="category-title">Recent</span>
-
-                                        <span class="category-title">Other Contacts</span>
-                                        <div class="contact-list">
-                                            <div class="user">
-                                                <a href="#">
-                                                    <div class="avatar avatar-online">
-                                                        <img src="{{ asset('admindesign/img/jm_denis.jpg') }}"
-                                                            alt="..."
-                                                            class="avatar-img rounded-circle border border-white">
-                                                    </div>
-                                                    <div class="user-data2">
-                                                        <span class="name">Jimmy Denis</span>
-                                                        <span class="status">Online</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="user">
-                                                <a href="#">
-                                                    <div class="avatar avatar-offline">
-                                                        <img src="{{ asset('admindesign/img/chadengle.jpg') }}"
-                                                            alt="..."
-                                                            class="avatar-img rounded-circle border border-white">
-                                                    </div>
-                                                    <div class="user-data2">
-                                                        <span class="name">Chad</span>
-                                                        <span class="status">Active 2h ago</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="user">
-                                                <a href="#">
-                                                    <div class="avatar avatar-away">
-                                                        <img src="{{ asset('admindesign/img/talha.jpg') }}" alt="..."
-                                                            class="avatar-img rounded-circle border border-white">
-                                                    </div>
-                                                    <div class="user-data2">
-                                                        <span class="name">Talha</span>
-                                                        <span class="status">Away</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="messages-wrapper">
-                            <div class="messages-title">
-                                <div class="user">
-                                    <div class="avatar avatar-offline float-right ml-2">
-                                        <img src="{{ asset('admindesign/img/chadengle.jpg') }}" alt="..."
-                                            class="avatar-img rounded-circle border border-white">
-                                    </div>
-                                    <span class="name">Chad</span>
-                                    <span class="last-active">Active 2h ago</span>
-                                </div>
-                                <button class="return">
-                                    <i class="flaticon-left-arrow-3"></i>
-                                </button>
-                            </div>
-                            <div class="messages-body messages-scroll scrollbar-outer">
-                                <div class="message-content-wrapper">
-                                    <div class="message message-in">
-                                        <div class="avatar avatar-sm">
-                                            <img src="{{ asset('admindesign/img/chadengle.jpg') }}" alt="..."
-                                                class="avatar-img rounded-circle border border-white">
-                                        </div>
-                                        <div class="message-body">
-                                            <div class="message-content">
-                                                <div class="name">Chad</div>
-                                                <div class="content">Hello, Rian</div>
-                                            </div>
-                                            <div class="date">12.31</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="message-content-wrapper">
-                                    <div class="message message-out">
-                                        <div class="message-body">
-                                            <div class="message-content">
-                                                <div class="content">
-                                                    Hello, Chad
-                                                </div>
-                                            </div>
-                                            <div class="message-content">
-                                                <div class="content">
-                                                    What's up?
-                                                </div>
-                                            </div>
-                                            <div class="date">12.35</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="message-content-wrapper">
-                                    <div class="message message-in">
-                                        <div class="avatar avatar-sm">
-                                            <img src="{{ asset('admindesign/img/chadengle.jpg') }}" alt="" ..."
-                                                class="avatar-img rounded-circle border border-white">
-                                        </div>
-                                        <div class="message-body">
-                                            <div class="message-content">
-                                                <div class="name">Chad</div>
-                                                <div class="content">
-                                                    Thanks
-                                                </div>
-                                            </div>
-                                            <div class="message-content">
-                                                <div class="content">
-                                                    When is the deadline of the project we are working on ?
-                                                </div>
-                                            </div>
-                                            <div class="date">13.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="message-content-wrapper">
-                                    <div class="message message-out">
-                                        <div class="message-body">
-                                            <div class="message-content">
-                                                <div class="content">
-                                                    The deadline is about 2 months away
-                                                </div>
-                                            </div>
-                                            <div class="date">13.10</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="message-content-wrapper">
-                                    <div class="message message-in">
-                                        <div class="avatar avatar-sm">
-                                            <img src="{{ asset('admindesign/img/chadengle.jpg') }}" alt="..."
-                                                class="avatar-img rounded-circle border border-white">
-                                        </div>
-                                        <div class="message-body">
-                                            <div class="message-content">
-                                                <div class="name">Chad</div>
-                                                <div class="content">
-                                                    Ok, Thanks !
-                                                </div>
-                                            </div>
-                                            <div class="date">13.15</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="messages-form">
-                                <div class="messages-form-control">
-                                    <input type="text" placeholder="Type here"
-                                        class="form-control input-pill input-solid message-input">
-                                </div>
-                                <div class="messages-form-tool">
-                                    <a href="#" class="attachment">
-                                        <i class="flaticon-file"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tasks" role="tabpanel">
-                        <div class="quick-wrapper tasks-wrapper">
-                            <div class="tasks-scroll scrollbar-outer">
-                                <div class="tasks-content">
-                                    <span class="category-title mt-0">Today</span>
-                                    <ul class="tasks-list">
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" checked="" class="custom-control-input"><span
-                                                    class="custom-control-label">Planning new project structure</span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    class="custom-control-label">Create the main structure </span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    class="custom-control-label">Add new Post</span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    class="custom-control-label">Finalise the design proposal</span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                    </ul>
-
-                                    <span class="category-title">Tomorrow</span>
-                                    <ul class="tasks-list">
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    class="custom-control-label">Initialize the project </span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    class="custom-control-label">Create the main structure </span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    class="custom-control-label">Updates changes to GitHub </span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="custom-checkbox custom-control checkbox-secondary">
-                                                <input type="checkbox" class="custom-control-input"><span
-                                                    title="This task is too long to be displayed in a normal space!"
-                                                    class="custom-control-label">This task is too long to be displayed
-                                                    in a normal space! </span>
-                                                <span class="task-action">
-                                                    <a href="#" class="link text-danger">
-                                                        <i class="flaticon-interface-5"></i>
-                                                    </a>
-                                                </span>
-                                            </label>
-                                        </li>
-                                    </ul>
-
-                                    <div class="mt-3">
-                                        <div class="btn btn-primary btn-rounded btn-sm">
-                                            <span class="btn-label">
-                                                <i class="fa fa-plus"></i>
-                                            </span>
-                                            Add Task
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="settings" role="tabpanel">
-                        <div class="quick-wrapper settings-wrapper">
-                            <div class="quick-scroll scrollbar-outer">
-                                <div class="quick-content settings-content">
-
-                                    <span class="category-title mt-0">General Settings</span>
-                                    <ul class="settings-list">
-                                        <li>
-                                            <span class="item-label">Enable Notifications</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" checked data-toggle="toggle"
-                                                    data-onstyle="primary" data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">Signin with social media</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary"
-                                                    data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">Backup storage</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary"
-                                                    data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">SMS Alert</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" checked data-toggle="toggle"
-                                                    data-onstyle="primary" data-style="btn-round">
-                                            </div>
-                                        </li>
-                                    </ul>
-
-                                    <span class="category-title mt-0">Notifications</span>
-                                    <ul class="settings-list">
-                                        <li>
-                                            <span class="item-label">Email Notifications</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" checked data-toggle="toggle"
-                                                    data-onstyle="primary" data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">New Comments</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" checked data-toggle="toggle"
-                                                    data-onstyle="primary" data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">Chat Messages</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" checked data-toggle="toggle"
-                                                    data-onstyle="primary" data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">Project Updates</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" data-toggle="toggle" data-onstyle="primary"
-                                                    data-style="btn-round">
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span class="item-label">New Tasks</span>
-                                            <div class="item-control">
-                                                <input type="checkbox" checked data-toggle="toggle"
-                                                    data-onstyle="primary" data-style="btn-round">
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Custom template | don't include it in your project! -->
-        <!--<div class="custom-template">
-            <div class="title">Settings</div>
-            <div class="custom-content">
-                <div class="switcher">
-                    <div class="switch-block">
-                        <h4>Logo Header</h4>
-                        <div class="btnSwitch">
-                            <button type="button" class="changeLogoHeaderColor" data-color="dark"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="blue"></button>
-                            <button type="button" class="selected changeLogoHeaderColor" data-color="purple"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="light-blue"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="green"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="orange"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="red"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="white"></button>
-                            <br />
-                            <button type="button" class="changeLogoHeaderColor" data-color="dark2"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="blue2"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="purple2"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="light-blue2"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="green2"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="orange2"></button>
-                            <button type="button" class="changeLogoHeaderColor" data-color="red2"></button>
-                        </div>
-                    </div>
-                    <div class="switch-block">
-                        <h4>Navbar Header</h4>
-                        <div class="btnSwitch">
-                            <button type="button" class="changeTopBarColor" data-color="dark"></button>
-                            <button type="button" class="changeTopBarColor" data-color="blue"></button>
-                            <button type="button" class="changeTopBarColor" data-color="purple"></button>
-                            <button type="button" class="changeTopBarColor" data-color="light-blue"></button>
-                            <button type="button" class="changeTopBarColor" data-color="green"></button>
-                            <button type="button" class="changeTopBarColor" data-color="orange"></button>
-                            <button type="button" class="changeTopBarColor" data-color="red"></button>
-                            <button type="button" class="changeTopBarColor" data-color="white"></button>
-                            <br />
-                            <button type="button" class="changeTopBarColor" data-color="dark2"></button>
-                            <button type="button" class="changeTopBarColor" data-color="blue2"></button>
-                            <button type="button" class="selected changeTopBarColor" data-color="purple2"></button>
-                            <button type="button" class="changeTopBarColor" data-color="light-blue2"></button>
-                            <button type="button" class="changeTopBarColor" data-color="green2"></button>
-                            <button type="button" class="changeTopBarColor" data-color="orange2"></button>
-                            <button type="button" class="changeTopBarColor" data-color="red2"></button>
-                        </div>
-                    </div>
-                    <div class="switch-block">
-                        <h4>Sidebar</h4>
-                        <div class="btnSwitch">
-                            <button type="button" class="selected changeSideBarColor" data-color="white"></button>
-                            <button type="button" class="changeSideBarColor" data-color="dark"></button>
-                            <button type="button" class="changeSideBarColor" data-color="dark2"></button>
-                        </div>
-                    </div>
-                    <div class="switch-block">
-                        <h4>Background</h4>
-                        <div class="btnSwitch">
-                            <button type="button" class="changeBackgroundColor" data-color="bg2"></button>
-                            <button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
-                            <button type="button" class="changeBackgroundColor" data-color="bg3"></button>
-                            <button type="button" class="changeBackgroundColor" data-color="dark"></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="custom-toggle">
-                <i class="flaticon-settings"></i>
-            </div>
-        </div>-->
-        <!-- End Custom template -->
+        <!-- main-panel ends -->
     </div>
     
-    <!--   Core JS Files   -->
-    <script src="{{ asset('admindesign/js/core/jquery.3.2.1.min.js') }}"></script>
-    <script src="{{ asset('admindesign/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('admindesign/js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/misc.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/todolist.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> --}}
 
-    <!-- jQuery UI -->
-    <script src="{{ asset('admindesign/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('admindesign/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('assets/js/data-table.js') }}"></script>
+    
+    <script src="{{ asset('assets/vendors/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.js') }}"></script>
 
-    <!-- jQuery Scrollbar -->
-    <script src="{{ asset('admindesign/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/daterangepicker/daterangepicker.js') }}"></script>
 
-    <!-- Moment JS -->
-    <script src="{{ asset('admindesign/js/plugin/moment/moment.min.js') }}"></script>
-
-    <!-- Chart JS -->
-    <script src="{{ asset('admindesign/js/plugin/chart.js/chart.min.js') }}"></script>
-
-    <!-- jQuery Sparkline -->
-    <script src="{{ asset('admindesign/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-
-    <!-- Chart Circle -->
-    <script src="{{ asset('admindesign/js/plugin/chart-circle/circles.min.js') }}"></script>
-
-    <!-- Datatables -->
-    <script src="{{ asset('admindesign/js/plugin/datatables/datatables.min.js') }}"></script>
-
-    <!-- Bootstrap Notify -->
-    <script src="{{ asset('admindesign/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-
-    <!-- Bootstrap Toggle -->
-    <script src="{{ asset('admindesign/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js') }}"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="{{ asset('admindesign/js/plugin/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('admindesign/js/plugin/jqvmap/maps/jquery.vmap.world.js') }}"></script>
-
-    <!-- Google Maps Plugin -->
-    <script src="{{ asset('admindesign/js/plugin/gmaps/gmaps.js') }}"></script>
-
-    <!-- Dropzone -->
-    <script src="{{ asset('admindesign/js/plugin/dropzone/dropzone.min.js') }}"></script>
-
-    <!-- Fullcalendar -->
-    <script src="{{ asset('admindesign/js/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
-
-    <!-- DateTimePicker -->
-    <script src="{{ asset('admindesign/js/plugin/datepicker/bootstrap-datetimepicker.min.js') }}"></script>
-
-    <!-- Bootstrap Tagsinput -->
-    <script src="{{ asset('admindesign/js/plugin/bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
-
-    <!-- Bootstrap Wizard -->
-    <script src="{{ asset('admindesign/js/plugin/bootstrap-wizard/bootstrapwizard.js') }}"></script>
-
-    <!-- jQuery Validation -->
-    <script src="{{ asset('admindesign/js/plugin/jquery.validate/jquery.validate.min.js') }}"></script>
-
-    <!-- Summernote -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="{{ asset('admindesign/js/plugin/summernote/summernote-bs4.min.js') }}"></script>
-
-    <!-- Select2 -->
-    <script src="{{ asset('admindesign/js/plugin/select2/select2.full.min.js') }}"></script>
-
-
-    <!-- Sweet Alert -->
-    <script src="{{ asset('admindesign/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-
-    <!-- Number Format -->
-    <script src="{{ asset('admindesign/js/plugin/jquery.number.min.js') }}"></script>
-
-    <!-- Number Format -->
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script> --}}
-
-    <!-- Millenium JS -->
-    <script src="{{ asset('admindesign/js/millenium.min.js') }}"></script>
-
-    <!-- Millenium DEMO methods, don't include it in your project! -->
-    <script src="{{ asset('admindesign/js/setting-demo.js') }}"></script>
-    {{-- <script src="{{ asset('admindesign/js/demo.js') }}"></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script type="text/javascript" src="{{ asset('newdesign/js/image-uploader.min.js') }}"></script>
-    <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+
+    <script src="{{ asset('admindesign/js/plugin/jquery.number.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -847,7 +243,6 @@
         });
         $('.input-images-1').imageUploader();
     </script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> --}}
 
     <script>
         $(".myselect2").select2();
@@ -979,32 +374,32 @@
         });
     </script>
     <script>
-        $('#lineChart').sparkline([102, 109, 120, 99, 110, 105, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#177dff',
-            fillColor: 'rgba(23, 125, 255, 0.14)'
-        });
+        // $('#lineChart').sparkline([102, 109, 120, 99, 110, 105, 115], {
+        //     type: 'line',
+        //     height: '70',
+        //     width: '100%',
+        //     lineWidth: '2',
+        //     lineColor: '#177dff',
+        //     fillColor: 'rgba(23, 125, 255, 0.14)'
+        // });
 
-        $('#lineChart2').sparkline([99, 125, 122, 105, 110, 124, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#f3545d',
-            fillColor: 'rgba(243, 84, 93, .14)'
-        });
+        // $('#lineChart2').sparkline([99, 125, 122, 105, 110, 124, 115], {
+        //     type: 'line',
+        //     height: '70',
+        //     width: '100%',
+        //     lineWidth: '2',
+        //     lineColor: '#f3545d',
+        //     fillColor: 'rgba(243, 84, 93, .14)'
+        // });
 
-        $('#lineChart3').sparkline([105, 103, 123, 100, 95, 105, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#ffa534',
-            fillColor: 'rgba(255, 165, 52, .14)'
-        });
+        // $('#lineChart3').sparkline([105, 103, 123, 100, 95, 105, 115], {
+        //     type: 'line',
+        //     height: '70',
+        //     width: '100%',
+        //     lineWidth: '2',
+        //     lineColor: '#ffa534',
+        //     fillColor: 'rgba(255, 165, 52, .14)'
+        // });
     </script>
     <script>
         $(document).ready(function() {
