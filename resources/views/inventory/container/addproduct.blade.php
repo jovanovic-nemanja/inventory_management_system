@@ -1,4 +1,4 @@
-@extends('layouts.inventory')
+@extends('layouts.inventory', ['menu' => 'container'])
 
 @section('content')
     <style>

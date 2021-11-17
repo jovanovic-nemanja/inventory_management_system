@@ -77,7 +77,7 @@
                                 <span class="menu-title">Batch</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "container") ? "active" : "" ?>">
                             <a class="nav-link" href="{{ url('inventory/container') }}">
                                 <i class="icon-reload menu-icon"></i>
                                 <span class="menu-title">Container</span>
@@ -157,6 +157,7 @@
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/misc.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/settings.js') }}"></script>
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> --}}
 
@@ -773,7 +774,7 @@
             var emptyCheck = $('input[name="mark_' + markId[1] + '[]"]').val();
             var found = 0;
             $.ajax({
-                url: '././ajax_mark/' + batchId,
+                url: 'ajax_mark/' + batchId,
                 cache: false,
                 async: false,
                 success: function(data) {
