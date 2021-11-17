@@ -83,15 +83,15 @@
                                 <span class="menu-title">Container</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "products" || $menu == "units") ? "active" : "" ?>">
                             <a href="#" class="nav-link">
                                 <i class="icon-book-open menu-icon"></i>
                                 <span class="menu-title">Resources</span>
                                 <i class="menu-arrow"></i></a>
                             <div class="submenu">
                                 <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/prod') }}">Products</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/unit') }}">Units</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "products") ? "active" : "" ?>" href="{{ url('inventory/prod') }}">Products</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "units") ? "active" : "" ?>" href="{{ url('inventory/unit') }}">Units</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ url('inventory/category') }}">Category</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ url('inventory/container/detail') }}">Container Setting</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ url('inventory/container/type') }}">Container Type</a></li>
@@ -467,12 +467,12 @@
 
     <script>
         $(document).ready(function() {
-            var alls = $('#add-row tbody').children();
+            var alls = $('.product-list tbody').children();
 
             $('body').on('click', '#selectAll', function() {
                 if ($(this).hasClass('allChecked')) {
                     $('.checks input[type="checkbox"]', alls).prop('checked', false);
-                    var table = $("#add-row").DataTable();
+                    var table = $(".product-list").DataTable();
                     table.$("input[type='checkbox']").prop('checked', false);
 
                     $('.checkVals').val('');
@@ -480,11 +480,11 @@
                     // $('.submit_checkbox').remove();
                 } else {
                     // $('input[type="checkbox"]', alls).prop('checked', true);
-                    var table = $("#add-row").DataTable();
+                    var table = $(".product-list").DataTable();
                     table.$("input[type='checkbox']").prop('checked', true);
                     var ids = [];
 
-                    $('#add-row input:checked').each(function() {
+                    $('.product-list input:checked').each(function() {
                         if ($(this).attr('id') == 'selectAll') {
 
                         } else
@@ -504,7 +504,7 @@
 
         function submitcheck() {
             var ids = $('.checks').val();
-            var table = $("#add-row").DataTable();
+            var table = $(".product-list").DataTable();
             var ids = [];
             table.$('td > input:checkbox').each(function() {
                 if (this.checked) {

@@ -1,75 +1,56 @@
-@extends('layouts.inventory')
+@extends('layouts.inventory', ['menu' => 'products'])
 
 @section('content')
-<div class="main-panel">
-    <div class="content">
-        <div class="page-inner">
-            <?php echo displayAlert(); ?>
-            <div class="page-header">
-                <h4 class="page-title">Edit Product</h4>
-                <ul class="breadcrumbs">
-                    <li class="nav-home">
-                        <a href="#">
-                            <i class="flaticon-home"></i>
-                        </a>
-                    </li>
-                    <li class="separator">
-                        <i class="flaticon-right-arrow"></i>
-                    </li>
 
-                    <li class="nav-item">
-                        <a href="#">Product</a>
-                    </li>
-                </ul>
-
-
-
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <form action="{{ route('prod.update') }}" method="POST">
+    <?php echo displayAlert(); ?>
+    <div class="page-header">
+        <h3 class="page-title"> Edit Product </h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url('inventory/container/batch') }}">Product List</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row grid-margin">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="forms-sample" action="{{ route('prod.update') }}" method="POST">
                         @csrf
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title"></div>
-                                <input type="hidden" name="prod_id" value="{{ $prods->id }}" />
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input required="" type="text" name="name" class="form-control"
-                                        value="{{$prods->name}}" placeholder="Name" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <select name="category" required class="form-control">
-                                        <option value="">Please Select</option>
-                                        @foreach($allcategory as $cat)
-                                        @if ($cat->id == $prods->category)
-                                        <option selected="" value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                        @else
-                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                        @endif
-
-
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Stock</label>
-                                    <input required="" type="text" name="stock" class="form-control"
-                                        value="{{$prods->stock}}" placeholder="Name" />
-                                </div>
-                            </div>
-
-                            <div class="card-action">
-                                <button class="btn btn-success">Update</button>
-                            </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="hidden" name="prod_id" value="{{ $prods->id }}" />
+                            <input required type="text" name="name" class="form-control"
+                                value="{{$prods->name}}" placeholder="Name" />
                         </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select name="category" required class="form-control">
+                                <option value="">Please Select</option>
+                                @foreach($allcategory as $cat)
+                                @if ($cat->id == $prods->category)
+                                <option selected="" value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @else
+                                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endif
+
+
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Stock</label>
+                            <input required type="text" name="stock" class="form-control"
+                                value="{{$prods->stock}}" placeholder="Name" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                        <button type="reset" class="btn btn-danger">Cancel</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
 @endsection
+
