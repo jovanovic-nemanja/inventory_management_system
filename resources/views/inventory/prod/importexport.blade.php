@@ -1,115 +1,52 @@
-@extends('layouts.inventory')
+@extends('layouts.inventory', ['menu' => 'products'])
 
 @section('content')
-    <div class="main-panel">
-        <div class="content">
-            <div class="page-inner">
-                <?php echo displayAlert(); ?>
-                <div class="page-header">
-                    <h4 class="page-title">Product</h4>
-                    <ul class="breadcrumbs">
-                        <li class="nav-home">
-                            <a href="#">
-                                <i class="flaticon-home"></i>
-                            </a>
-                        </li>
-                        <li class="separator">
-                            <i class="flaticon-right-arrow"></i>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="">Product</a>
-                        </li>
-                    </ul>
+    <?php echo displayAlert(); ?>
 
+    <div class="page-header">
+        <h3 class="page-title"> Import Export to Excel and CSV </h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url('inventory/prod') }}">Product List</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Import Export to Excel and CSV</li>
+            </ol>
+        </nav>
+    </div>
 
+    <div class="row pb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ url('/inventory/prod/downloadExcel/xlsx') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
+                    <a href="{{ url('/inventory/prod/downloadExcel/csv') }}"><button class="btn btn-primary">Download csv</button></a>
+                    
+                    <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ url('/inventory/prod/importExcel') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+                        @csrf
 
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="container">
-
-                            <div class="panel panel-default">
-
-                              <div class="panel-heading">
-
-                              <h1> Import Export to Excel and CSV </h1>
-
-                              </div>
-
-                              <div class="panel-body">
-
-
-
-                                <!-- <a href="{{ url('/inventory/prod/downloadExcel/html') }}"><button class="btn btn-success">Download Excel pdf</button></a> -->
-
-                                <a href="{{ url('/inventory/prod/downloadExcel/xlsx') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
-
-                                <a href="{{ url('/inventory/prod/downloadExcel/csv') }}"><button class="btn btn-success">Download csv</button></a>
-
-
-
-                                <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ url('/inventory/prod/importExcel') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
-
-                                    @csrf
-
-
-
-                                    @if ($errors->any())
-
-                                        <div class="alert alert-danger">
-
-                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-
-                                            <ul>
-
-                                                @foreach ($errors->all() as $error)
-
-                                                    <li>{{ $error }}</li>
-
-                                                @endforeach
-
-                                            </ul>
-
-                                        </div>
-
-                                    @endif
-
-
-
-                                    @if (Session::has('success'))
-
-                                        <div class="alert alert-success">
-
-                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-
-                                            <p>{{ Session::get('success') }}</p>
-
-                                        </div>
-
-                                    @endif
-
-
-
-                                    <input type="file" name="import_file" />
-
-                                    <button class="btn btn-primary">Import File</button>
-
-                                </form>
-
-
-
-                              </div>
-
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
+                        @endif
 
-                        </div>
+                        @if (Session::has('success'))
+                            <div class="alert alert-success">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                <p>{{ Session::get('success') }}</p>
+                            </div>
+                        @endif
 
-                    </div>
+                        <input type="file" name="import_file" />
+                        <button class="btn btn-primary">Import File</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection
