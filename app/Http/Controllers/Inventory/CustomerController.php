@@ -169,7 +169,6 @@ class CustomerController extends Controller
         }
     }
     public function downloadExcel($type)
-
     {
         $data = DB::table('inventory_customer_balance_log')
             ->select('inventory_customer_balance_log.deposit_balance as Deposit Balance', 'inventory_customer_balance_log.deposit_date as Deposit Date', 'inventory_customer_balance_log.remarks as Remarks')
