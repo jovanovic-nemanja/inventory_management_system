@@ -83,22 +83,22 @@
                                 <span class="menu-title">Container</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "products" || $menu == "units" || $menu == "category" || $menu == "container_detail" || $menu == "container_type") ? "active" : "" ?>">
                             <a href="#" class="nav-link">
                                 <i class="icon-book-open menu-icon"></i>
                                 <span class="menu-title">Resources</span>
                                 <i class="menu-arrow"></i></a>
                             <div class="submenu">
                                 <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/prod') }}">Products</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/unit') }}">Units</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/category') }}">Category</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/container/detail') }}">Container Setting</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('inventory/container/type') }}">Container Type</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "products") ? "active" : "" ?>" href="{{ url('inventory/prod') }}">Products</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "units") ? "active" : "" ?>" href="{{ url('inventory/unit') }}">Units</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "category") ? "active" : "" ?>" href="{{ url('inventory/category') }}">Category</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "container_detail") ? "active" : "" ?>" href="{{ url('inventory/container/detail') }}">Container Detail</a></li>
+                                    <li class="nav-item"><a class="nav-link <?= ($menu == "container_type") ? "active" : "" ?>" href="{{ url('inventory/container/type') }}">Container Type</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "customer") ? "active" : "" ?>">
                             <a class="nav-link" href="{{ url('inventory/customer') }}">
                                 <i class="icon-reload menu-icon"></i>
                                 <span class="menu-title">Customer</span>
