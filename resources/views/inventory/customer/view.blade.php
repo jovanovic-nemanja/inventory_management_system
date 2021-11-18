@@ -24,7 +24,7 @@
     <h3 class="page-title"> Customer Expense </h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ url('/inventoryboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('inventory/customer') }}">Customer</a></li>
             <li class="breadcrumb-item active" aria-current="page">Customer Expense</li>
         </ol>
     </nav>
@@ -70,130 +70,120 @@
                         @php
                             $container_total = 0;
                         @endphp
-                    
-                        <div class="collapsed" id="heading1{{ $cus->container_id }}"
-                            data-toggle="collapse" data-target="#collapse1{{ $cus->container_id }}"
-                            aria-expanded="true" aria-controls="collapse{{ $cus->container_id }}"
-                            role="button">
-                            <div class="span-title">
-                                Container ID : {{ $cus->con_name }} 
-                                <span class="ml-auto"
-                                    style="font-size: 25px;"
-                                    id="container_amount_{{ $cus->con_name }}"></span>
+
+                        <div class="card">
+                            <div class="card-header" role="tab" id="heading1{{ $cus->container_id }}">
+                                <h6 class="mb-0 justify-content-between d-flex">
+                                    <a style="padding-right: 45%;" data-toggle="collapse" href="#collapse1{{ $cus->container_id }}" aria-expanded="true" aria-controls="collapse1{{ $cus->container_id }}" class="collapsed"> Container ID : {{ $cus->con_name }} 
+                                        <span class="ml-auto"
+                                            style="font-size: 25px;"
+                                            id="container_amount_{{ $cus->con_name }}">
+                                        </span> 
+                                    </a>
+                                    <div class="d-flex">
+                                        <a href="{{ route('customer.invoice', $customer->id) }}" target="_blank">Invoice</a>
+                                        <a href="{{ route('customer.consolidate', [$customer->id, $cus->container_id]) }}" target="_blank">Consolidate</a>
+                                    </div>
+                                </h6>
                             </div>
-                            <div class="span-mode"></div>
-                            <a href="{{ route('customer.invoice', $customer->id) }}" target="_blank">Invoice</a>
-                            <a href="{{ route('customer.consolidate', [$customer->id,$cus->container_id]) }}" target="_blank">Consolidate</a>
-                        </div>
-
-                        <div id="collapse1{{ $cus->container_id }}" class="collapse"
-                            aria-labelledby="heading1{{ $cus->container_id }}"
-                            data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="accordion" id="accordions" role="tablist">
-                                    @foreach ($allmark as $mark)
-                                        @if ($mark->container_id == $cus->container_id)
-
-                                            <div class="card">
-                                                <div class="collapsed" id="heading{{ $mark->id }}"
-                                                    data-toggle="collapse" data-target="#collapse{{ $mark->id }}"
-                                                    aria-expanded="true" aria-controls="collapse{{ $mark->id }}"
-                                                    role="button">
-                                                    <div class="span-icon">
-                                                        <div class="flaticon-box-1"></div>
+                            <div id="collapse1{{ $cus->container_id }}" class="collapse" role="tabpanel" aria-labelledby="heading1{{ $cus->container_id }}" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="accordion" id="accordions{{ $cus->container_id }}" role="tablist">
+                                        @foreach ($allmark as $mark)
+                                            @if ($mark->container_id == $cus->container_id)
+    
+                                                <div class="card">
+                                                    <div class="card-header" role="tab" id="heading{{ $mark->id }}">
+                                                        <h6 class="mb-0">
+                                                            <a style="padding-right: 45%;" data-toggle="collapse" href="#collapse{{ $mark->id }}" aria-expanded="true" aria-controls="collapse{{ $mark->id }}" class="collapsed"> Mark : {{ $mark->name }}</a>
+                                                        </h6>
                                                     </div>
-                                                    <div class="span-title">
-                                                        Mark : {{ $mark->name }}
-                                                    </div>
-                                                    <div class="span-mode"></div>
-                                                </div>
-
-                                                <div id="collapse{{ $mark->id }}" class="collapse"
-                                                    aria-labelledby="heading{{ $mark->id }}"
-                                                    data-parent="#accordions">
-                                                    <div class="card-body">
-                                                        <table class="table table-head-bg-success"
-                                                            id="myTable_{{ $increment }}">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Product</th>
-                                                                    <th scope="col">Quantity</th>
-                                                                    <th scope="col">Price</th>
-                                                                    <th scope="col">Total Price</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @php
-                                                                $grand_total = 0;
-                                                                @endphp
-                                                                @foreach ($allproduct as $product)
-
-                                                                @php
-                                                                $makr_total = 0;
-                                                                $makr_value = 0;
-                                                                @endphp
-                                                                @php
-                                                                $chkid = json_decode($product->all_mark_id);
-                                                                $chkval = json_decode($product->all_mark_data);
-
-                                                                @endphp
-                                                                @if (!@empty($chkid ))
-
-                                                                @foreach ($chkid as $key => $value)
-                                                                @if ($mark->id == $value->id)
-                                                                @php
-                                                                $makr_value = $chkval[$key];
-                                                                @endphp
-                                                                @endif
-
-                                                                @endforeach
-                                                                @endif
-                                                                @php
-                                                                $makr_total += $makr_value * $product->price_value;
-                                                                $grand_total += $makr_total;
-                                                                @endphp
-
-                                                                @if ($makr_value>0)
-                                                                <tr>
-                                                                    <td>
-                                                                        {{ $product->product_name }}
-                                                                    </td>
-                                                                    <td>
-                                                                        {{ $makr_value }}
-                                                                    </td>
-                                                                    <td>
-                                                                        {{ number_format($product->price_value,2) }} AED
-                                                                    </td>
-                                                                    <td>
-                                                                        {{ number_format($makr_total,2) }} AED
-                                                                    </td>
-                                                                </tr>
-                                                                @endif
-                                                                @endforeach
-                                                                <tr>
-                                                                    <td style="text-align: right; font-size:25px; font-weight:600;"
-                                                                        colspan=3>Total
-                                                                    </td>
-                                                                    <td
-                                                                        style="text-align: left; font-size:25px; font-weight:600;">
-                                                                        {{number_format($grand_total,2)}} AED
-                                                                        @php
-                                                                        $container_total += $grand_total;
-                                                                        @endphp
-
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                    <div id="collapse{{ $mark->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mark->id }}" data-parent="#accordions{{ $cus->container_id }}">
+                                                        <div class="card-body">
+                                                            <table class="table table-head-bg-success"
+                                                                id="myTable_{{ $increment }}">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Product</th>
+                                                                        <th scope="col">Quantity</th>
+                                                                        <th scope="col">Price</th>
+                                                                        <th scope="col">Total Price</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @php
+                                                                    $grand_total = 0;
+                                                                    @endphp
+                                                                    @foreach ($allproduct as $product)
+    
+                                                                    @php
+                                                                    $makr_total = 0;
+                                                                    $makr_value = 0;
+                                                                    @endphp
+                                                                    @php
+                                                                    $chkid = json_decode($product->all_mark_id);
+                                                                    $chkval = json_decode($product->all_mark_data);
+    
+                                                                    @endphp
+                                                                    @if (!@empty($chkid ))
+    
+                                                                    @foreach ($chkid as $key => $value)
+                                                                    @if ($mark->id == $value->id)
+                                                                    @php
+                                                                    $makr_value = $chkval[$key];
+                                                                    @endphp
+                                                                    @endif
+    
+                                                                    @endforeach
+                                                                    @endif
+                                                                    @php
+                                                                    $makr_total += $makr_value * $product->price_value;
+                                                                    $grand_total += $makr_total;
+                                                                    @endphp
+    
+                                                                    @if ($makr_value>0)
+                                                                    <tr>
+                                                                        <td>
+                                                                            {{ $product->product_name }}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ $makr_value }}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ number_format($product->price_value,2) }} AED
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ number_format($makr_total,2) }} AED
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+                                                                    @endforeach
+                                                                    <tr>
+                                                                        <td style="text-align: right; font-size:25px; font-weight:600;"
+                                                                            colspan=3>Total
+                                                                        </td>
+                                                                        <td
+                                                                            style="text-align: left; font-size:25px; font-weight:600;">
+                                                                            {{number_format($grand_total,2)}} AED
+                                                                            @php
+                                                                            $container_total += $grand_total;
+                                                                            @endphp
+    
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                        @endif
-                                    @endforeach
+    
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <input type="hidden" data-id="{{ $cus->con_name }}" class="container_total" name="container_total_{{ $cus->con_name }}" id="container_total_{{ $cus->con_name }}" value="{{$container_total}}">
                         
                         @php
