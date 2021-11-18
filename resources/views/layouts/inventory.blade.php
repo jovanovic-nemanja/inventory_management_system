@@ -104,13 +104,13 @@
                                 <span class="menu-title">Customer</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "supplier") ? "active" : "" ?>">
                             <a class="nav-link" href="{{ url('inventory/supplier') }}">
                                 <i class="icon-reload menu-icon"></i>
                                 <span class="menu-title">Supplier</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "purchase") ? "active" : "" ?>">
                             <a class="nav-link" href="{{ url('inventory/purchase') }}">
                                 <i class="icon-reload menu-icon"></i>
                                 <span class="menu-title">Purchase</span>
