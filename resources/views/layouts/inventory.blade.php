@@ -122,7 +122,7 @@
                                 <span class="menu-title">Shipper Info</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item <?= ($menu == "consignee") ? "active" : "" ?>">
                             <a class="nav-link" href="{{ url('inventory/consignee') }}">
                                 <i class="icon-reload menu-icon"></i>
                                 <span class="menu-title">Consignee Info</span>
