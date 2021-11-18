@@ -124,14 +124,14 @@ class CustomerController extends Controller
             $category->email = $request->email;
             $category->phone = $request->phone;
             $category->balance = $request->balance;
-            $category->current_balance = $request->current_balance + $request->deposit_balance;
+            $category->current_balance = $request->balance + $request->deposit_balance;
 
             $category->save();
             $id = $category->id;
 
             Customerbalancelog::create([
                 'customer_id' => $id,
-                'current_balance' => $request->current_balance,
+                'current_balance' => $request->balance,
                 'deposit_balance' => $request->deposit_balance,
                 'deposit_date' => $request->deposit_date,
                 'remarks' => $request->remarks
@@ -143,7 +143,7 @@ class CustomerController extends Controller
             $category->email = $request->email;
             $category->phone = $request->phone;
             $category->balance = $request->balance;
-            $category->current_balance = $request->current_balance;
+            $category->current_balance = $request->balance;
             $category->save();
             return redirect()->route('customer.index')->with('message', 'success|Customer has been successfully updated');
         }
