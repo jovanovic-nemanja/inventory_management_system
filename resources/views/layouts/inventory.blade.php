@@ -135,7 +135,7 @@
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <div class="main-panel">
-                <div class="content-wrapper">
+                <div class="content-wrapper" style="min-height: calc(100vh - 174px);">
                     @yield('content')
                 </div>
             
@@ -173,6 +173,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script type="text/javascript" src="{{ asset('newdesign/js/image-uploader.min.js') }}"></script>
+
+    <script src="{{ asset('admindesign/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
 
     <script src="{{ asset('admindesign/js/plugin/jquery.number.min.js') }}"></script>
 
@@ -808,10 +810,10 @@
                 return false;
 
             }
-            $('#addMark_' + markId[1]).after('<div  class="card-header bg-white markDiv_' + markId[1] +
-                '" ><div class="span-icon"><div class="flaticon-box-1"></div></div><div class="span-title"><input type="text" name="mark_' +
+            $('#addMark_' + markId[1]).after('<div  class="bg-white markDiv_' + markId[1] +
+                '" ><div class="span-title pt-3 pb-3"><input type="text" name="mark_' +
                 markId[1] +
-                '[]" class="form-control" placeholder="Mark" /></div><button type="button" class="btn btn-danger" onclick="deleteThis(this)"><i class="fa fa-trash"></i></button></div>'
+                '[]" class="form-control" placeholder="Mark" /></div><button type="button" class="btn btn-danger" onclick="deleteThis(this)">Delete Mark</button></div>'
             );
 
         });

@@ -74,7 +74,7 @@
                         <div class="card">
                             <div class="card-header" role="tab" id="heading1{{ $cus->container_id }}">
                                 <h6 class="mb-0 justify-content-between d-flex">
-                                    <a style="padding-right: 45%;" data-toggle="collapse" href="#collapse1{{ $cus->container_id }}" aria-expanded="true" aria-controls="collapse1{{ $cus->container_id }}" class="collapsed"> Container ID : {{ $cus->con_name }} 
+                                    <a style="padding-right: 45%;" data-toggle="collapse" href="#collapse1{{ $cus->container_id }}" aria-expanded="false" aria-controls="collapse1{{ $cus->container_id }}" class="collapsed"> Container ID : {{ $cus->con_name }} 
                                         <span class="ml-auto"
                                             style="font-size: 25px;"
                                             id="container_amount_{{ $cus->con_name }}">
@@ -95,7 +95,7 @@
                                                 <div class="card">
                                                     <div class="card-header" role="tab" id="heading{{ $mark->id }}">
                                                         <h6 class="mb-0">
-                                                            <a style="padding-right: 45%;" data-toggle="collapse" href="#collapse{{ $mark->id }}" aria-expanded="true" aria-controls="collapse{{ $mark->id }}" class="collapsed"> Mark : {{ $mark->name }}</a>
+                                                            <a style="padding-right: 45%;" data-toggle="collapse" href="#collapse{{ $mark->id }}" aria-expanded="false" aria-controls="collapse{{ $mark->id }}" class="collapsed"> Mark : {{ $mark->name }}</a>
                                                         </h6>
                                                     </div>
                                                     <div id="collapse{{ $mark->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $mark->id }}" data-parent="#accordions{{ $cus->container_id }}">

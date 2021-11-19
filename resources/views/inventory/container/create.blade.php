@@ -14,6 +14,7 @@
 </style>
 
 <?php echo displayAlert(); ?>
+
 <div class="page-header">
     <h3 class="page-title"> Create Container </h3>
     <nav aria-label="breadcrumb">
@@ -143,27 +144,24 @@
                         </div>
                     </div>
 
-                    <div class="row pt-5">
+                    <div class="pt-5">
                         <div class="card" id="card-header">
-                            <div class="d-flex align-items-center">
+                            <div>
                                 <a type="button" id="add_customer" href="#" class="btn btn-success btn-secondary btn-round">
                                     <i class="fa fa-plus"></i>
                                     Add Customer
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body divCustomer">
+                        <div class="divCustomer pt-3">
                             <div class="row">
                                 <div class="col-12 col-md-12">
-                                    <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="" id="v-pills-tabContent">
                                         <div class="tab-pane fade active show" id="v-pills-home-icons"
                                             role="tabpanel" aria-labelledby="v-pills-home-tab-icons">
                                             <div class="accordion accordion-secondary">
                                                 <div class="card ">
-                                                    <div class="card-header">
-                                                        <div class="span-icon">
-                                                            <div class="flaticon-user-4"></div>
-                                                        </div>
+                                                    <div class="">
                                                         <div class="span-title"  style="margin-right:30px;">
                                                             <select name="customer_id[]" id="customerList_1" required
                                                                 class="form-control myselect2">
@@ -179,14 +177,11 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="card-body">
-                                                        <div class="card">
-                                                            <button type="button" id="addMark_1" style="width: 10%;" class="btn btn-primary addMark btn-round" style="margin-bottom:20px;">Add Marks + </button>
-                                                            <div class="card-header bg-white markDiv_1">
-                                                                <div class="span-icon">
-                                                                    <div class="flaticon-box-1"></div>
-                                                                </div>
-                                                                <div class="span-title">
+                                                    <div class="pt-5">
+                                                        <div class="">
+                                                            <button type="button" id="addMark_1" class="btn btn-primary btn-round addMark">Add Marks + </button>
+                                                            <div class="bg-white markDiv_1">
+                                                                <div class="span-title pt-3">
                                                                     <input type="text" name="mark_1[]" class="form-control" placeholder="Mark" />
                                                                 </div>
                                                             </div>
@@ -198,8 +193,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <div class="card-action">
+                            <div class="pt-5">
+                                <div class="">
                                     <button type="submit" class="btn btn-success">Update</button>
                                     <button type="reset" class="btn btn-warning">Cancel</button>
                                     <button class="btn btn-danger pull-right">Lock Container</button>
@@ -213,64 +208,50 @@
     </div>
 </div>
 
-<div class="card-body divCustomer" id="customer_div" style="display: none;">
+<div class="divCustomer pt-3" id="customer_div" style="display: none;">
     <div class="row">
         <div class="col-12 col-md-12">
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="" id="v-pills-tabContent">
                 <div class="tab-pane fade active show" id="v-pills-home-icons" role="tabpanel"
                     aria-labelledby="v-pills-home-tab-icons">
                     <div class="accordion accordion-secondary">
                         <div class="card">
-                            <div class="card-header" role="button">
-                                <div class="span-icon">
-                                    <div class="flaticon-user-4"></div>
-                                </div>
+                            <div>
                                 <div class="span-title" style="margin-right:30px;">
-                                    <select name="customer_id[]" id="customerList" required class="form-control slect">
+                                    <select name="customer_id[]" id="customerList" required class="form-control select2">
                                         <option value="">Select Customer</option>
                                         @foreach ($allcustomers as $key => $customer)
 
-                                        <option value="{{ $customer->id }}">
-                                            {{ $customer->name }}
-                                        </option>
+                                            <option value="{{ $customer->id }}">
+                                                {{ $customer->name }}
+                                            </option>
 
                                         @endforeach
                                     </select>
                                 </div>
 
-                                <div class="ml-auto"><button type="button" class="btn btn-danger"
+                                <div class="ml-auto pt-3"><button type="button" class="btn btn-danger"
                                         onclick="deleteCustomer(this)">Remove Customer</button></div>
-
                             </div>
-                            <div class="card-body">
-
-                                <div class="card">
-                                <button type="button" class="btn btn-primary  btn-round" style="margin-bottom:20px;width: 10%;"
-                                id="addMarkBtnId">
-                                Add Marks +
-                            </button>
-                                    <div class="card-header bg-white" id="addMark">
-                                        <div class="span-icon">
-                                            <div class="flaticon-box-1"></div>
-                                        </div>
-                                        <div class="span-title">
+                            <div class="pt-5">
+                                <div class="">
+                                    <button type="button" class="btn btn-primary btn-round" id="addMarkBtnId"> Add Marks + </button>
+                                    <div class="bg-white" id="addMark">
+                                        <div class="span-title pt-3 pb-3">
                                             <input type="text" name="mark[]" id="nameMark" class="form-control" placeholder="Mark" />
                                         </div>
-                                        <button type="button" class="btn btn-danger" onclick="deleteThis(this)"><i
-                                                class="fa fa-trash"></i></button>
+                                        <button type="button" class="btn btn-danger" onclick="deleteThis(this)">
+                                            Delete Mark
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <hr>
 </div>
 
 @endsection
