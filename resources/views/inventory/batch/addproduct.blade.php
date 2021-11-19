@@ -54,7 +54,7 @@
                                         <div class="card">
                                             <div class="card-header" role="tab" id="heading-{{ $cus->id }}">
                                                 <h6 class="mb-0">
-                                                    <a data-toggle="collapse" href="#collapse-{{ $cus->id }}" aria-expanded="true" aria-controls="collapse-{{ $cus->id }}"> {{ $cus->name }} </a>
+                                                    <a data-toggle="collapse" href="#collapse-{{ $cus->id }}" aria-expanded="false" aria-controls="collapse-{{ $cus->id }}"> {{ $cus->name }} </a>
                                                 </h6>
                                             </div>
 
