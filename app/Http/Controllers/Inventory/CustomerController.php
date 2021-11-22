@@ -56,7 +56,7 @@ class CustomerController extends Controller
         $allproduct = Productcontainer::leftJoin('inventory_mark', 'inventory_mark.id', '=', 'inventory_container_to_product.mark_add_id')
             ->leftJoin('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
             ->leftJoin('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')
-            ->select('inventory_mark.*', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
+            ->select('inventory_mark.*', 'inventory_product.id as product_id', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
             ->get();
 
         $customer = Customer::where('id', $id)->first();
@@ -78,7 +78,7 @@ class CustomerController extends Controller
         $allproduct = Productcontainer::leftJoin('inventory_mark', 'inventory_mark.id', '=', 'inventory_container_to_product.mark_add_id')
             ->leftJoin('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
             ->leftJoin('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')
-            ->select('inventory_mark.*', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
+            ->select('inventory_mark.*', 'inventory_product.id as product_id', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
             ->get();
 
         $customer = Customer::where('id', $id)->first();
@@ -95,8 +95,8 @@ class CustomerController extends Controller
             ->get();
         $allcategory  = Inventorycategory::get();
         $allmark  = Mark::Join('inventory_container', 'inventory_container.id', '=', 'inventory_mark.container_id')
-        ->where('inventory_mark.container_id', $con_id)
-        ->where('inventory_mark.customer_id', $id)
+            ->where('inventory_mark.container_id', $con_id)
+            ->where('inventory_mark.customer_id', $id)
             ->select('inventory_mark.id','inventory_mark.name')
             ->get()->toArray();
         $allproduct = Productcontainer::Join('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')

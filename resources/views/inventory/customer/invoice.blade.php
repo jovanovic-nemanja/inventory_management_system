@@ -106,7 +106,15 @@
                                                                             @endforeach
                                                                         @endif
                                                                         @php
-                                                                            $makr_total += $makr_value * $product->price_value;
+                                                                            // $makr_total += $makr_value * $product->price_value;
+                                                                            $init_price = App\BatchProdPrices::where('batch_prod_id', $product->product_id)->where('container_id', $cus->container_id)->first();
+                                                                            if (@$init_price) {
+                                                                                $makr_total += $makr_value * $init_price->price;
+                                                                                $price = $init_price->price;
+                                                                            }else{
+                                                                                $makr_total += 0;
+                                                                                $price = 0;
+                                                                            }
                                                                             $grand_total += $makr_total;
                                                                         @endphp
 
@@ -119,10 +127,10 @@
                                                                                     {{ $makr_value }}
                                                                                 </td>
                                                                                 <td>
-                                                                                    {{number_format( $product->price_value,2) }} AED
+                                                                                    {{number_format( $price, 2) }} AED
                                                                                 </td>
                                                                                 <td>
-                                                                                    {{number_format($makr_total,2) }} AED
+                                                                                    {{number_format($makr_total, 2) }} AED
                                                                                 </td>
                                                                             </tr>
                                                                         @endif
