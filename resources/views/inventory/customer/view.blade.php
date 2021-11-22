@@ -112,63 +112,67 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @php
-                                                                    $grand_total = 0;
+                                                                        $grand_total = 0;
                                                                     @endphp
                                                                     @foreach ($allproduct as $product)
     
-                                                                    @php
-                                                                    $makr_total = 0;
-                                                                    $makr_value = 0;
-                                                                    @endphp
-                                                                    @php
-                                                                    $chkid = json_decode($product->all_mark_id);
-                                                                    $chkval = json_decode($product->all_mark_data);
+                                                                        @php
+                                                                            $makr_total = 0;
+                                                                            $makr_value = 0;
+                                                                        @endphp
+                                                                        @php
+                                                                            $chkid = json_decode($product->all_mark_id);
+                                                                            $chkval = json_decode($product->all_mark_data);
+                                                                        @endphp
+                                                                        @if (!@empty($chkid ))
+                                                                            @foreach ($chkid as $key => $value)
+                                                                                @if ($mark->id == $value->id)
+                                                                                    @php
+                                                                                        $makr_value = $chkval[$key];
+                                                                                    @endphp
+                                                                                @endif
+                                                                            @endforeach
+                                                                        @endif
+                                                                        @php
+                                                                            $init_price = App\BatchProdPrices::where('batch_prod_id', $product->product_id)->where('container_id', $cus->container_id)->first();
+                                                                            if (@$init_price) {
+                                                                                $makr_total += $makr_value * $init_price->price;
+                                                                                $price = $init_price->price;
+                                                                            }else{
+                                                                                $makr_total += 0;
+                                                                                $price = 0;
+                                                                            }
+                                                                            
+                                                                            $grand_total += $makr_total;
+                                                                        @endphp
     
-                                                                    @endphp
-                                                                    @if (!@empty($chkid ))
-    
-                                                                    @foreach ($chkid as $key => $value)
-                                                                    @if ($mark->id == $value->id)
-                                                                    @php
-                                                                    $makr_value = $chkval[$key];
-                                                                    @endphp
-                                                                    @endif
-    
-                                                                    @endforeach
-                                                                    @endif
-                                                                    @php
-                                                                    $makr_total += $makr_value * $product->price_value;
-                                                                    $grand_total += $makr_total;
-                                                                    @endphp
-    
-                                                                    @if ($makr_value>0)
-                                                                    <tr>
-                                                                        <td>
-                                                                            {{ $product->product_name }}
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ $makr_value }}
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ number_format($product->price_value,2) }} AED
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ number_format($makr_total,2) }} AED
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
+                                                                        @if ($makr_value > 0)
+                                                                            <tr>
+                                                                                <td>
+                                                                                    {{ $product->product_name }}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{ $makr_value }}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{ number_format($price, 2) }} AED
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{ number_format($makr_total,2) }} AED
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
                                                                     @endforeach
                                                                     <tr>
                                                                         <td style="text-align: right; font-size:25px; font-weight:600;"
-                                                                            colspan=3>Total
+                                                                            colspan='3'>Total
                                                                         </td>
                                                                         <td
                                                                             style="text-align: left; font-size:25px; font-weight:600;">
                                                                             {{number_format($grand_total,2)}} AED
                                                                             @php
-                                                                            $container_total += $grand_total;
+                                                                                $container_total += $grand_total;
                                                                             @endphp
-    
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -176,7 +180,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
                                             @endif
                                         @endforeach
                                     </div>
@@ -191,6 +194,9 @@
                             $total_expense += $container_total;
                         @endphp
                     @endforeach
+
+                    <input type="hidden" id="customer_expense" value="{{$total_expense}}" />
+                    <input type="hidden" id="current_balance" value="{{$customer->current_balance}}" />
                 </div>
             </div>
         </div>
