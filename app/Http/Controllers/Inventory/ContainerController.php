@@ -336,8 +336,9 @@ class ContainerController extends Controller
     public function batch()
     {
         $allbatch = Batch::all();
+        $is_closed = Batch::where('status', 1)->first();
         
-        return view('inventory.batch.index', compact('allbatch'));
+        return view('inventory.batch.index', compact('allbatch', 'is_closed'));
     }
     public function addProductbatch($id)
     {
@@ -491,6 +492,24 @@ class ContainerController extends Controller
 
         return view('inventory.batch.edit', compact('batch_detail'));
     }
+
+    /**
+     * Close the Batch, so user can't edit it anymore.
+     * @author Nemanja
+     * @since 2021-11-22
+     * @param batch_id
+     * @return bool true or false
+     */
+    public function batchclose($id)
+    {
+        $batch_detail = Batch::where('id', $id)->first();
+        if(@$batch_detail) {
+            $batch_detail->status = 2;
+            $batch_detail->update();
+        }
+
+        return redirect()->route('batch.index')->with('message', 'success|Batch has been successfully closed.');
+    }
     public function batchview($id)
     {
         $batch_detail = Batch::where('id', $id)->first();
@@ -507,6 +526,7 @@ class ContainerController extends Controller
     {
         $container = Batch::create([
             'name' => $request->name,
+            'status' => 1,
         ]);
 
         return redirect()->route('batch.index')->with('message', 'success|Batch has been successfully created');

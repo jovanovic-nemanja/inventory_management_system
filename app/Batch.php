@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Batch extends Model {
 
-    public $fillable = ['name'];
+    public $fillable = ['name', 'status'];
     public $table = "inventory_container_batch";
 
 

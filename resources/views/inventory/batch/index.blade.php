@@ -16,9 +16,13 @@
       <div class="row justify-content-between pb-3">
         <h4 class="card-title">Batch List</h4>
         <div class="text-right">
-          <a type="button" href="{{ route('batch.create') }}" class="btn btn-success btn-round ml-auto">
-            <i class="fa fa-plus"></i>Create Batch
-          </a>
+          @if ($is_closed)
+            <h6 style="color:red;">You can't create new Batch in this time, because there is exists un-closed Batch yet.</h6>
+          @else
+            <a type="button" href="{{ route('batch.create') }}" class="btn btn-success btn-round ml-auto">
+              <i class="fa fa-plus"></i>Create Batch
+            </a>  
+          @endif
         </div>
       </div>
       
@@ -43,23 +47,31 @@
                           data-toggle="tooltip" title="Manage Product" class="btn btn-link btn-add btn-success"
                           data-original-title="Add Product">
                           <i class="fa fa-plus"></i>
-                      </a>
+                      </a>                   
                       
                       <a href="{{ route('batch.view', $batch->id) }}"
                           data-toggle="tooltip" title="View" class="btn btn-link btn-edit btn-success"
                           data-original-title="View">
                           <i class="fa fa-eye"></i>
                       </a>
+
                       <a href="{{ route('batch.edit', $batch->id) }}"
                           data-toggle="tooltip" title="Edit" class="btn btn-link btn-edit btn-success"
                           data-original-title="Edit">
                           <i class="fa fa-edit"></i>
                       </a>
+
                       <a href="{{ route('batch.delete', $batch->id) }}"
                           data-toggle="tooltip" title="Delete" class="btn btn-link btn-danger"
                           data-original-title="Remove">
                           <i class="fa fa-times"></i>
                       </a>
+
+                      @if ($batch->status == 1)
+                        <a href="{{ route('batch.close', $batch->id) }}" title="Close" class="btn btn-link btn-add btn-warning">Close</a>
+                      @else
+                        <a style="cursor: not-allowed;" title="Closed" class="btn btn-link btn-add btn-warning">Closed</a>
+                      @endif   
                     </td>
                   </tr>
                 @endforeach
