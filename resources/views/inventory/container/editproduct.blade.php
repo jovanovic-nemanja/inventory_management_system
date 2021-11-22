@@ -57,7 +57,7 @@
 
                                     <div id="collapse-{{ $cus->id }}" class="collapse"
                                         aria-labelledby="heading-{{ $cus->id }}" data-parent="#accordion">
-                                        <div class="card-body">
+                                        <div class="card-body table-responsive">
                                             <table class="table table-head-bg-success"
                                                 id="myTable_{{ $increment }}" style="text-align: center;">
                                                 <thead>
@@ -209,7 +209,7 @@
                                                                 <td>
                                                                     <button type="button"
                                                                         onclick="deleteTblRow(this)"
-                                                                        class="btn btn-danger">
+                                                                        class="btn btn-danger btn-sm">
                                                                         <i class="fa fa-trash"></i>
                                                                     </button>
                                                                 </td>
