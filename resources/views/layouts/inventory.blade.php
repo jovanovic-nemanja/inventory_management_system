@@ -820,8 +820,8 @@
 
         $(document).on('change', '#container_number', function(e) {
             var container_number = $('#container_number').val().length;
-            if (container_number > 7) {
-                alert('Container number should not be greater than 7');
+            if (container_number > 11) {
+                alert('Container number should not be greater than 11');
                 $('#container_number').val('');
             }
         });

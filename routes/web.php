@@ -358,6 +358,7 @@ Route::get('/inventory/container/batch/edit/{id}', 'Inventory\ContainerControlle
 Route::get('/inventory/container/batch/view/{id}', 'Inventory\ContainerController@batchview')->name('batch.view');
 Route::post('/inventory/container/batch/update', 'Inventory\ContainerController@batchupdate')->name('batch.update');
 Route::post('/inventory/container/batch/store', 'Inventory\ContainerController@batchstore')->name('batch.store');
+Route::get('/inventory/container/batch/close/{id}', 'Inventory\ContainerController@batchclose')->name('batch.close');
 Route::get('/inventory/container/batch/delete/{id}', 'Inventory\ContainerController@batchdelete')->name('batch.delete');
 Route::get('/inventory/container/batch/addProductbatch/{batchid}', 'Inventory\ContainerController@addProductbatch')->name('batch.addProductbatch');
 Route::post('/inventory/container/batch/product/store', 'Inventory\ContainerController@batchproduct')->name('batchproduct.store');
