@@ -90,6 +90,9 @@
                                                             style="border: 1px solid #999 !important;">Profit</th>
 
                                                         <th scope="col" rowspan="2"
+                                                            style="border: 1px solid #999 !important;">Total Profit</th>
+
+                                                        <th scope="col" rowspan="2"
                                                             style="border: 1px solid #999 !important;"></th>
                                                     </tr>
                                                     <tr>
@@ -176,6 +179,7 @@
                                                                         $vat_price = $vat * $price / 100;
                                                                         $total_price = $vat_price + $price;
                                                                         $profit = $total_price - $prod->cost;
+                                                                        $total_profit = $profit * $total;
                                                                     @endphp
 
                                                                     <input type="text" class="form-control container_price"
@@ -200,6 +204,10 @@
 
                                                                 <td>
                                                                     <input type="text" class="form-control" name="profit[]" value="{{ number_format(round($profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="total_profit[]" value="{{ number_format(round($total_profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
                                                                 </td>
 
                                                                 <input type="hidden"
