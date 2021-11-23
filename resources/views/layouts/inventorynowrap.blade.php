@@ -47,8 +47,7 @@
                                         <p class="mb-1 mt-3 font-weight-semibold">Super Admin</p>
                                         <p class="font-weight-light text-muted mb-0">saels@inventory.com</p>
                                     </div>
-                                    <a class="dropdown-item" href="/"><i class="dropdown-item-icon icon-user text-primary"></i> Visit Website </a>
-                                    <a class="dropdown-item" href="{{ url('admin/general') }}"><i class="dropdown-item-icon icon-speech text-primary"></i> Site Settings</a>
+                                    <a class="dropdown-item" href="{{ url('changepass') }}"><i class="dropdown-item-icon icon-speech text-primary"></i> Change Password</a>
                                     <a class="dropdown-item" onClick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
