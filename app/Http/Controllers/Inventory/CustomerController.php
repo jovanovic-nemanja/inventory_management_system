@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Customer;
 use App\Mark;
 use App\Productcontainer;
@@ -182,5 +183,50 @@ class CustomerController extends Controller
                 $sheet->fromArray($data);
             });
         })->download($type);
+    }
+
+    /**
+     * Display a Change password page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function changepass()
+    {
+        $user = auth()->user();
+        return view('inventory.changepassword.index', compact('user'));
+    }
+
+    public function updatePassword()
+    {
+        $user = auth()->user();
+
+        if ($user->password) {
+            $this->validate(request(), [
+                'old_password' => 'required',
+                'password' => 'required|min:6',
+                // 'password_confirmation' => 'required|same:password',
+                'password_confirmation' => 'same:password',
+            ]);
+
+            if (Hash::check(request('old_password'), $user->password)) {
+                $user->password = Hash::make(request('password'));
+                $user->save();
+                return redirect()->route('inventory.index')->with('message', 'success|Password has been successfully changed.');
+            } else {
+                $this->validate(request(), [
+                    'old_password' => 'confirmed',
+                ]);
+            }
+        } else {
+            $this->validate(request(), [
+                // 'old_password' => 'required',
+                'password' => 'required',
+                'password_confirmation' => 'required|same:password',
+            ]);
+
+            $user->password = Hash::make(request('password'));
+            $user->save();
+            return redirect()->route('inventory.index')->with('message', 'success|Password has been successfully changed.');
+        }
     }
 }
