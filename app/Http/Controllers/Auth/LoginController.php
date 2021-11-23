@@ -31,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/inventoryboard';
 
     /**
       * Redirect the user to the Google authentication page.
@@ -205,19 +205,22 @@ $main_categorys = Category::where('parent', 0)->get();
 
     public function redirectTo(){
         // User role
-        if(auth()->user()->hasRole('seller')) {
-            return '/sellerdashboard';
-        }
-        if (auth()->user()->hasRole('buyer')) {
-            return '/buyerdashboard';
-        }
+        // dd(auth()->user()->email);
         if (auth()->user()->email == 'admin@inventoryboard.com') {
             return '/inventoryboard';
         }
-        if (auth()->user()->hasRole('admin')) {
+
+        else if(auth()->user()->hasRole('seller')) {
+            return '/sellerdashboard';
+        }
+        else if (auth()->user()->hasRole('buyer')) {
+            return '/buyerdashboard';
+        }
+        
+        else if (auth()->user()->hasRole('admin')) {
             return '/admin';
         }
-        if (auth()->user()->hasRole('manager')) {
+        else if (auth()->user()->hasRole('manager')) {
             return '/manager';
         }
     }

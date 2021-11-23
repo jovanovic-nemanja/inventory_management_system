@@ -54,7 +54,8 @@ Route::get('/seller/{sellerid}', 'Frontend\HomeController@sellerdetail')->name('
 Route::get('/product/curltest', 'Frontend\HomeController@curltest')->name('product.curltest');
 
 Route::get('/account', 'Frontend\AccountController@index')->name('account');
-Route::get('/changepass', 'Frontend\AccountController@changepass')->name('changepass');
+Route::get('/changepass', 'Inventory\CustomerController@changepass')->name('changepass');
+Route::put('/updatePassword', 'Inventory\CustomerController@updatePassword')->name('updatePassword');
 Route::get('/myreviews', 'Frontend\AccountController@myreviews')->name('myreviews');
 
 Route::put('/account/update', 'Frontend\AccountController@update')->name('account.update');
