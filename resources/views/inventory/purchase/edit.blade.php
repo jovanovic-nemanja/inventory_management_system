@@ -113,7 +113,7 @@
                                                         </td>
                                                         <td>
                                                             <label
-                                                                id="unitname_{{ $inc }}">{{ $purchase->price + $purchase->price * 0.05 }}</label>
+                                                                id="unitname_{{ $inc }}">{{ $purchase->price * 0.05 }}</label>
                                                         </td>
                                                     @else
                                                         <td>
