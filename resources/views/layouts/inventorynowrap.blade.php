@@ -625,17 +625,17 @@
             var total = parseInt(item) * parseInt(price);
             $("#vatamount_" + rowId[1]).text(0.00);
             if ($('#vat_' + rowId[1]).val() == 1) {
-                $("#vatamount_" + rowId[1]).text($.number(Math.ceil(total * 0.05), 2));
-                total = Math.ceil(parseFloat(total) + parseFloat(total * 0.05));
+                $("#vatamount_" + rowId[1]).text((total * 0.05).toFixed(2));
+                total = (parseFloat(total) + parseFloat(total * 0.05)).toFixed(2);
             }
             $("#totaltext_" + rowId[1]).text($.number(total, 2));
             $("#total_" + rowId[1]).val(total);
             var rowCount = $('#prodTbl >tbody >tr').length;
             var totalPrice = 0;
             for (var i = 0; i < rowCount; i++) {
-                totalPrice = parseInt(totalPrice) + parseInt($('#total_' + i).val());
+                totalPrice = parseFloat(totalPrice) + parseFloat($('#total_' + i).val());
             }
-            $('#totalTxt').text($.number(totalPrice, 2));
+            $('#totalTxt').text(totalPrice);
             $('#alltotal').val(totalPrice);
         });
         $(document).on('click', '#addProduct', function(e) {
@@ -668,8 +668,8 @@
             var total = parseFloat(item) * parseFloat(price);
             $("#beforevat_" + rowId[1]).text($.number(total, 2));
             if ($('#vat_' + rowId[1]).val() == 1) {
-                $("#vatamount_" + rowId[1]).text($.number(Math.ceil(total * 0.05), 2));
-                total = Math.ceil(parseFloat(total) + parseFloat(total * 0.05));
+                $("#vatamount_" + rowId[1]).text(total * 0.05).toFixed(2);
+                total = (parseFloat(total) + parseFloat(total * 0.05)).toFixed(2);
             }
             $("#totaltext_" + rowId[1]).text($.number(total, 2));
             $("#total_" + rowId[1]).val(total);
@@ -678,7 +678,7 @@
             for (var i = 0; i < rowCount; i++) {
                 totalPrice = parseFloat(totalPrice) + parseFloat($('#total_' + i).val());
             }
-            $('#totalTxt').text($.number(totalPrice, 2));
+            $('#totalTxt').text(totalPrice);
             $('#alltotal').val(totalPrice);
 
         });
