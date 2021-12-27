@@ -108,25 +108,28 @@
                                                             id="unitname_{{ $inc }}">{{ $purchase->price * $purchase->item }}</label>
                                                     </td>
                                                     @if ($purchase->vat == 1)
-                                                        <td>
-                                                            <label id="unitname_{{ $inc }}">5%</label>
-                                                        </td>
-                                                        <td>
-                                                            <label
-                                                                id="unitname_{{ $inc }}">{{ $purchase->price * $purchase->item * 0.05 }}</label>
-                                                        </td>
+                                                        @php
+                                                            $rate = "5%";
+                                                            $vat_amount = $purchase->price * $purchase->item * 0.05;
+                                                        @endphp
                                                     @else
-                                                        <td>
-                                                            <label id="unitname_{{ $inc }}">0%</label>
-                                                        </td>
-                                                        <td>
-                                                            <label
-                                                                id="unitname_{{ $inc }}">0</label>
-                                                        </td>
+                                                        @php
+                                                            $rate = "0%";
+                                                            $vat_amount = 0;
+                                                        @endphp
                                                     @endif
+                                                    
+                                                    <td>
+                                                        <label id="unitname_{{ $inc }}"><?= $rate; ?></label>
+                                                    </td>
                                                     <td>
                                                         <label
-                                                            id="totaltext_{{ $inc }}">{{ $purchase->total }}</label>
+                                                            id="unitname_{{ $inc }}"><?= $vat_amount; ?></label>
+                                                    </td>
+
+                                                    <td>
+                                                        <label
+                                                            id="totaltext_{{ $inc }}">{{ $purchase->price * $purchase->item + $vat_amount }}</label>
                                                     </td>
                                                 </tr>
                                                 @php
@@ -153,8 +156,18 @@
                                                         $chkVal = 0;
                                                     @endphp
                                                     @foreach ($allpurchase as $purchase)
+                                                        @if ($purchase->vat == 1)
+                                                            @php
+                                                                $vat_amount = $purchase->price * $purchase->item * 0.05;
+                                                            @endphp
+                                                        @else
+                                                            @php
+                                                                $vat_amount = 0;
+                                                            @endphp
+                                                        @endif
+                                                        
                                                         @php
-                                                            $chkVal = $chkVal + $purchase->total;
+                                                            $chkVal = $chkVal + $purchase->price * $purchase->item + $vat_amount;
                                                         @endphp
                                                     @endforeach
                                                     <label id="totalTxt">{{ $chkVal }}</label>
