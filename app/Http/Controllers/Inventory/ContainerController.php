@@ -346,7 +346,11 @@ class ContainerController extends Controller
         $allproducts = Prod::get();
         $containers = Container::get();
         $batch = Batch::where('id', $id)->first();
-        $allmarks = Mark::get();
+        $allmarks = DB::table('inventory_mark')
+            ->join('inventory_container', 'inventory_mark.container_id', '=', 'inventory_container.id')
+            ->select('inventory_mark.*')
+            ->get();
+
         $allmarkdetail = Productmarkcontainer::where('batch_id', $id)->get()->toArray();
         $allproductdetail = Productcontainer::where('batch_id', $id)
             ->join('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')

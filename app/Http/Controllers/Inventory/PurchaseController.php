@@ -102,15 +102,16 @@ class PurchaseController extends Controller
     {
         $purchase_detail = Purchaseproducts::where('id', $id)->first();
         $allpurchase = Purchase::where('inventory_purchase_product.purchase_order_id', $purchase_detail->id)
-        ->join('inventory_product','inventory_product.id','=','inventory_purchase_product.product')
-        ->join('inventory_categories','inventory_categories.id','=','inventory_purchase_product.category')
-        ->join('inventory_units','inventory_units.id','=','inventory_product.unit')
-        ->select('inventory_purchase_product.*','inventory_product.name as product_name','inventory_categories.name as category_name','inventory_units.name as unit_name')
-        ->get();
-        // echo '<pre>'; print_r($allpurchase); exit;
+            ->join('inventory_product','inventory_product.id','=','inventory_purchase_product.product')
+            ->join('inventory_categories','inventory_categories.id','=','inventory_purchase_product.category')
+            ->join('inventory_units','inventory_units.id','=','inventory_product.unit')
+            ->select('inventory_purchase_product.*','inventory_product.name as product_name','inventory_categories.name as category_name','inventory_units.name as unit_name')
+            ->get();
+
         $allsupplier = Supplier::whereNotIn('id', [0])->get();
         $allprod = Prod::all();
         $allcategory = Inventorycategory::all();
+        
         return view('inventory.purchase.edit', compact('allsupplier', 'allprod', 'allcategory', 'purchase_detail', 'allpurchase'));
     }
 
