@@ -92,8 +92,8 @@
                                                         <th scope="col" rowspan="2"
                                                             style="border: 1px solid #999 !important;">Total Profit</th>
 
-                                                        <th scope="col" rowspan="2"
-                                                            style="border: 1px solid #999 !important;"></th>
+                                                        <!-- <th scope="col" rowspan="2"
+                                                            style="border: 1px solid #999 !important;"></th> -->
                                                     </tr>
                                                     <tr>
                                                         @foreach ($allmarks as $mark)
@@ -215,13 +215,13 @@
                                                                         class="form-control stock_{{ $tbl_inc }}"
                                                                         name="stock[]"
                                                                         value="{{ $prod->after_stock }}" />
-                                                                    <td>
+                                                                    <!-- <td>
                                                                         <button type="button"
                                                                             onclick="deleteTblRow(this)"
                                                                             class="btn btn-danger btn-sm">
                                                                             <i class="fa fa-trash"></i>
                                                                         </button>
-                                                                    </td>
+                                                                    </td> -->
                                                                 </tr>
 
                                                                 @php

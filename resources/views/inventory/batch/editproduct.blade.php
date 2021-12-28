@@ -85,7 +85,7 @@
                                                                         @endforeach
 
                                                                         @if ($batch->status == 1)
-                                                                            <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>
+                                                                            <!-- <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th> -->
                                                                         @else
                                                                             
                                                                         @endif
@@ -163,12 +163,12 @@
                                                                                     @endif
 
                                                                                     @if ($batch->status == 1)
-                                                                                        <td>
+                                                                                        <!-- <td>
                                                                                             <button type="button"
                                                                                                 onclick='deleteTblRow(this)'
                                                                                                 class="btn btn-danger btn-sm"><i
                                                                                                     class="fa fa-trash"></i></button>
-                                                                                        </td>
+                                                                                        </td> -->
                                                                                     @else
                                                                                         
                                                                                     @endif
