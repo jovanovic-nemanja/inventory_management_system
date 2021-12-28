@@ -26,6 +26,13 @@
     <?php echo displayAlert(); ?>
     <div class="page-header pt-3">
         <h3 class="page-title"> {{ $batch->name }} </h3>
+        <div class="page-inner">
+            @if($containers)
+                @foreach($containers as $key => $value)
+                    <input type="checkbox" name="filter_container" class = "form-control" id="filter_container" value="{{ $value->owner_name }}" />{{ $value->owner_name }}
+                @endforeach
+            @endif
+        </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('inventory/container/batch') }}">Batch</a></li>
@@ -91,6 +98,7 @@
                                                                 <tbody>
                                                                     @foreach ($allproductdetail as $prod)
                                                                         @if ($prod->category_id == $cus->id)
+                                                                        @if($prod->initial_stock > 0)
                                                                             <tr id="row_{{ $tbl_inc }}" class="getRow">
                                                                                 <td>
                                                                                     <label>{{ $prod->product_name }}</label>
@@ -160,6 +168,7 @@
                                                                             @php
                                                                                 $tbl_inc++;
                                                                             @endphp
+                                                                        @endif
                                                                         @endif
                                                                     @endforeach
                                                                 </tbody>

@@ -45,17 +45,17 @@
                                     <td>{{ $container->container_number }}</td>
                                     <td>
                                         <a href="{{ route('container.addproduct', [$container->id, $container->container_batch]) }}"
-                                            data-toggle="tooltip" title="" class="btn btn-link btn-add"
+                                            data-toggle="tooltip" title="Manage Product" class="btn btn-link btn-add"
                                             data-original-title="Add">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                         <a href="{{ route('container.edit', $container->id) }}"
-                                            data-toggle="tooltip" title="" class="btn btn-link btn-edit"
+                                            data-toggle="tooltip" title="Edit" class="btn btn-link btn-edit"
                                             data-original-title="Edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a href="{{ route('container.delete', $container->id) }}"
-                                            data-toggle="tooltip" title="" class="btn btn-link btn-danger"
+                                            data-toggle="tooltip" title="Remove" class="btn btn-link btn-danger"
                                             data-original-title="Remove">
                                             <i class="fa fa-times"></i>
                                         </a>
