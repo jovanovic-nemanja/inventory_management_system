@@ -29,7 +29,8 @@
         <div class="page-inner">
             @if($containers)
                 @foreach($containers as $key => $value)
-                    <input type="checkbox" name="filter_container" class = "form-control" id="filter_container" value="{{ $value->owner_name }}" />{{ $value->owner_name }}
+                    <label>{{ $value->owner_name }}</label>
+                    <input type="checkbox" name="filter_container" class = "form-control" id="filter_container" value="{{ $value->owner_name }}" />
                 @endforeach
             @endif
         </div>
