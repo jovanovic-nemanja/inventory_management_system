@@ -30,7 +30,7 @@
             @if($containers)
                 @foreach($containers as $key => $value)
                     <label>{{ $value->owner_name }}</label>
-                    <input type="checkbox" name="filter_container" class="checks mr-3 filter_container" id="filter_container" value="{{ $value->owner_name }}" />
+                    <input type="checkbox" name="filter_container" class="checks mr-3 filter_container" id="filter_container" value="{{ $value->id }}" checked />
                 @endforeach
             @endif
         </div>
