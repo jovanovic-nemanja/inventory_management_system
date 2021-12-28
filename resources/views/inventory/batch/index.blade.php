@@ -61,11 +61,11 @@
                           <i class="fa fa-edit"></i>
                       </a>
 
-                      <a href="{{ route('batch.delete', $batch->id) }}"
+                      <!-- <a href="{{ route('batch.delete', $batch->id) }}"
                           data-toggle="tooltip" title="Delete" class="btn btn-link btn-danger"
                           data-original-title="Remove">
                           <i class="fa fa-times"></i>
-                      </a>
+                      </a> -->
 
                       @if ($batch->status == 1)
                         <a href="{{ route('batch.close', $batch->id) }}" title="Close" class="btn btn-link btn-add btn-warning">Close</a>

@@ -62,11 +62,11 @@
                                             data-original-title="View">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('purchase.delete', $purchase->id) }}"
+                                        <!-- <a href="{{ route('purchase.delete', $purchase->id) }}"
                                             data-toggle="tooltip" title="Remove" class="btn btn-link btn-danger"
                                             data-original-title="Remove">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </a> -->
                                     </td>
                                 </tr>
                                 @php
