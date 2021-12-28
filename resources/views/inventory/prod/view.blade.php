@@ -106,7 +106,7 @@
                                         <td>{{ $category->date }}</td>
                                         <td>(-) {{ $category->item }}</td>
                                         <td>{{ $category->after_stock }}</td>
-                                        <td> Batch ID - {{ $category->batch_id }} </td>
+                                        <td> {{ $category->batch_name }} </td>
 
                                     </tr>
                                 @endforeach
