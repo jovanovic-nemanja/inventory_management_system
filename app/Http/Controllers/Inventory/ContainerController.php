@@ -599,7 +599,7 @@ class ContainerController extends Controller
         $items['allmarkdetail'] = Productmarkcontainer::where('batch_id', $batch_id)->get()->toArray();
         $items['allproductdetail'] = Productcontainer::where('batch_id', $batch_id)
             ->join('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
-            ->select('inventory_container_to_product.*', 'inventory_product.name as product_name')
+            ->select('inventory_container_to_product.*', 'inventory_product.name as product_name', 'inventory_product.stock as prod_stock')
             ->get();
 
         $allprod = Prod::whereNotIn('id', function($query){
