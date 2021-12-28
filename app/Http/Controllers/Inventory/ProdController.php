@@ -72,7 +72,7 @@ class ProdController extends Controller
             ->get();
 
         $distribution  = DB::table('inventory_product')
-            ->select('inventory_product.*', 'inventory_container_batch.id as batch_id', 'inventory_product_distribution.after_stock as after_stock', 'inventory_product_distribution.created_at as date', 'inventory_product_distribution.item as item', 'inventory_product_distribution.price as price')
+            ->select('inventory_product.*', 'inventory_container_batch.id as batch_id', 'inventory_container_batch.name as batch_name', 'inventory_product_distribution.after_stock as after_stock', 'inventory_product_distribution.created_at as date', 'inventory_product_distribution.item as item', 'inventory_product_distribution.price as price')
             ->Join('inventory_product_distribution', 'inventory_product_distribution.product_id', '=', 'inventory_product.id')
             ->Join('inventory_container_batch', 'inventory_container_batch.id', '=', 'inventory_product_distribution.batch_id')
             ->where('inventory_product_distribution.product_id', $id)
