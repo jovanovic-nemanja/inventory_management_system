@@ -61,6 +61,8 @@ class CustomerController extends Controller
             ->select('inventory_product.id as product_id', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
             ->get();
 
+        dd($allproduct);
+        
         $customer = Customer::where('id', $id)->first();
 
         return view('inventory.customer.view', compact('customer', 'allcontainer', 'allmark', 'allproduct'));
