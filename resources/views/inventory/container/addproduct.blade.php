@@ -91,8 +91,8 @@
                                                         <th scope="col" rowspan="2"
                                                             style="border: 1px solid #999 !important;">Total Profit</th>
 
-                                                        <th scope="col" rowspan="2"
-                                                            style="border: 1px solid #999 !important;"></th>
+                                                        <!-- <th scope="col" rowspan="2"
+                                                            style="border: 1px solid #999 !important;"></th> -->
                                                     </tr>
                                                     <tr>
                                                         @foreach ($allmarks as $mark)
@@ -212,13 +212,13 @@
                                                                             name="stock[]"
                                                                             value="{{ $prod->after_stock }}" />
 
-                                                                        <td>
+                                                                        <!-- <td>
                                                                             <button type="button"
                                                                                 onclick="deleteTblRow(this)"
                                                                                 class="btn btn-sm btn-danger">
                                                                                 <i class="fa fa-trash"></i>
                                                                             </button>
-                                                                        </td>
+                                                                        </td> -->
                                                                     </tr>
 
                                                                     @php

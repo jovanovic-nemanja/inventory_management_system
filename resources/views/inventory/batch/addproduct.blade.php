@@ -83,7 +83,7 @@
                                                                             @endphp
                                                                             <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
                                                                         @endforeach
-                                                                        <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th>
+                                                                        <!-- <th scope="col" rowspan="2" style="border: 1px solid #999 !important;"></th> -->
                                                                     </tr>
                                                                     <tr>
                                                                         @foreach ($allmarks as $mark)
@@ -123,12 +123,12 @@
                                                                                             $td_inc++;
                                                                                         @endphp
                                                                                     @endforeach
-                                                                                    <td>
+                                                                                    <!-- <td>
                                                                                         <button type="button"
                                                                                             onclick="deleteTblRow(this)"
                                                                                             class="btn btn-danger btn-sm"><i
                                                                                                 class="fa fa-trash"></i></button>
-                                                                                    </td>
+                                                                                    </td> -->
                                                                                 </tr>
 
                                                                                 @php
