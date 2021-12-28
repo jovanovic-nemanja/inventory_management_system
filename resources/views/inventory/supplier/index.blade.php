@@ -57,11 +57,11 @@
                                             data-original-title="Edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{{ route('supplier.delete', $supplier->id) }}"
+                                        <!-- <a href="{{ route('supplier.delete', $supplier->id) }}"
                                             data-toggle="tooltip" title="Remove" class="btn btn-link btn-danger"
                                             data-original-title="Remove">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </a> -->
                                     </td>
                                 </tr>
                                 @php

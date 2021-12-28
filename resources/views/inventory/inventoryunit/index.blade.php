@@ -52,11 +52,11 @@
                                             title="Edit" class="btn btn-success btn-edit" data-original-title="Edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{{ route('inventoryunit.delete', $unit->id) }}"
+                                        <!-- <a href="{{ route('inventoryunit.delete', $unit->id) }}"
                                             data-toggle="tooltip" title="Remove" class="btn btn-link btn-danger"
                                             data-original-title="Remove">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </a> -->
                                     </td>
                                 </tr>
 
