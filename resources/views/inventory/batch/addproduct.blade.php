@@ -162,3 +162,7 @@
         </div>
     </div>
 @endsection
+
+@section('script')
+    <script src="{{ asset('custom/batch_filter.js') }}"></script>
+@endsection
