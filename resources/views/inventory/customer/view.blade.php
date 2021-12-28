@@ -117,7 +117,6 @@
                                                                     @foreach ($allproduct as $product)
                                                                         
                                                                         @php
-                                                                            dd($product);
                                                                             $makr_total = 0;
                                                                             $makr_value = 0;
                                                                         @endphp
