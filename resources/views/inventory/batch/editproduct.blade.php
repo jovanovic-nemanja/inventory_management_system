@@ -30,7 +30,7 @@
             @if($containers)
                 @foreach($containers as $key => $value)
                     <label>{{ $value->owner_name }}</label>
-                    <input type="checkbox" name="filter_container" class = "form-control" id="filter_container" value="{{ $value->owner_name }}" />
+                    <input type="checkbox" name="filter_container" class="checks mr-3 filter_container" value="{{ $value->id }}" checked />
                 @endforeach
             @endif
         </div>
@@ -81,7 +81,7 @@
                                                                             @php
                                                                                 $counts = count(App\Mark::where('container_id', $container->id)->get());
                                                                             @endphp
-                                                                            <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;">{{ $container->owner_name }}</th>
+                                                                            <th scope="col" colspan="<?=$counts?>" style="text-align: center; border: 1px solid #999 !important;" class="filter_id_{{ $container->id }}">{{ $container->owner_name }}</th>
                                                                         @endforeach
 
                                                                         @if ($batch->status == 1)
@@ -92,7 +92,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         @foreach ($allmarks as $mark)
-                                                                            <th scope="col">{{ $mark->name }}</th>
+                                                                            <th scope="col" class="filter_id_{{ $mark->container_id }}">{{ $mark->name }}</th>
                                                                         @endforeach
                                                                     </tr>
                                                                 </thead>
@@ -121,7 +121,8 @@
                                                                                         <input type="text" readonly
                                                                                             class="form-control stock_{{ $tbl_inc }}"
                                                                                             name="stock[]"
-                                                                                            value="{{ $prod->after_stock }}" style="font-weight: bolder;" /></td>
+                                                                                            value="{{ $prod->after_stock }}" style="font-weight: bolder;" />
+                                                                                    </td>
 
                                                                                     @if (isset($allmarkdetail[$tbl_inc - 1]))
                                                                                         @php
@@ -136,7 +137,7 @@
                                                                                                     $makrval = $incMarkData[$markinc-1];
                                                                                                 @endphp
 
-                                                                                                <td>
+                                                                                                <td class="filter_id_{{ $mark->container_id }}">
                                                                                                     <input type="text"
                                                                                                         value="{{ $makrval }}"
                                                                                                         name="mark_{{ ($key + 1) + count($allmarks) * ($prod->product_id - 1) }}"
@@ -148,7 +149,7 @@
                                                                                                     $markinc++;
                                                                                                 @endphp
                                                                                             @else
-                                                                                                <td>
+                                                                                                <td class="filter_id_{{ $mark->container_id }}">
                                                                                                     <input type="text" value="0" name="mark_{{ ($key + 1) + count($allmarks) * ($prod->product_id - 1) }}" class="form-control mkkk mark_{{ $tbl_inc }}" />
                                                                                                 </td>
                                                                                             @endif
@@ -208,4 +209,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="{{ asset('custom/batch_filter.js') }}"></script>
 @endsection
