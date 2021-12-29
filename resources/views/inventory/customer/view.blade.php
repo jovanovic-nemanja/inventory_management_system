@@ -82,7 +82,7 @@
                                     </a>
                                     <div class="d-flex">
                                         <a href="{{ route('customer.invoice', $customer->id) }}" target="_blank">Invoice</a>
-                                        <a href="{{ route('customer.consolidate', [$customer->id, $cus->container_id]) }}" target="_blank">Consolidate</a>
+                                        <!-- <a href="{{ route('customer.consolidate', [$customer->id, $cus->container_id]) }}" target="_blank">Consolidate</a> -->
                                     </div>
                                 </h6>
                             </div>

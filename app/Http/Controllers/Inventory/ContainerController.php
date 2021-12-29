@@ -614,4 +614,41 @@ class ContainerController extends Controller
         $pdf = PDF::loadView('inventory.container.downloadpdf');
         return $pdf->download('pdfview.pdf');
     }
+
+    /**
+     * Download the add-product as PDF.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadInvoicePDF(Request $request)
+    {
+        $items = [];
+        $items['allcontainer']  = Mark::where('inventory_mark.customer_id', $request->customer_id)
+            ->Join('inventory_container', 'inventory_container.id', '=', 'inventory_mark.container_id')
+            ->select('inventory_container.containerid as con_name', 'inventory_container.id as con_id', 'inventory_mark.*')
+            ->groupBy('inventory_container.containerid')
+            ->get();
+
+        $items['allmark']  = Mark::where('inventory_mark.customer_id', $request->customer_id)
+            ->Join('inventory_container', 'inventory_container.id', '=', 'inventory_mark.container_id')
+            ->select('inventory_mark.*', 'inventory_container.containerid as con_name')
+            ->get();
+        $items['allproduct'] = Productcontainer::leftJoin('inventory_mark', 'inventory_mark.id', '=', 'inventory_container_to_product.mark_add_id')
+            ->leftJoin('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
+            ->leftJoin('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')
+            ->select('inventory_mark.*', 'inventory_product.id as product_id', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
+            ->get();
+
+        $items['customer'] = Customer::where('id', $request->customer_id)->first();
+
+        view()->share('items', $items);
+
+        $pdf = PDF::loadView('inventory.customer.downloadInvoicePDF');
+        $path = public_path('pdf/');
+        $fileName = 'Container Invoice ' . time(). '.' . 'pdf';
+        $pdf->save($path . '/' . $fileName);
+
+        $pdf = public_path('pdf/' . $fileName);
+        return response()->download($pdf);
+    }
 }
