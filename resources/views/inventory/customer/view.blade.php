@@ -115,7 +115,6 @@
                                                                         $grand_total = 0;
                                                                     @endphp
                                                                     @foreach ($allproduct as $product)
-                                                                        
                                                                         @php
                                                                             $makr_total = 0;
                                                                             $makr_value = 0;
@@ -135,9 +134,6 @@
                                                                         @endif
                                                                         @php
                                                                             $init_price = App\BatchProdPrices::where('batch_prod_id', $product->product_id)->where('container_id', $cus->container_id)->first();
-
-                                                                            dd($init_price);
-                                                                            
                                                                             if (@$init_price) {
                                                                                 $makr_total += $makr_value * $init_price->price;
                                                                                 $price = $init_price->price;
