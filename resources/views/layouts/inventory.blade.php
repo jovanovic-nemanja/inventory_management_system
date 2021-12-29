@@ -23,6 +23,38 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-toast-plugin/jquery.toast.min.css') }}">
 
+    <style type="text/css">
+        /* Start by setting display:none to make this hidden.
+           Then we position it in relation to the viewport window
+           with position:fixed. Width, height, top and left speak
+           for themselves. Background we set to 80% white with
+           our animation centered, and no-repeating */
+        .modal {
+            display:    none;
+            position:   fixed;
+            z-index:    100000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 ) 
+                        url('http://i.stack.imgur.com/FhHRx.gif') 
+                        50% 50% 
+                        no-repeat;
+        }
+
+        /* When the body has the loading class, we turn
+           the scrollbar off with overflow:hidden */
+        body.loading .modal {
+            overflow: hidden;   
+        }
+
+        /* Anytime the body has the loading class, our
+           modal element will be visible */
+        body.loading .modal {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -152,6 +184,8 @@
         <!-- main-panel ends -->
     </div>
     
+    <div class="modal"><!-- Place at bottom of page --></div>
+
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
@@ -845,14 +879,56 @@
         $(document).on('click', '#makePdf', function(e) {
 
             var pdfname = $('#pdfName').val();
-            var doc = new jsPDF();
-            doc.addHTML($('#invoicePdf'), {
-                'background': '#fff',
-            }, function() {
+            var doc = new jsPDF('p', 'pt', 'b5');
+
+            var options = {
+                pagesplit: true,
+                width: '100%',
+                background: '#fff'
+            };
+
+            doc.addHTML($('#invoicePdf'), options, function() {
                 doc.save(pdfname+'.pdf');
             });
-
         });
+
+        $('.invoice_pdf').click(function() {
+            $body = $("body");
+
+            var url = $(this).attr('data-url');
+            var value = $(this).attr('data-value');
+
+            if(url && value) {
+                $body.addClass("loading");
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: {
+                        customer_id: value
+                    },
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function(result, status) {
+                        if (status == 'success') {
+                            var blob = new Blob([result]);
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = "Container Invoice.pdf";
+                            link.click();
+                            
+                            $body.removeClass("loading");
+                        } else {
+                            $body.addClass("loading");
+                        }
+                    }
+                })
+            }
+
+            
+        });
+
         $('#alert_demo_7').click(function(e) {
 					swal({
 						title: 'Are you sure?',

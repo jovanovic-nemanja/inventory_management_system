@@ -343,6 +343,7 @@ Route::post('/inventory/container/detail/update', 'Inventory\ContainerController
 Route::get('/inventory/container/detail/delete/{id}', 'Inventory\ContainerController@detaildelete')->name('detail.delete');
 Route::get('/inventory/container/downloadExcel/{type}', 'Inventory\ContainerController@downloadExcel')->name('container.download');
 Route::get('/inventory/container/pdfview/{containerID}/{batchID}', 'Inventory\ContainerController@downloadPDF')->name('container.downloadPDF');
+Route::get('/inventory/customer/downloadInvoicePDF', 'Inventory\ContainerController@downloadInvoicePDF')->name('container.downloadInvoicePDF');
 
 
 Route::get('/inventory/container/type', 'Inventory\ContainerController@type')->name('type.index');
