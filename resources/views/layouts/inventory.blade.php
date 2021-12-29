@@ -37,6 +37,8 @@
             left:       0;
             height:     100%;
             width:      100%;
+            text-align: center;
+            padding-top: 25%;
             background: rgba( 255, 255, 255, .8 ) 
                         url('http://i.stack.imgur.com/FhHRx.gif') 
                         50% 50% 
@@ -184,7 +186,7 @@
         <!-- main-panel ends -->
     </div>
     
-    <div class="modal"><!-- Place at bottom of page --></div>
+    <div class="modal"><strong><h2>Loading... Please wait few seconds...</h2></strong></div>
 
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
@@ -917,7 +919,7 @@
                             link.href = window.URL.createObjectURL(blob);
                             link.download = "Container Invoice.pdf";
                             link.click();
-                            
+
                             $body.removeClass("loading");
                         } else {
                             $body.addClass("loading");
