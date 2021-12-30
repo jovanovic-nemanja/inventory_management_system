@@ -106,120 +106,144 @@
                                                         @foreach ($allproductdetail as $prod)
                                                             @if ($prod->category_id == $cus->id)
                                                                 @if($prod->initial_stock > 0)
-                                                                    <tr id="row_{{ $tbl_inc }}"
-                                                                        class="getRow">
-                                                                        <td>
-                                                                            <label>{{ $prod->product_name }}</label>
-                                                                            <input type="hidden" name="prodName[]"
-                                                                                value="{{ $prod->product_id }}" />
-                                                                            <input type="hidden" name="cat_id[]"
-                                                                                value="{{ $prod->category_id }}" />
-                                                                        </td>
-                                                                        <input type="hidden" name="initial_stock[]"
-                                                                            class="iStock_{{ $tbl_inc }}"
-                                                                            value="{{ $prod->initial_stock }}" />
+                                                                    @if (isset($allmarkdetail[$tbl_inc - 1]))
+                                                                        @php
+                                                                            $total = 0;
+                                                                            $markinc = 1;
+                                                                            $incMarkData = $allmarkdetail[$tbl_inc - 1]['mark_data'];
+                                                                            $incMarkData = json_decode($incMarkData);
+                                                                            $countOfprev = $prev_count;
+                                                                        @endphp
 
-                                                                        @if (isset($allmarkdetail[$tbl_inc - 1]))
+                                                                        @foreach ($allmarks as $key => $mark)
                                                                             @php
-                                                                                $markinc = 1;
-                                                                                $incMarkData = $allmarkdetail[$tbl_inc - 1]['mark_data'];
-                                                                                $incMarkData = json_decode($incMarkData);
-                                                                                $countOfprev = $prev_count;
-                                                                                
+                                                                                $makrval = $incMarkData[$markinc - 1 + $countOfprev];
+                                                                                $total = $total + $makrval;
                                                                             @endphp
-                                                                            @foreach ($allmarks as $key => $mark)
-                                                                                @php
-                                                                                    $makrval = $incMarkData[$markinc - 1 + $countOfprev];
-                                                                                    $total = $total + $makrval;
-                                                                                @endphp
+
+                                                                            @php
+                                                                                $td_inc++;
+                                                                                $markinc++;
+                                                                            @endphp
+                                                                        @endforeach
+
+                                                                        @if($total > 0)
+                                                                            <tr id="row_{{ $tbl_inc }}"
+                                                                                class="getRow">
+                                                                                <td>
+                                                                                    <label>{{ $prod->product_name }}</label>
+                                                                                    <input type="hidden" name="prodName[]"
+                                                                                        value="{{ $prod->product_id }}" />
+                                                                                    <input type="hidden" name="cat_id[]"
+                                                                                        value="{{ $prod->category_id }}" />
+                                                                                </td>
+                                                                                <input type="hidden" name="initial_stock[]"
+                                                                                    class="iStock_{{ $tbl_inc }}"
+                                                                                    value="{{ $prod->initial_stock }}" />
+
+                                                                                @if (isset($allmarkdetail[$tbl_inc - 1]))
+                                                                                    @php
+                                                                                        $markinc = 1;
+                                                                                        $incMarkData = $allmarkdetail[$tbl_inc - 1]['mark_data'];
+                                                                                        $incMarkData = json_decode($incMarkData);
+                                                                                        $countOfprev = $prev_count;
+                                                                                        
+                                                                                    @endphp
+                                                                                    @foreach ($allmarks as $key => $mark)
+                                                                                        @php
+                                                                                            $makrval = $incMarkData[$markinc - 1 + $countOfprev];
+                                                                                            $total = $total + $makrval;
+                                                                                        @endphp
+
+                                                                                        <td>
+                                                                                            <label>{{ $makrval }}</label>
+                                                                                            <input type="hidden"
+                                                                                                value="{{ $makrval }}"
+                                                                                                name="mark_{{ $key + 1 + count($allmarks) * ($prod->product_id - 1) }}"
+                                                                                                class="form-control mkkk mark_{{ $tbl_inc }}" />
+                                                                                        </td>
+                                                                                        @php
+                                                                                            $td_inc++;
+                                                                                            $markinc++;
+                                                                                        @endphp
+                                                                                    @endforeach
+                                                                                    <td><label>{{ $total }}</label></td>
+                                                                                @else
+                                                                                    <td>
+                                                                                        <input type="text"
+                                                                                            name="mark_{{ $td_inc }}"
+                                                                                            class="form-control mkkk mark_{{ $tbl_inc }}" />
+                                                                                    </td>
+                                                                                @endif
 
                                                                                 <td>
-                                                                                    <label>{{ $makrval }}</label>
-                                                                                    <input type="hidden"
-                                                                                        value="{{ $makrval }}"
-                                                                                        name="mark_{{ $key + 1 + count($allmarks) * ($prod->product_id - 1) }}"
-                                                                                        class="form-control mkkk mark_{{ $tbl_inc }}" />
+                                                                                    <label>{{ number_format(round($prod->cost, 0, PHP_ROUND_HALF_UP), 2) }}</label>
+                                                                                    <input type="hidden" class="form-control"
+                                                                                        name="cost[]"
+                                                                                        value="{{ $prod->cost }}" />
                                                                                 </td>
-                                                                                @php
-                                                                                    $td_inc++;
-                                                                                    $markinc++;
-                                                                                @endphp
-                                                                            @endforeach
-                                                                            <td><label>{{ $total }}</label></td>
-                                                                        @else
-                                                                            <td>
-                                                                                <input type="text"
-                                                                                    name="mark_{{ $td_inc }}"
-                                                                                    class="form-control mkkk mark_{{ $tbl_inc }}" />
-                                                                            </td>
+                                                                                <td>
+                                                                                    @php
+                                                                                        $item = App\BatchProdPrices::where('batch_prod_id', $prod->id)->where('container_id', $container->id)->first();
+                                                                                        if (@$item) {
+                                                                                            $price = $item->price;
+                                                                                            $vat = ($item->vat == 1) ? 0 : 5;
+                                                                                            $vt = $item->vat;
+                                                                                        }else{
+                                                                                            $price = 0;
+                                                                                            $vat = 0;
+                                                                                            $vt = 1;
+                                                                                        }
+
+                                                                                        $vat_price = $vat * $price / 100;
+                                                                                        $total_price = $vat_price + $price;
+                                                                                        $profit = $total_price - $prod->cost;
+                                                                                        $total_profit = $profit * $total;
+                                                                                    @endphp
+
+                                                                                    <input type="text" class="form-control"
+                                                                                        name="price[]"
+                                                                                        value="{{ $price }}" />
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <select class="form-control" name="vat[]">
+                                                                                        <option value="1" <?php if($vt == 1) { echo "selected"; } ?>>0%</option>
+                                                                                        <option value="2" <?php if($vt == 2) { echo "selected"; } ?>>5%</option>
+                                                                                    </select>
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" name="vat_price[]" value="{{ number_format(round($vat_price, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" name="total_price[]" value="{{ number_format(round($total_price, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" name="profit[]" value="{{ number_format(round($profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" name="total_profit[]" value="{{ number_format(round($total_profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
+                                                                                </td>
+
+                                                                                <input type="hidden"
+                                                                                    class="form-control stock_{{ $tbl_inc }}"
+                                                                                    name="stock[]"
+                                                                                    value="{{ $prod->after_stock }}" />
+
+                                                                                <!-- <td>
+                                                                                    <button type="button"
+                                                                                        onclick="deleteTblRow(this)"
+                                                                                        class="btn btn-sm btn-danger">
+                                                                                        <i class="fa fa-trash"></i>
+                                                                                    </button>
+                                                                                </td> -->
+                                                                            </tr>
                                                                         @endif
-
-                                                                        <td>
-                                                                            <label>{{ number_format(round($prod->cost, 0, PHP_ROUND_HALF_UP), 2) }}</label>
-                                                                            <input type="hidden" class="form-control"
-                                                                                name="cost[]"
-                                                                                value="{{ $prod->cost }}" />
-                                                                        </td>
-                                                                        <td>
-                                                                            @php
-                                                                                $item = App\BatchProdPrices::where('batch_prod_id', $prod->id)->where('container_id', $container->id)->first();
-                                                                                if (@$item) {
-                                                                                    $price = $item->price;
-                                                                                    $vat = ($item->vat == 1) ? 0 : 5;
-                                                                                    $vt = $item->vat;
-                                                                                }else{
-                                                                                    $price = 0;
-                                                                                    $vat = 0;
-                                                                                    $vt = 1;
-                                                                                }
-
-                                                                                $vat_price = $vat * $price / 100;
-                                                                                $total_price = $vat_price + $price;
-                                                                                $profit = $total_price - $prod->cost;
-                                                                                $total_profit = $profit * $total;
-                                                                            @endphp
-
-                                                                            <input type="text" class="form-control"
-                                                                                name="price[]"
-                                                                                value="{{ $price }}" />
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <select class="form-control" name="vat[]">
-                                                                                <option value="1" <?php if($vt == 1) { echo "selected"; } ?>>0%</option>
-                                                                                <option value="2" <?php if($vt == 2) { echo "selected"; } ?>>5%</option>
-                                                                            </select>
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <input type="text" class="form-control" name="vat_price[]" value="{{ number_format(round($vat_price, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <input type="text" class="form-control" name="total_price[]" value="{{ number_format(round($total_price, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <input type="text" class="form-control" name="profit[]" value="{{ number_format(round($profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <input type="text" class="form-control" name="total_profit[]" value="{{ number_format(round($total_profit, 0, PHP_ROUND_HALF_UP), 2) }}" readonly />
-                                                                        </td>
-
-                                                                        <input type="hidden"
-                                                                            class="form-control stock_{{ $tbl_inc }}"
-                                                                            name="stock[]"
-                                                                            value="{{ $prod->after_stock }}" />
-
-                                                                        <!-- <td>
-                                                                            <button type="button"
-                                                                                onclick="deleteTblRow(this)"
-                                                                                class="btn btn-sm btn-danger">
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </button>
-                                                                        </td> -->
-                                                                    </tr>
+                                                                    @endif
 
                                                                     @php
                                                                         $tbl_inc++;
