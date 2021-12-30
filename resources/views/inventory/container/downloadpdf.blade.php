@@ -78,7 +78,7 @@
 												<tbody>
 													@foreach ($items['allproductdetail'] as $prod)
 														@if ($prod->category_id == $cus->id)
-															@if($prod->prod_stock > 0)
+															@if($prod->initial_stock > 0)
 																@if (isset($items['allmarkdetail'][$tbl_inc - 1]))
 																	@php
 																		$markinc = 1;
