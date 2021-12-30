@@ -79,38 +79,62 @@
 													@foreach ($items['allproductdetail'] as $prod)
 														@if ($prod->category_id == $cus->id)
 															@if($prod->prod_stock > 0)
-																<tr id="row_{{ $tbl_inc }}"
-																	class="getRow">
-																	<td>
-																		<label>{{ $prod->product_name }}</label>
-																	</td>
+																@if (isset($items['allmarkdetail'][$tbl_inc - 1]))
+																	@php
+																		$markinc = 1;
+																		$total = 0;
+																		$incMarkData = $items['allmarkdetail'][$tbl_inc - 1]['mark_data'];
+																		$incMarkData = json_decode($incMarkData);
+																		$countOfprev = $items['prev_count'];
+																	@endphp
 
-																	@if (isset($items['allmarkdetail'][$tbl_inc - 1]))
+																	@foreach ($items['allmarks'] as $key => $mark)
 																		@php
-																			$markinc = 1;
-																			$total = 0;
-																			$incMarkData = $items['allmarkdetail'][$tbl_inc - 1]['mark_data'];
-																			$incMarkData = json_decode($incMarkData);
-																			$countOfprev = $items['prev_count'];
-																			
+																			$makrval = $incMarkData[$markinc - 1 + $countOfprev];
+																			$total = $total + $makrval;
 																		@endphp
-																		@foreach ($items['allmarks'] as $key => $mark)
-																			@php
-																				$makrval = $incMarkData[$markinc - 1 + $countOfprev];
-																				$total = $total + $makrval;
-																			@endphp
 
+																		@php
+																			$td_inc++;
+																			$markinc++;
+																		@endphp
+																	@endforeach
+
+																	@if($total > 0)
+																		<tr id="row_{{ $tbl_inc }}"
+																			class="getRow">
 																			<td>
-																				<label>{{ $makrval }}</label>
+																				<label>{{ $prod->product_name }}</label>
 																			</td>
-																			@php
-																				$td_inc++;
-																				$markinc++;
-																			@endphp
-																		@endforeach
-																		<td><label>{{ $total }}</label></td>
+
+																			@if (isset($items['allmarkdetail'][$tbl_inc - 1]))
+																				@php
+																					$markinc = 1;
+																					$total = 0;
+																					$incMarkData = $items['allmarkdetail'][$tbl_inc - 1]['mark_data'];
+																					$incMarkData = json_decode($incMarkData);
+																					$countOfprev = $items['prev_count'];
+																					
+																				@endphp
+																				@foreach ($items['allmarks'] as $key => $mark)
+																					@php
+																						$makrval = $incMarkData[$markinc - 1 + $countOfprev];
+																						$total = $total + $makrval;
+																					@endphp
+
+																					<td>
+																						<label>{{ $makrval }}</label>
+																					</td>
+																					@php
+																						$td_inc++;
+																						$markinc++;
+																					@endphp
+																				@endforeach
+																				<td><label>{{ $total }}</label></td>
+																			@endif
+																		</tr>
 																	@endif
-																</tr>
+																@endif
 
 																@php
 																	$tbl_inc++;
