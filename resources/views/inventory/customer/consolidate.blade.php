@@ -77,6 +77,7 @@
                                                         $allMrkTotal = 0;
                                                     @endphp
                                                     @foreach ($allproduct as $product)
+                                                        @if ($product->container_id == $cus->container_id )
                                                             @if ($cat->id == $product->category_id)
                                                                 @php
                                                                     $makr_total = 0;
@@ -169,6 +170,7 @@
                                                                     </tr>
                                                                 @endif
                                                             @endif
+                                                        @endif
                                                         @php
                                                             $mrkValTtl += $mrkVal;
                                                         @endphp
