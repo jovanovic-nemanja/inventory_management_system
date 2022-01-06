@@ -97,23 +97,26 @@ class CustomerController extends Controller
             ->select('inventory_container.containerid as con_name', 'inventory_container.id as con_id', 'inventory_mark.*')
             ->groupBy('inventory_container.containerid')
             ->get();
+
         $allcategory  = Inventorycategory::get();
         $allmark  = Mark::Join('inventory_container', 'inventory_container.id', '=', 'inventory_mark.container_id')
             ->where('inventory_mark.container_id', $con_id)
             ->where('inventory_mark.customer_id', $id)
             ->select('inventory_mark.id','inventory_mark.name')
             ->get()->toArray();
+        
         $allproduct = Productcontainer::Join('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')
             ->leftJoin('inventory_product', 'inventory_product.id', '=', 'inventory_container_to_product.product_id')
             ->leftJoin('inventory_categories', 'inventory_categories.id', '=', 'inventory_product.category')
             ->leftJoin('inventory_units', 'inventory_units.id', '=', 'inventory_product.unit')
-            // ->leftJoin('inventory_container_mark_add', 'inventory_container_mark_add.id', '=', 'inventory_container_to_product.mark_add_id')
-            // ->where('inventory_mark.customer_id', $id)
-            // ->where('inventory_container_to_product.container_id', $con_id)
-            // ->select('inventory_container_mark_add.*') 
-            ->select('inventory_container_mark_add.*', 'inventory_container_to_product.*','inventory_units.name as unit_name', 'inventory_categories.id as category_id', 'inventory_categories.name as category_name', 'inventory_product.stock', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data')
+            ->leftJoin('batch_product_prices', 'batch_product_prices.batch_prod_id', '=', 'inventory_container_to_product.product_id')
+            ->where('batch_product_prices.container_id', $con_id)
+            ->select('inventory_container_mark_add.*', 'inventory_container_to_product.*','inventory_units.name as unit_name', 'inventory_categories.id as category_id', 'inventory_categories.name as category_name', 'inventory_product.stock', 'inventory_product.name as product_name', 'inventory_container_to_product.price as price_value', 'inventory_container_mark_add.mark_id as all_mark_id', 'inventory_container_mark_add.mark_data as all_mark_data', 'batch_product_prices.price as main_price', 'batch_product_prices.vat as main_vat')
             ->get();
         // echo '<pre>'; print_r($allproduct); exit;
+
+        // dd($allproduct);
+
         $customer = Customer::where('id', $id)->first();
 
         return view('inventory.customer.consolidate', compact('customer', 'allcontainer', 'allmark', 'allproduct', 'allcategory'));

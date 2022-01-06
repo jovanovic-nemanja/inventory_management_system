@@ -77,7 +77,6 @@
                                                         $allMrkTotal = 0;
                                                     @endphp
                                                     @foreach ($allproduct as $product)
-                                                        @if ($product->container_id == $cus->container_id )
                                                             @if ($cat->id == $product->category_id)
                                                                 @php
                                                                     $makr_total = 0;
@@ -129,19 +128,18 @@
                                                                             {{ $product->unit_name }}
                                                                         </td>
                                                                         <td>
-                                                                            
                                                                             {{ $mrkVal2 }}
                                                                         </td>
                                                                         <td>
-                                                                            {{number_format( $product->price_value ,2) }}
+                                                                            {{number_format($product->main_price, 2) }}
                                                                         </td>
                                                                         @php
-                                                                            if($product->vat != 0){
-                                                                                $vat = ($product->price_value * $mrkVal2) * 0.05;
-                                                                                $mrkTotal = ($product->price_value * $mrkVal2) + $vat;
+                                                                            if($product->main_vat != 0){
+                                                                                $vat = ($product->main_price * $mrkVal2) * 0.05;
+                                                                                $mrkTotal = ($product->main_price * $mrkVal2) + $vat;
                                                                             }else {
                                                                                 $vat = '';
-                                                                                $mrkTotal = ($product->price_value * $mrkVal2);
+                                                                                $mrkTotal = ($product->main_price * $mrkVal2);
                                                                             }
                                                                             $allMrkTotal += $mrkTotal;
                                                                             $finalMrkTotal += $mrkTotal;
@@ -160,7 +158,7 @@
 
                                                                                 @if($vl['id'] == $vl1->id)
                                                                                     @php
-                                                                                        $mrkTtl [$key1][]= $chkval[$key];
+                                                                                        $mrkTtl[$key1][]= $chkval[$key];
                                                                                         $mrkVal += $chkval[$key];
                                                                                     @endphp
                                                                                     <td>{{$chkval[$key]}}</td>
@@ -171,7 +169,6 @@
                                                                     </tr>
                                                                 @endif
                                                             @endif
-                                                        @endif
                                                         @php
                                                             $mrkValTtl += $mrkVal;
                                                         @endphp
@@ -194,10 +191,12 @@
                                                             </td>
                                                             @foreach ($allmark as $key1=>$vl)
                                                                 <td style="text-align: left;">
-                                                                    @php
-                                                                        $allmrkTtl[$key1][]= array_sum($mrkTtl[$key1]);
-                                                                        echo array_sum($mrkTtl[$key1]);
-                                                                    @endphp
+                                                                    @if(@$mrkTtl[$key1])
+                                                                        @php
+                                                                            $allmrkTtl[$key1][]= array_sum($mrkTtl[$key1]);
+                                                                            echo array_sum($mrkTtl[$key1]);
+                                                                        @endphp
+                                                                    @endif
                                                                 </td>
                                                             @endforeach
                                                             @php
@@ -205,6 +204,7 @@
                                                             @endphp
                                                             <td>{{$mrkValTtl}}</td>
                                                         </tr>
+                                                        <br>
                                                     @endif
                                                 @endforeach
                                                                         
@@ -214,14 +214,12 @@
                                                                                 <td style="text-align: right; font-size:25px; font-weight:600;" colspan=4>
                                                                                 <td style="background-color: #d5b4f4;">GRAND TOTAL</td>
                                                                                 <td style="background-color: #d5b4f4;">{{number_format( $finalMrkTotal,2) }}</td>
-                                                                                @foreach ($allmark as $key1=>$vl)
+                                                                                @foreach ($allmark as $key2 => $vl2)
                                                                                     <td style="background-color: #d5b4f4;">
-                                                                                        @if ($chk != 0)
-                                                                                        @php
-                                                                                            $allmrkTtl[$key1][]= array_sum($mrkTtl[$key1]);
-                                                                                            echo array_sum($mrkTtl[$key1]);
-                                                                                            // echo array_sum($allmrkTtl[$key1]);
-                                                                                        @endphp
+                                                                                        @if(@$allmrkTtl[$key2])
+                                                                                            @php
+                                                                                                echo array_sum($allmrkTtl[$key2]);
+                                                                                            @endphp
                                                                                         @endif
                                                                                     </td>
                                                                                 @endforeach
