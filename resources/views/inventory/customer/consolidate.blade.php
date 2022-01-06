@@ -77,98 +77,96 @@
                                                         $allMrkTotal = 0;
                                                     @endphp
                                                     @foreach ($allproduct as $product)
-                                                        @if ($product->container_id == $cus->container_id )
-                                                            @if ($cat->id == $product->category_id)
-                                                                @php
-                                                                    $makr_total = 0;
-                                                                    $totalQty += $product->stock;
-                                                                    $chkid = json_decode($product->all_mark_id);
-                                                                    $chkval = json_decode($product->all_mark_data);
-                                                                @endphp
-                                                                @if ($chk == 0)
-                                                                    <table class="table table-head-bg-success">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th scope="col">{{$product->category_name}}</th>
-                                                                                <th scope="col">Unit</th>
-                                                                                <th scope="col">T.Qty</th>
-                                                                                <th scope="col">Saleing</th>
-                                                                                <th scope="col">Vat 5%</th>
-                                                                                <th scope="col">Total Price</th>
-                                                                                @foreach ($allmark as $mrk)
-                                                                                    <th scope="col">{{$mrk['name']}}</th>
-                                                                                @endforeach
-                                                                                <th scope="col">Total</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @php
-                                                                                $chk = 1;
-                                                                            @endphp
-                                                                @endif
-                                                                @php
-                                                                    $mrkVal2 = 0;
-                                                                @endphp
-                                                                
-                                                                @foreach ($allmark as $key1=>$vl)
-                                                                    @foreach ($chkid as $key=>$vl1)
-                                                                        @if($vl['id'] == $vl1->id)
-                                                                            @php
-                                                                                $mrkVal2 += $chkval[$key];
-                                                                            @endphp
-                                                                        @endif
-                                                                    @endforeach
-                                                                @endforeach
-                                                                
-                                                                @if($mrkVal2>0)
-                                                                    <tr>
-                                                                        <td>
-                                                                            {{ $product->product_name }}
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ $product->unit_name }}
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ $mrkVal2 }}
-                                                                        </td>
-                                                                        <td>
-                                                                            {{number_format($product->main_price, 2) }}
-                                                                        </td>
-                                                                        @php
-                                                                            if($product->main_vat != 0){
-                                                                                $vat = ($product->main_price * $mrkVal2) * 0.05;
-                                                                                $mrkTotal = ($product->main_price * $mrkVal2) + $vat;
-                                                                            }else {
-                                                                                $vat = '';
-                                                                                $mrkTotal = ($product->main_price * $mrkVal2);
-                                                                            }
-                                                                            $allMrkTotal += $mrkTotal;
-                                                                            $finalMrkTotal += $mrkTotal;
-                                                                        @endphp
-                                                                        <td>
-                                                                            {{ $vat }}
-                                                                        </td>
-                                                                        <td>
-                                                                            {{number_format( $mrkTotal,2) }}
-                                                                        </td>
-                                                                        @php
-                                                                                $mrkVal = 0;
-                                                                        @endphp
-                                                                        @foreach ($allmark as $key1=>$vl)
-                                                                            @foreach ($chkid as $key=>$vl1)
-
-                                                                                @if($vl['id'] == $vl1->id)
-                                                                                    @php
-                                                                                        $mrkTtl[$key1][]= $chkval[$key];
-                                                                                        $mrkVal += $chkval[$key];
-                                                                                    @endphp
-                                                                                    <td>{{$chkval[$key]}}</td>
-                                                                                @endif
+                                                        @if ($cat->id == $product->category_id)
+                                                            @php
+                                                                $makr_total = 0;
+                                                                $totalQty += $product->stock;
+                                                                $chkid = json_decode($product->all_mark_id);
+                                                                $chkval = json_decode($product->all_mark_data);
+                                                            @endphp
+                                                            @if ($chk == 0)
+                                                                <table class="table table-head-bg-success">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">{{$product->category_name}}</th>
+                                                                            <th scope="col">Unit</th>
+                                                                            <th scope="col">T.Qty</th>
+                                                                            <th scope="col">Saleing</th>
+                                                                            <th scope="col">Vat 5%</th>
+                                                                            <th scope="col">Total Price</th>
+                                                                            @foreach ($allmark as $mrk)
+                                                                                <th scope="col">{{$mrk['name']}}</th>
                                                                             @endforeach
+                                                                            <th scope="col">Total</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @php
+                                                                            $chk = 1;
+                                                                        @endphp
+                                                            @endif
+                                                            @php
+                                                                $mrkVal2 = 0;
+                                                            @endphp
+                                                            
+                                                            @foreach ($allmark as $key1=>$vl)
+                                                                @foreach ($chkid as $key=>$vl1)
+                                                                    @if($vl['id'] == $vl1->id)
+                                                                        @php
+                                                                            $mrkVal2 += $chkval[$key];
+                                                                        @endphp
+                                                                    @endif
+                                                                @endforeach
+                                                            @endforeach
+                                                            
+                                                            @if($mrkVal2>0)
+                                                                <tr>
+                                                                    <td>
+                                                                        {{ $product->product_name }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ $product->unit_name }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ $mrkVal2 }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{number_format($product->main_price, 2) }}
+                                                                    </td>
+                                                                    @php
+                                                                        if($product->main_vat != 0){
+                                                                            $vat = ($product->main_price * $mrkVal2) * 0.05;
+                                                                            $mrkTotal = ($product->main_price * $mrkVal2) + $vat;
+                                                                        }else {
+                                                                            $vat = '';
+                                                                            $mrkTotal = ($product->main_price * $mrkVal2);
+                                                                        }
+                                                                        $allMrkTotal += $mrkTotal;
+                                                                        $finalMrkTotal += $mrkTotal;
+                                                                    @endphp
+                                                                    <td>
+                                                                        {{ $vat }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{number_format( $mrkTotal,2) }}
+                                                                    </td>
+                                                                    @php
+                                                                            $mrkVal = 0;
+                                                                    @endphp
+                                                                    @foreach ($allmark as $key1=>$vl)
+                                                                        @foreach ($chkid as $key=>$vl1)
+
+                                                                            @if($vl['id'] == $vl1->id)
+                                                                                @php
+                                                                                    $mrkTtl[$key1][]= $chkval[$key];
+                                                                                    $mrkVal += $chkval[$key];
+                                                                                @endphp
+                                                                                <td>{{$chkval[$key]}}</td>
+                                                                            @endif
                                                                         @endforeach
-                                                                        <td>{{$mrkVal}}</td>
-                                                                    </tr>
-                                                                @endif
+                                                                    @endforeach
+                                                                    <td>{{$mrkVal}}</td>
+                                                                </tr>
                                                             @endif
                                                         @endif
                                                         @php
