@@ -55,13 +55,14 @@
                                         <a href="{{ route('purchase.edit', $purchase->id) }}"
                                         data-toggle="tooltip" title="Edit" class="btn btn-success btn-edit"
                                         data-original-title="Edit">
-                                        <i class="fa fa-edit"></i>
+                                            <i class="fa fa-edit"></i>
+                                        </a>
 
-                                        <a href="{{ route('purchase.view', $purchase->id) }}"
+                                        <!-- <a href="{{ route('purchase.view', $purchase->id) }}"
                                             data-toggle="tooltip" title="View" class="btn btn-primary btn-edit"
                                             data-original-title="View">
                                             <i class="fa fa-eye"></i>
-                                        </a>
+                                        </a> -->
                                         <!-- <a href="{{ route('purchase.delete', $purchase->id) }}"
                                             data-toggle="tooltip" title="Remove" class="btn btn-link btn-danger"
                                             data-original-title="Remove">
