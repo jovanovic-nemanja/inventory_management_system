@@ -86,7 +86,7 @@
                                     <td>{{ $category->unit }}</td>
                                     <td>{{ $category->category }}</td>
                                     <td>{{ $category->stock }}</td>
-                                    <td>{{ number_format($category->price) }}.00</td>
+                                    <td>{{ $category->price }}</td>
                                     <td>
                                         <a href="{{ route('prod.view', $category->id) }}" data-toggle="tooltip"
                                             title="View" class="btn btn-success btn-view" data-original-title="View">
