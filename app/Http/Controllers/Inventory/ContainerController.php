@@ -37,7 +37,7 @@ class ContainerController extends Controller
     }
 
     public function index()
-    {
+    { //echo phpinfo(); exit;
         $allcontainer = Container::whereNotIn('inventory_container.id', [0])
             ->join('inventory_shipper', 'inventory_shipper.id', '=', 'inventory_container.shipper_info')
             ->join('inventory_container_batch', 'inventory_container_batch.id', '=', 'inventory_container.container_batch')
@@ -102,12 +102,14 @@ class ContainerController extends Controller
             $chk = 'mark_' . $customer_no;
             $marks = $request->$chk;
             foreach ($marks as $mark) {
-                $container = Mark::create([
-                    'name' => $mark,
-                    'batch_id' => $request->container_batch,
-                    'container_id' => $container_id,
-                    'customer_id' => $customer,
-                ]);
+                if($mark!=''){
+                    $container = Mark::create([
+                        'name' => $mark,
+                        'batch_id' => $request->container_batch,
+                        'container_id' => $container_id,
+                        'customer_id' => $customer,
+                    ]);
+                }
             }
             $customer_no = $customer_no - 1;
         }
@@ -378,7 +380,7 @@ class ContainerController extends Controller
         }
     }
     public function batchproduct(Request $request)
-    {
+    { //echo '<pre>'; print_r($_POST['mymark']); exit;
         // dd($request); 
         $allmark = Mark::get()->count();
         $makrId = Mark::select('id')->get()->toArray();
@@ -386,8 +388,11 @@ class ContainerController extends Controller
         $loopNo = $allmark * $allproducts;
         $markData = array();
         $prd = 0;
+        
+        //echo $loopNo; exit;
+        //echo '<pre>'; print_r($makrId); exit;
        
-        for ($inc = 1; $inc <= $loopNo; $inc++) {
+        for ($inc = 1; $inc <= $loopNo; $inc++) {   
             if(isset($request['prodName'][$prd])) {
                 $idx = $request['prodName'][$prd];
                 if($inc % $allmark == 0) {
@@ -396,6 +401,8 @@ class ContainerController extends Controller
                     $markData[] = $request['mark_' . ((($idx - 1) * $allmark) + ($inc % $allmark))];
                 }
             }
+            
+            //echo '<pre>'; print_r($markData); exit;
             
             if ($inc % $allmark == 0) {
                 if(isset($request['prodName'][$prd])) {
@@ -412,56 +419,67 @@ class ContainerController extends Controller
                                 'batch_id' => $request['batch_id']
                             ]);
                             $markcontainer = $markcontainer->id;
+
+                            $stock_Val = (@$request['stock'][$prd]) ? $request['stock'][$prd] : 0;
+                            $cost_Val = (@$request['cost'][$prd]) ? $request['cost'][$prd] : 0;
+
                             Productcontainer::create([
                                 'product_id' => $request['prodName'][$prd],
                                 'category_id' => $request['cat_id'][$prd],
                                 'initial_stock' => $request['initial_stock'][$prd],
-                                'cost' => @$request['cost'][$prd],
+                                'cost' => $cost_Val,
                                 // 'price' => $request['price'][$prd],
-                                'after_stock' => $request['stock'][$prd],
+                                'after_stock' => $stock_Val,
                                 'price' => 0,
                                 'batch_id' => $request['batch_id'],
                                 'mark_add_id' => $markcontainer
                             ]);
 
                             $updateprod = Prod::where('id', $request['prodName'][$prd])->first();
-                            $updateprod->stock = $request['stock'][$prd];
+                            $updateprod->stock = $stock_Val;
                             $updateprod->update();
 
-                            if ($request['initial_stock'][$prd] != $request['stock'][$prd]) {
+                            if ($request['initial_stock'][$prd] != $stock_Val) {
                                 Productdistribution::create([
                                     'product_id' => $request['prodName'][$prd],
                                     'batch_id' => $request['batch_id'],
                                     'initial_stock' => $request['initial_stock'][$prd],
-                                    'item' => ($request['initial_stock'][$prd] - $request['stock'][$prd]),
+                                    'item' => ($request['initial_stock'][$prd] - $stock_Val),
                                     'price' => 0,
-                                    'cost' => $request['cost'][$prd],
+                                    'cost' => $cost_Val,
                                     // 'price' => $request['price'][$prd],
-                                    'after_stock' => $request['stock'][$prd]
+                                    'after_stock' => $stock_Val,
                                 ]);
                             }
                         } else {
+                            
+                            //echo $markVal; exit;
                             $markcontainer1 = Productmarkcontainer::where('id', $containerChk->mark_add_id)->first();
                             $markcontainer1->mark_id = json_encode($makrId);
                             $markcontainer1->mark_data = $markVal;
                             $markcontainer1->update();
 
+
+                            $stock_Val = (@$request['stock'][$prd]) ? $request['stock'][$prd] : 0;
+                            $cost_Val = (@$request['cost'][$prd]) ? $request['cost'][$prd] : 0;
+
                             $containerChk->initial_stock  = $request['initial_stock'][$prd];
-                            $containerChk->cost  = $request['cost'][$prd];
-                            $containerChk->after_stock  = $request['stock'][$prd];
+                            $containerChk->cost  = $cost_Val;
+                            $containerChk->after_stock  = $stock_Val;
                             $containerChk->update();
 
                             $updateprod = Prod::where('id', $request['prodName'][$prd])->first();
-                            $updateprod->stock = $request['stock'][$prd];
+                            $updateprod->stock = $stock_Val;
                             $updateprod->update();
 
-                            if ($request['initial_stock'][$prd] != $request['stock'][$prd]) {
+                            if ($request['initial_stock'][$prd] != $stock_Val) {
                                 $productdistribution = Productdistribution::where('product_id', $request['prodName'][$prd])->where('batch_id', $request['batch_id'])->first();
+
                                 if(@$productdistribution) {
                                     $productdistribution->initial_stock = $request['initial_stock'][$prd];
-                                    $productdistribution->item = ($request['initial_stock'][$prd] - $request['stock'][$prd]);
-                                    $productdistribution->cost = $request['cost'][$prd];
-                                    $productdistribution->after_stock = $request['stock'][$prd];
+                                    $productdistribution->item = ($request['initial_stock'][$prd] - $stock_Val);
+                                    $productdistribution->cost = $cost_Val;
+                                    $productdistribution->after_stock = $stock_Val;
 
                                     $productdistribution->update();
                                 }else{
@@ -469,11 +487,11 @@ class ContainerController extends Controller
                                         'product_id' => $request['prodName'][$prd],
                                         'batch_id' => $request['batch_id'],
                                         'initial_stock' => $request['initial_stock'][$prd],
-                                        'item' => ($request['initial_stock'][$prd] - $request['stock'][$prd]),
-                                        'cost' => $request['cost'][$prd],
+                                        'item' => ($request['initial_stock'][$prd] - $stock_Val),
+                                        'cost' => $cost_Val,
                                         // 'price' => $request['price'][$prd],
                                         'price' => 0,
-                                        'after_stock' => $request['stock'][$prd]
+                                        'after_stock' => $stock_Val
                                     ]);
                                 }
                             }
