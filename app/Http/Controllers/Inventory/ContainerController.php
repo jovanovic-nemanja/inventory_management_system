@@ -416,7 +416,7 @@ class ContainerController extends Controller
                                 'product_id' => $request['prodName'][$prd],
                                 'category_id' => $request['cat_id'][$prd],
                                 'initial_stock' => $request['initial_stock'][$prd],
-                                'cost' => $request['cost'][$prd],
+                                'cost' => @$request['cost'][$prd],
                                 // 'price' => $request['price'][$prd],
                                 'after_stock' => $request['stock'][$prd],
                                 'price' => 0,
